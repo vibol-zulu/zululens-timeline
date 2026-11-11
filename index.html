@@ -455,17 +455,37 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       if (d.r < minR && d !== focus) continue;
       const corp = d.type === 'corporate';
       const label = shortName(d.name);
+      const fam = getComputedStyle(document.body).fontFamily;
+      const floor = showLabels ? 5.5 : recording ? 6.5 : 8;
       let fs = Math.max(showLabels ? 6.5 : recording ? 7 : 9, Math.min(13, d.r / 3.6));
-      ctx.font = `600 ${fs}px ${getComputedStyle(document.body).fontFamily}`;
+      ctx.font = `600 ${fs}px ${fam}`;
       const w = ctx.measureText(label).width;
-      if (w > d.r * 1.7) { fs = Math.max(showLabels ? 5.5 : recording ? 6.5 : 8, fs * d.r * 1.7 / w); ctx.font = `600 ${fs}px ${getComputedStyle(document.body).fontFamily}`; }
-      if (d.r >= minR && ctx.measureText(label).width < d.r * (showLabels || recording ? 1.9 : 1.8)) {
+      if (w > d.r * 1.7) { fs = Math.max(floor, fs * d.r * 1.7 / w); ctx.font = `600 ${fs}px ${fam}`; }
+      let lines = [label];
+      let fits = ctx.measureText(label).width < d.r * (showLabels || recording ? 1.9 : 1.8);
+      if (!fits && recording && label.includes(' ')) {   // video: split a long name over two lines
+        const words = label.split(' ');
+        let best = null;
+        for (let i = 1; i < words.length; i++) {
+          const a = words.slice(0, i).join(' '), b = words.slice(i).join(' ');
+          const m = Math.max(ctx.measureText(a).width, ctx.measureText(b).width);
+          if (!best || m < best.m) best = { a, b, m };
+        }
+        fs = Math.max(7, Math.min(13, d.r / 3.6)); ctx.font = `600 ${fs}px ${fam}`;
+        const mw = () => Math.max(ctx.measureText(best.a).width, ctx.measureText(best.b).width);
+        if (mw() > d.r * 1.6) { fs = Math.max(floor, fs * d.r * 1.6 / mw()); ctx.font = `600 ${fs}px ${fam}`; }
+        if (mw() < d.r * 1.75) { lines = [best.a, best.b]; fits = true; }
+      }
+      if (d.r >= minR && fits) {
         ctx.globalAlpha = focus && focus !== d ? 0.5 : 1;
         ctx.fillStyle = corp ? colors['corporate-fg'] : colors['independent-fg'];
-        ctx.fillText(label, cx + d.x, cy + d.y - (d.r > numR ? fs * 0.45 : 0));
-        if (d.r > numR) {
-          ctx.font = `400 ${fs - 1.5}px ${getComputedStyle(document.body).fontFamily}`;
-          ctx.fillText(fmt(audienceAt(d, year)), cx + d.x, cy + d.y + fs * 0.75);
+        const showNum = d.r > numR, lh = fs * 1.12;
+        const block = lines.length * lh + (showNum ? (fs - 1.5) * 1.15 : 0);
+        let y = cy + d.y - block / 2 + lh / 2;
+        for (const t of lines) { ctx.fillText(t, cx + d.x, y); y += lh; }
+        if (showNum) {
+          ctx.font = `400 ${fs - 1.5}px ${fam}`;
+          ctx.fillText(fmt(audienceAt(d, year)), cx + d.x, y - lh / 2 + (fs - 1.5) * 0.65);
         }
       }
     }
