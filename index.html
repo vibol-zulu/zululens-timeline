@@ -60,11 +60,11 @@ body {
 .headline .year { margin-bottom: 0; }
 .prefix { font-size: clamp(48px, 8vw, 84px); font-weight: 600; line-height: 1; color: var(--corporate); letter-spacing: -0.03em; }
 .track { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }   /* play button above a full-width timeline */
-.track .bar { align-self: stretch; margin-inline: 24px; }
-.track .play-btn { margin-left: 24px; }   /* line up with the start of the timeline */   /* breathing room so the end labels are not tight to the edge */
+.track .bar { align-self: stretch; margin-inline: 24px; }   /* breathing room so the end labels are not tight to the edge */
 .play-btn { position: relative; height: 28px; min-width: 92px; padding: 0 14px 0 11px; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
   font: inherit; font-size: 12px; font-weight: 500; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--corporate); cursor: pointer; z-index: 2; }
 .play-btn:hover { border-color: var(--corporate); }
+.stage .play-btn { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; }   /* centred under the circle; JS sets its top */
 .play-btn svg { width: 12px; height: 12px; fill: currentColor; }
 .bar { position: relative; height: 2px; background: var(--grid); border-radius: 2px; cursor: pointer; touch-action: none; }
 .bar::before { content: ''; position: absolute; inset: -9px 0; }
@@ -133,6 +133,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
 
   <div class="stage" id="stage">
     <canvas id="canvas"></canvas>
+    <button class="play-btn" id="play" type="button" aria-label="Replay timeline from 2000"><svg viewBox="0 0 14 14" id="playIcon" aria-hidden="true"><path d="M3.5 2.2l8 4.8-8 4.8z"/></svg><span id="playText">Replay</span></button>
     <div class="meta">
       <div class="brand">The rise of smaller independent news &amp; commentary channels around corporate media, 2000&ndash;2026</div>
       <div class="legend">
@@ -147,7 +148,6 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   <div class="bottom">
     <div class="progress">
       <div class="track">
-        <button class="play-btn" id="play" type="button" aria-label="Replay timeline from 2000"><svg viewBox="0 0 14 14" id="playIcon" aria-hidden="true"><path d="M3.5 2.2l8 4.8-8 4.8z"/></svg><span id="playText">Replay</span></button>
         <div class="bar" id="bar"><div class="ticks" id="ticks" aria-hidden="true"></div><i id="barFill"></i><span class="head" id="head" tabindex="0" role="slider" aria-label="Year" aria-valuemin="2000" aria-valuemax="2026" aria-valuenow="2026"></span></div>
       </div>
     </div>
@@ -333,13 +333,15 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     const oldR = R;
     const labelRoom = 10;
     const SCALE = 0.8;                         // circle size as a share of the space available
-    // Centre the circle in the space between the bottom of the legend and the play button
-    // (on every screen size), not the whole stage.
+    // Centre the circle between the bottom of the legend and the timeline, leaving room for the
+    // play button underneath it (on every screen size).
     const meta = document.querySelector('.meta');
     const topReserve = meta ? meta.offsetTop + meta.offsetHeight + 8 : 0;
-    const usableH = Math.max(160, H - topReserve);
+    const BTN_GAP = 18, BTN_H = 28;                  // play button sits centred under the circle
+    const usableH = Math.max(160, H - topReserve - BTN_GAP - BTN_H);
     R = Math.max(80, (Math.min(W, usableH) / 2 - labelRoom) * SCALE);
     cx = W / 2; cy = topReserve + usableH / 2;
+    const pb = $('play'); pb.style.left = cx + 'px'; pb.style.top = Math.min(H - BTN_H, cy + R + BTN_GAP) + 'px';
     if (oldR && oldR !== R) for (const d of nodes) { d.x *= R / oldR; d.y *= R / oldR; }
     const total = d3.sum(nodes, d => d.final);
     k = total ? FILL * R * R / total : 1;
