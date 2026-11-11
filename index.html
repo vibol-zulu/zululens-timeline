@@ -65,6 +65,7 @@ body {
   font: inherit; font-size: 12px; font-weight: 500; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--corporate); cursor: pointer; z-index: 2; }
 .play-btn:hover { border-color: var(--corporate); }
 .stage .controls { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; gap: 8px; width: max-content; }   /* play + spectrum, centred between the bubbles and the timeline; JS sets its top */
+#specBtn { display: none; }   /* Spectrum hidden until the lean labels are checked; remove this line to bring it back */
 .play-btn[aria-pressed="true"] { background: var(--corporate); border-color: var(--corporate); color: var(--bg); }   /* spectrum on */
 .play-btn .spec-ico { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; }
 .play-btn svg { width: 12px; height: 12px; fill: currentColor; }
