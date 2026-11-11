@@ -96,6 +96,7 @@ button.play {
 button.play:hover { border-color: var(--muted); }
 .icon-btn { width: 28px; height: 28px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
 .icon-btn:hover { color: var(--fg); border-color: var(--muted); }
+html.recording .top-icons, html.recording .controls, html.recording .tip { display: none !important; }   /* video export (?record): no icons or play button */
 #substackBtn svg { fill: #FF6719; stroke: none; width: 12px; height: 12px; }   /* Substack orange */
 .icon-btn[aria-pressed="true"] { color: var(--bg); background: var(--fg); border-color: var(--fg); }   /* toggle on */
 #labelsBtn { display: none; }   /* phones only: bubbles are too small for labels by default */
@@ -269,6 +270,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   const tip = $('tip');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const recording = new URLSearchParams(location.search).has('record');   // video export mode, driven frame by frame by a script
+  if (recording) document.documentElement.classList.add('recording');
   let spectrum = false, SW = 300;
   let showLabels = matchMedia('(max-width: 600px)').matches;   // labels on by default on phones (desktop unaffected)
   let nodes = [], year = END, R = 300, cx = 0, cy = 0, W = 0, H = 0, k = 1;
@@ -385,12 +388,12 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const oldR = R;
     const labelRoom = 10;
-    const SCALE = 0.8;                         // circle size as a share of the space available
+    const SCALE = recording ? 0.92 : 0.8;      // circle size as a share of the space available (bigger in the video)
     // Centre the circle between the bottom of the legend and the timeline, leaving room for the
     // play button underneath it (on every screen size).
     const meta = document.querySelector('.meta');
     const topReserve = meta ? meta.offsetTop + meta.offsetHeight + 8 : 0;
-    const BTN_H = 28, BTN_BAND = 76;                 // band under the circle for the play button
+    const BTN_H = 28, BTN_BAND = recording ? 28 : 76;   // band under the circle for the play button (none when recording)
     const usableH = Math.max(160, H - topReserve - BTN_BAND);
     R = Math.max(80, (Math.min(W, usableH) / 2 - labelRoom) * SCALE);
     cx = W / 2; cy = topReserve + usableH / 2;
@@ -508,6 +511,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     for (const d of nodes) d.r = radiusFor(audienceAt(d, year));
     collide.radius(d => d.r ? d.r + 0.8 : 0);
     if (reduceMotion || quiet) { sim.alpha(0.3); for (let i = 0; i < (quiet ? 160 : 40); i++) { sim.tick(); contain(); } draw(); }
+    else if (recording) sim.alpha(Math.max(sim.alpha(), 0.25));   // the export script ticks the layout itself
     else { sim.alpha(Math.max(sim.alpha(), 0.25)).restart(); }
   }
   const YEARS_PER_SEC = 6;              // 2000-2024 plays fast (about 4 seconds)
@@ -534,6 +538,18 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     $('playIcon').innerHTML = '<path d="M3.5 2.2l8 4.8-8 4.8z"/>';
   }
   $('play').addEventListener('click', () => playing ? stop() : play());
+
+  // ---------- video export hooks (only with ?record) ----------
+  // The export script calls rec.start(), then rec.step(1/fps) once per video frame, and screenshots each frame.
+  if (recording) window.rec = {
+    start() { sim.stop(); setYear(START, true); return periodLabel(year); },
+    step(dt, ticksPerFrame = 1) {
+      if (year < END) setYear(Math.min(END, year + dt * (year >= Q_START ? QUARTER_YEARS_PER_SEC : YEARS_PER_SEC)));
+      for (let i = 0; i < ticksPerFrame; i++) { sim.tick(); contain(); }
+      draw();
+      return year >= END;
+    }
+  };
 
   // ---------- scrub on the progress bar ----------
   const bar = $('bar');

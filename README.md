@@ -63,3 +63,15 @@ Each bubble grows in a straight line from 0 at `start` to `audience_m` in Octobe
 
 - `ZuluLens_UMA_Records.xlsx` — how each figure was calculated: platform factors, the October 2026 legacy recalculation (with live formulas), sources and a change log.
 - `legacy_2026_calc.csv` — the same legacy recalculation as plain data.
+
+## Export a video
+
+`export_video.py` renders the animation to MP4 (no icons or play button), using Playwright and ffmpeg:
+
+```bash
+python export_video.py                  # 1920x1080
+python export_video.py --size square    # 1080x1080
+python export_video.py --size vertical  # 1080x1920
+```
+
+Add `--theme dark` for dark mode. Videos are saved in `video/` (not committed). The script opens `index.html?record`, which hides the controls and lets the script step the animation one frame at a time.
