@@ -51,7 +51,6 @@ body {
 .top-icons { display: inline-flex; align-items: center; gap: 10px; }
 .bottom { display: flex; flex-direction: column; padding-top: 14px; padding-bottom: 38px; }   /* title, play button and timeline */
 .brand { font-size: 13px; color: var(--muted); max-width: 54ch; line-height: 1.4; text-wrap: pretty; }   /* avoids a lone last word */
-.brand-note { display: block; margin-top: 8px; }   /* cutoff note on its own line, with a gap above */
 .year { color: var(--corporate); font-size: clamp(48px, 8vw, 84px); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
   position: relative; display: inline-block; margin-bottom: 22px; }
 .progress { position: relative; }
@@ -136,7 +135,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <canvas id="canvas"></canvas>
     <button class="play-btn" id="play" type="button" aria-label="Replay timeline from 2000"><svg viewBox="0 0 14 14" id="playIcon" aria-hidden="true"><path d="M3.5 2.2l8 4.8-8 4.8z"/></svg><span id="playText">Replay</span></button>
     <div class="meta">
-      <div class="brand">The rise of smaller independent news &amp; commentary channels around corporate media, 2000&ndash;2026.<span class="brand-note">Shows outlets and creators reaching at least 500K people a month.</span></div>
+      <div class="brand">The rise of smaller independent news &amp; commentary channels around corporate media, 2000&ndash;2026</div>
       <div class="legend">
         <span><i class="dot c"></i>Corporate</span>
         <span><i class="dot i"></i>Independent</span>
