@@ -450,19 +450,20 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     // labels on bubbles big enough to hold them
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     for (const d of order) {
-      const minR = showLabels ? 9 : 20;   // label toggle (phones) lets smaller bubbles carry a name
+      const minR = showLabels ? 9 : recording ? 12 : 20;   // phones (label toggle) and the video label smaller bubbles too
+      const numR = recording ? 22 : 30;                    // bubbles above this also show their audience
       if (d.r < minR && d !== focus) continue;
       const corp = d.type === 'corporate';
       const label = shortName(d.name);
-      let fs = Math.max(showLabels ? 6.5 : 9, Math.min(13, d.r / 3.6));
+      let fs = Math.max(showLabels ? 6.5 : recording ? 7 : 9, Math.min(13, d.r / 3.6));
       ctx.font = `600 ${fs}px ${getComputedStyle(document.body).fontFamily}`;
       const w = ctx.measureText(label).width;
-      if (w > d.r * 1.7) { fs = Math.max(showLabels ? 5.5 : 8, fs * d.r * 1.7 / w); ctx.font = `600 ${fs}px ${getComputedStyle(document.body).fontFamily}`; }
-      if (d.r >= minR && ctx.measureText(label).width < d.r * (showLabels ? 1.9 : 1.8)) {
+      if (w > d.r * 1.7) { fs = Math.max(showLabels ? 5.5 : recording ? 6.5 : 8, fs * d.r * 1.7 / w); ctx.font = `600 ${fs}px ${getComputedStyle(document.body).fontFamily}`; }
+      if (d.r >= minR && ctx.measureText(label).width < d.r * (showLabels || recording ? 1.9 : 1.8)) {
         ctx.globalAlpha = focus && focus !== d ? 0.5 : 1;
         ctx.fillStyle = corp ? colors['corporate-fg'] : colors['independent-fg'];
-        ctx.fillText(label, cx + d.x, cy + d.y - (d.r > 30 ? fs * 0.45 : 0));
-        if (d.r > 30) {
+        ctx.fillText(label, cx + d.x, cy + d.y - (d.r > numR ? fs * 0.45 : 0));
+        if (d.r > numR) {
           ctx.font = `400 ${fs - 1.5}px ${getComputedStyle(document.body).fontFamily}`;
           ctx.fillText(fmt(audienceAt(d, year)), cx + d.x, cy + d.y + fs * 0.75);
         }
