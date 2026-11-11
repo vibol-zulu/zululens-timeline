@@ -182,7 +182,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
 
     <h3>How the growth is drawn</h3>
     <p>Up to 2024, each bubble grows in a straight line from the year it started, or from its 2000 size for older outlets. We do not have yearly figures for that period, so the line is a simplification.</p>
-    <p>From 2024, about 90 independent channels follow their real ups and downs, quarter by quarter, based on their monthly YouTube views. The animation slows down so you can see them. Media companies and channels that are not mainly on YouTube keep a straight line to October 2026.</p>
+    <p>From 2024, about 90 independent channels and 10 media companies follow their real ups and downs, quarter by quarter. Independents are based on their monthly YouTube views; TV networks on their quarterly TV ratings plus YouTube views. The animation slows down so you can see them. Newspapers, NPR and channels that are not mainly on YouTube keep a straight line to October 2026.</p>
 
     <h3>Where the numbers come from</h3>
     <p>Nielsen (TV), Comscore and Similarweb (websites), Social Blade and vidIQ (YouTube), Podtrac, Spotify and Apple charts (podcasts), and follower counts on social platforms.</p>
@@ -484,7 +484,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       `<div class="m">${d.type === 'corporate' ? 'Corporate' : 'Independent'}${d.lean ? ' · ' + esc(d.lean) : ''}</div>` +
       `<div>Launched ${startYear}${d.approx ? ' (approx.)' : ''}</div>` +
       (year < END - 0.01 ? `<div>${periodLabel(year)}: ~${fmt(now)} a month</div>` : '') +
-      (d.qpts ? `<div class="m">2024–2026 follows quarterly YouTube views</div>` : '') +
+      (d.qpts ? `<div class="m">2024–2026 based on: ${esc(d.qpts.basis || 'Quarterly YouTube views')}</div>` : '') +
       `<div>Oct 2026: ~${fmt(d.final)} a month</div>` +
       (d.formula && Math.abs(d.formula - d.pub) > 0.005 ? `<div class="m">${sizeMode === 'formula' ? `Published figure: ${fmt(d.pub)}` : `Sheet formula: ${fmt(d.formula)}`}</div>` : '') +
       (d.caveat ? `<div class="m">${esc(d.caveat)}</div>` : '') +
@@ -552,7 +552,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
         const q = /^(\d{4})_Q([1-4])$/.exec(k);
         if (q && r[k] !== '' && !isNaN(parseFloat(r[k]))) pts.push([+q[1] + (+q[2] - 0.5) / 4, parseFloat(r[k])]);
       }
-      if (pts.length) m.set((r.name || '').trim(), pts.sort((a, b) => a[0] - b[0]));
+      if (pts.length) { pts.basis = (r.basis || 'Quarterly YouTube views').trim(); m.set((r.name || '').trim(), pts.sort((a, b) => a[0] - b[0])); }
     }
     return m;
   }
