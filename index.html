@@ -69,6 +69,10 @@ header { display: flex; flex-direction: column; padding-top: 10px; }
 .bar.dragging .head { cursor: grabbing; }
 .head:focus-visible { outline: 2px solid var(--dial); outline-offset: 2px; }
 .bar i { display: block; height: 100%; width: 100%; border-radius: 2px; background: var(--corporate); opacity: 0.3; }
+.ticks { position: absolute; inset: 0; pointer-events: none; }
+.ticks span { position: absolute; top: -3px; width: 1px; height: 8px; background: var(--muted); opacity: 0.35; }
+.ticks span.yr { height: 10px; top: -4px; opacity: 0.6; }
+.ticks b { position: absolute; top: 9px; transform: translateX(-50%); font: 500 10px var(--font); color: var(--muted); font-variant-numeric: tabular-nums; }
 .meta { position: absolute; top: 26px; left: 0; z-index: 1; pointer-events: none; display: flex; flex-direction: column; gap: 8px; }
 .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .legend { display: flex; gap: 12px; font-size: 12px; color: var(--muted); }
@@ -121,7 +125,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       <div class="year" id="yearLabel" aria-live="polite">2026</div></div>
       <div class="track">
         <button class="play-btn" id="play" type="button" aria-label="Replay timeline from 2000"><svg viewBox="0 0 14 14" id="playIcon" aria-hidden="true"><path d="M3.5 2.2l8 4.8-8 4.8z"/></svg><span id="playText">Replay</span></button>
-        <div class="bar" id="bar"><i id="barFill"></i><span class="head" id="head" tabindex="0" role="slider" aria-label="Year" aria-valuemin="2000" aria-valuemax="2026" aria-valuenow="2026"></span></div>
+        <div class="bar" id="bar"><div class="ticks" id="ticks" aria-hidden="true"></div><i id="barFill"></i><span class="head" id="head" tabindex="0" role="slider" aria-label="Year" aria-valuemin="2000" aria-valuemax="2026" aria-valuenow="2026"></span></div>
       </div>
     </div>
   </header>
@@ -398,12 +402,45 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   const fmt = m => m >= 10 ? `${m.toFixed(0)}M` : m >= 1 ? `${m.toFixed(1)}M` : m >= 0.1 ? `${(m).toFixed(2)}M` : `${Math.max(1, Math.round(m * 1000))}K`;
 
   // ---------- time ----------
+  // Progress bar scale: 2000-2024 normally fills most of the bar. Once the year passes 2024 the bar
+  // "zooms" so 2024 to October 2026 takes ZOOMED_SHARE of its width, which makes quarterly scrubbing precise.
+  const ZOOMED_SHARE = 0.72;
+  let zoom = 0, zoomTarget = 0, zoomRaf = 0, scrubbing = false;
+  const splitAt = () => { const base = (Q_START - START) / (END - START); return base + ((1 - ZOOMED_SHARE) - base) * zoom; };
+  const fracFromYear = y => { const s = splitAt(); return y <= Q_START ? s * (y - START) / (Q_START - START) : s + (1 - s) * (y - Q_START) / (END - Q_START); };
+  const yearFromFrac = f => { const s = splitAt(); return f <= s ? START + (f / s) * (Q_START - START) : Q_START + ((f - s) / (1 - s)) * (END - Q_START); };
+  function updateBar() {
+    const p = fracFromYear(year);
+    $('barFill').style.width = (p * 100) + '%';
+    $('head').style.left = (p * 100) + '%';
+    const t = $('ticks');
+    if (!t.childElementCount) {
+      for (let y = Q_START; y < END; y += 0.25) {
+        const el = document.createElement('span'); el.dataset.y = y; if (y % 1 === 0) el.className = 'yr'; t.appendChild(el);
+        if (y % 1 === 0) { const lb = document.createElement('b'); lb.dataset.y = y; lb.textContent = y; t.appendChild(lb); }
+      }
+    }
+    for (const el of t.children) el.style.left = (fracFromYear(+el.dataset.y) * 100) + '%';
+    t.style.opacity = zoom;
+  }
+  function setZoom(target) {
+    if (target === zoomTarget && (zoom === target || zoomRaf)) return;
+    zoomTarget = target;
+    if (reduceMotion) { zoom = target; updateBar(); return; }
+    cancelAnimationFrame(zoomRaf);
+    const step = () => {
+      zoom += (zoomTarget - zoom) * 0.12;
+      if (Math.abs(zoomTarget - zoom) < 0.002) zoom = zoomTarget;
+      updateBar();
+      zoomRaf = zoom === zoomTarget ? 0 : requestAnimationFrame(step);
+    };
+    zoomRaf = requestAnimationFrame(step);
+  }
   function setYear(y, quiet) {
     year = Math.max(START, Math.min(END, y));
     $('yearLabel').textContent = periodLabel(year);
-    const p = (year - START) / (END - START);
-    $('barFill').style.width = (p * 100) + '%';
-    $('head').style.left = (p * 100) + '%';
+    if (!scrubbing) setZoom(year >= Q_START ? 1 : 0);
+    updateBar();
     $('head').setAttribute('aria-valuenow', Math.floor(year));
     for (const d of nodes) d.r = radiusFor(audienceAt(d, year));
     collide.radius(d => d.r ? d.r + 0.8 : 0);
@@ -437,14 +474,13 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
 
   // ---------- scrub on the progress bar ----------
   const bar = $('bar');
-  const yearAtX = x => { const r = bar.getBoundingClientRect(); return START + Math.max(0, Math.min(1, (x - r.left) / r.width)) * (END - START); };
-  let scrubbing = false;
+  const yearAtX = x => { const r = bar.getBoundingClientRect(); return yearFromFrac(Math.max(0, Math.min(1, (x - r.left) / r.width))); };
   bar.addEventListener('pointerdown', e => {
     scrubbing = true; stop(); bar.classList.add('dragging'); bar.setPointerCapture(e.pointerId);
     setYear(yearAtX(e.clientX)); e.preventDefault();
   });
   bar.addEventListener('pointermove', e => { if (scrubbing) setYear(yearAtX(e.clientX)); });
-  const endScrub = () => { if (!scrubbing) return; scrubbing = false; bar.classList.remove('dragging'); stop(); };
+  const endScrub = () => { if (!scrubbing) return; scrubbing = false; bar.classList.remove('dragging'); setZoom(year >= Q_START ? 1 : 0); stop(); };
   bar.addEventListener('pointerup', endScrub);
   bar.addEventListener('pointercancel', endScrub);
   $('head').addEventListener('keydown', e => {
