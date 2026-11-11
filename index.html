@@ -402,11 +402,11 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   const fmt = m => m >= 10 ? `${m.toFixed(0)}M` : m >= 1 ? `${m.toFixed(1)}M` : m >= 0.1 ? `${(m).toFixed(2)}M` : `${Math.max(1, Math.round(m * 1000))}K`;
 
   // ---------- time ----------
-  // Progress bar scale: 2000-2024 normally fills most of the bar. Once the year passes 2024 the bar
-  // "zooms" so 2024 to October 2026 takes ZOOMED_SHARE of its width, which makes quarterly scrubbing precise.
+  // Progress bar scale (fixed): 2000-2023 takes the first 28% of the bar and 2024 to October 2026
+  // the remaining 72%, so quarterly scrubbing is precise and nothing slides during playback.
   const ZOOMED_SHARE = 0.72;
-  let zoom = 0, zoomTarget = 0, zoomRaf = 0, scrubbing = false;
-  const splitAt = () => { const base = (Q_START - START) / (END - START); return base + ((1 - ZOOMED_SHARE) - base) * zoom; };
+  let scrubbing = false;
+  const splitAt = () => 1 - ZOOMED_SHARE;
   const fracFromYear = y => { const s = splitAt(); return y <= Q_START ? s * (y - START) / (Q_START - START) : s + (1 - s) * (y - Q_START) / (END - Q_START); };
   const yearFromFrac = f => { const s = splitAt(); return f <= s ? START + (f / s) * (Q_START - START) : Q_START + ((f - s) / (1 - s)) * (END - Q_START); };
   function updateBar() {
@@ -421,25 +421,10 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       }
     }
     for (const el of t.children) el.style.left = (fracFromYear(+el.dataset.y) * 100) + '%';
-    t.style.opacity = zoom;
-  }
-  function setZoom(target) {
-    if (target === zoomTarget && (zoom === target || zoomRaf)) return;
-    zoomTarget = target;
-    if (reduceMotion) { zoom = target; updateBar(); return; }
-    cancelAnimationFrame(zoomRaf);
-    const step = () => {
-      zoom += (zoomTarget - zoom) * 0.12;
-      if (Math.abs(zoomTarget - zoom) < 0.002) zoom = zoomTarget;
-      updateBar();
-      zoomRaf = zoom === zoomTarget ? 0 : requestAnimationFrame(step);
-    };
-    zoomRaf = requestAnimationFrame(step);
   }
   function setYear(y, quiet) {
     year = Math.max(START, Math.min(END, y));
     $('yearLabel').textContent = periodLabel(year);
-    if (!scrubbing) setZoom(year >= Q_START ? 1 : 0);
     updateBar();
     $('head').setAttribute('aria-valuenow', Math.floor(year));
     for (const d of nodes) d.r = radiusFor(audienceAt(d, year));
@@ -480,7 +465,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
     setYear(yearAtX(e.clientX)); e.preventDefault();
   });
   bar.addEventListener('pointermove', e => { if (scrubbing) setYear(yearAtX(e.clientX)); });
-  const endScrub = () => { if (!scrubbing) return; scrubbing = false; bar.classList.remove('dragging'); setZoom(year >= Q_START ? 1 : 0); stop(); };
+  const endScrub = () => { if (!scrubbing) return; scrubbing = false; bar.classList.remove('dragging'); stop(); };
   bar.addEventListener('pointerup', endScrub);
   bar.addEventListener('pointercancel', endScrub);
   $('head').addEventListener('keydown', e => {
