@@ -43,6 +43,8 @@ Upload `index.html` and `channels.csv` to the same folder on any static host (Gi
 
 Rows with no audience, no start date or `show = no` are skipped.
 
+Display cutoff: only channels with an October 2026 audience of at least 0.5M are shown. Smaller rows are kept with `show = no` and the note "Hidden Nov 2026: under the 0.5M display cutoff".
+
 ## Adding a new channel
 
 Add a row with name, type, lean, start, `views_m`, `platform_type`, `show = yes` and a source in `note`. Leave `audience_m` blank and the page works out the size from the views, using the same ratios as the 2025 research.
