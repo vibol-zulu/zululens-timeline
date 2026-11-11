@@ -405,11 +405,12 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
     if (reduceMotion || quiet) { sim.alpha(0.3); for (let i = 0; i < (quiet ? 160 : 40); i++) { sim.tick(); contain(); } draw(); }
     else { sim.alpha(Math.max(sim.alpha(), 0.25)).restart(); }
   }
-  const YEARS_PER_SEC = 1.6;
+  const YEARS_PER_SEC = 3.5;            // 2000-2024 plays fast (about 7 seconds)
+  const QUARTER_YEARS_PER_SEC = 0.45;   // 2024-Oct 2026 at normal speed (about half a second per quarter)
   function frame(t) {
     if (!playing) return;
     const dt = lastT ? (t - lastT) / 1000 : 0; lastT = t;
-    const next = year + dt * (year >= Q_START ? 0.45 : YEARS_PER_SEC);   // slow down for the quarterly years
+    const next = year + dt * (year >= Q_START ? QUARTER_YEARS_PER_SEC : YEARS_PER_SEC);   // normal speed for the quarterly years
     if (next >= END) { setYear(END); stop(); return; }
     setYear(next);
     requestAnimationFrame(frame);
