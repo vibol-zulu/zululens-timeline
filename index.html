@@ -88,6 +88,7 @@ body {
 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 .dot.c { background: var(--corporate); }
 .dot.i { background: var(--independent); box-shadow: inset 0 0 0 1px var(--independent-edge); }
+.dot.e { background: transparent; border: 1px dashed var(--muted); box-sizing: border-box; }   /* dashed estimate ring */
 button.play {
   font: inherit; font-size: 12px; font-weight: 500; color: var(--fg);
   background: transparent; border: 1px solid var(--line); border-radius: 999px;
@@ -171,6 +172,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       <div class="legend">
         <span><i class="dot c"></i>Corporate</span>
         <span><i class="dot i"></i>Independent</span>
+        <span><i class="dot e"></i>Estimate incl. podcasts</span>
       </div>
     </div>
     <div class="tip" id="tip" hidden></div>
@@ -211,6 +213,9 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <h3>How a media company is estimated</h3>
     <p>For each company we estimate the combined monthly audience of all its news brands, such as CNN with CNN.com, HLN and its YouTube channel. We then keep only the share that is likely to be different people: 35% for cable TV, 40% for network TV, 45 to 55% for public, international and newspaper brands, and 60% for news wires. The figure is the middle of the resulting range.</p>
     <p>Smaller cable networks (Newsmax, NewsNation, Scripps News, OAN and Real America's Voice) use the same 35% rule. The low figure is their monthly TV reach; the high figure adds their YouTube audience. Only Newsmax publishes its monthly TV reach. NewsNation's is estimated from its ratings. Scripps News, OAN and Real America's Voice are not rated by Nielsen, so they are sized on YouTube alone and are likely too small.</p>
+
+    <h3>Dashed rings: estimates including podcasts</h3>
+    <p>Podcast apps such as Spotify and Apple do not publish listener numbers, so the solid bubbles leave most podcast listening out. Where a measured figure exists, a dashed ring shows our estimate including podcast listeners. For now this is Joe Rogan only: Podscribe estimates 4.7 million monthly audio listeners (October 2026). We add these to his public figure, assuming about 30% of them also watch on YouTube. Other podcast-first channels have no comparable published figure yet.</p>
 
     <h3>The 2000 figures</h3>
     <p>2000 audiences come from Nielsen TV ratings for the networks, and from print circulation and affiliate counts for the few independents that existed then.</p>
@@ -304,6 +309,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       bin: leanBin(r.lean || ''),
       final: parseFloat(r.audience_m) > 0 ? parseFloat(r.audience_m) : (parseFloat(r.views_m) || 0) * (VIEW_RATIO[(r.platform_type || '').trim()] || VIEW_RATIO['News commentary']),
       caveat: (r.caveat || '').trim(),
+      est: parseFloat(r.audience_est_m) > 0 ? parseFloat(r.audience_est_m) : null,   // estimate incl. podcasts (dashed ring)
+      estSource: (r.est_source || '').trim(),
       a2000: r.audience_2000 && r.audience_2000.trim() !== '' ? parseFloat(r.audience_2000) : null,
       a2000Proposed: /proposed/i.test(r.note || ''),
       startRaw: r.start || '',
@@ -358,7 +365,15 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   const radiusFor = a => a <= 0 ? 0 : Math.max(MIN_R, Math.sqrt(a * k) * specScale());
 
   // ---------- layout ----------
-  const collide = d3.forceCollide(d => d.r ? d.r + 0.8 : 0).strength(0.9).iterations(2);
+  // Each bubble: solid radius r (public data) and, for a few channels, a dashed ring re (estimate incl. podcasts).
+  // The estimate grows in step with the public figure. Spacing uses the larger of the two.
+  function sizeNode(d) {
+    const a = audienceAt(d, year);
+    d.r = radiusFor(a);
+    d.re = d.est && d.est > d.final ? radiusFor(a * d.est / d.final) : 0;
+  }
+  const outerR = d => Math.max(d.r, d.re || 0);
+  const collide = d3.forceCollide(d => d.r ? outerR(d) + 0.8 : 0).strength(0.9).iterations(2);
   const sim = d3.forceSimulation()
     .force('x', d3.forceX(targetX).strength(0.035))
     .force('y', d3.forceY(0).strength(0.035))
@@ -371,13 +386,13 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   function contain() {
     if (spectrum) {   // spectrum: keep bubbles inside a wide band instead of the circle
       for (const d of nodes) {
-        const lx = SW - d.r - 2, ly = R - d.r - 2;
+        const lx = SW - outerR(d) - 2, ly = R - outerR(d) - 2;
         d.x = Math.max(-lx, Math.min(lx, d.x)); d.y = Math.max(-ly, Math.min(ly, d.y));
       }
       return;
     }
     for (const d of nodes) {
-      const lim = R - d.r - 2, dist = Math.hypot(d.x, d.y);
+      const lim = R - outerR(d) - 2, dist = Math.hypot(d.x, d.y);
       if (dist > lim && dist > 0) { const s = Math.max(lim, 0) / dist; d.x *= s; d.y *= s; }
     }
   }
@@ -404,8 +419,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     k = total ? FILL * R * R / total : 1;
     SW = Math.max(R, Math.min(W / 2 - 24, R * 1.7));   // half-width of the spectrum band
     sim.force('x').x(targetX).strength(spectrum ? 0.09 : 0.035);
-    for (const d of nodes) d.r = radiusFor(audienceAt(d, year));
-    collide.radius(d => d.r ? d.r + 0.8 : 0);
+    for (const d of nodes) sizeNode(d);
+    collide.radius(d => d.r ? outerR(d) + 0.8 : 0);
     draw();
   }
 
@@ -445,6 +460,10 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       ctx.beginPath(); ctx.arc(x, y, d.r, 0, Math.PI * 2);
       ctx.fillStyle = corp ? colors.corporate : colors.independent; ctx.fill();
       if (!corp && d.r > 2.5) { ctx.strokeStyle = colors['independent-edge']; ctx.lineWidth = 0.75; ctx.stroke(); }
+      if (d.re > d.r + 1) {   // dashed ring: estimate incl. podcasts
+        ctx.beginPath(); ctx.arc(x, y, d.re, 0, Math.PI * 2);
+        ctx.setLineDash([3, 3]); ctx.strokeStyle = colors.muted; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+      }
     }
     ctx.globalAlpha = 1;
     // labels on bubbles big enough to hold them
@@ -529,8 +548,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     $('yearLabel').textContent = periodLabel(year);
     updateBar();
     $('head').setAttribute('aria-valuenow', Math.floor(year));
-    for (const d of nodes) d.r = radiusFor(audienceAt(d, year));
-    collide.radius(d => d.r ? d.r + 0.8 : 0);
+    for (const d of nodes) sizeNode(d);
+    collide.radius(d => d.r ? outerR(d) + 0.8 : 0);
     if (reduceMotion || quiet) { sim.alpha(0.3); for (let i = 0; i < (quiet ? 160 : 40); i++) { sim.tick(); contain(); } draw(); }
     else if (recording) sim.alpha(Math.max(sim.alpha(), 0.25));   // the export script ticks the layout itself
     else { sim.alpha(Math.max(sim.alpha(), 0.25)).restart(); }
@@ -622,7 +641,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       `<div>Launched ${startYear}${d.approx ? ' (approx.)' : ''}</div>` +
       (year < END - 0.01 ? `<div>${periodLabel(year)}: ~${fmt(now)} a month</div>` : '') +
       (d.qpts ? `<div class="m">2024–2026 based on: ${esc(d.qpts.basis || 'Quarterly YouTube views')}</div>` : '') +
-      `<div>Oct 2026: ~${fmt(d.final)} a month</div>` +
+      `<div>Oct 2026: ~${fmt(d.final)} a month${d.est ? ' (public data)' : ''}</div>` +
+      (d.est ? `<div>Estimate incl. podcasts: ~${fmt(d.est)} a month</div><div class="m">${esc(d.estSource)}</div>` : '') +
       (d.caveat ? `<div class="m">${esc(d.caveat)}</div>` : '') +
       (d.draft ? `<div class="m">Placeholder figure, not yet rebuilt</div>` : '') +
       (d.a2000Proposed ? `<div class="m">2000 figure is a rough placeholder</div>` : '') +
@@ -655,8 +675,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     $('specBtn').setAttribute('aria-pressed', String(spectrum));
     $('specBtn').setAttribute('aria-label', spectrum ? 'Back to the circle' : 'Arrange bubbles by political lean');
     sim.force('x').x(targetX).strength(spectrum ? 0.09 : 0.035);
-    for (const d of nodes) d.r = radiusFor(audienceAt(d, year));
-    collide.radius(d => d.r ? d.r + 0.8 : 0);   // refresh collision sizes after the resize
+    for (const d of nodes) sizeNode(d);
+    collide.radius(d => d.r ? outerR(d) + 0.8 : 0);   // refresh collision sizes after the resize
     if (reduceMotion) { sim.alpha(0.5); for (let i = 0; i < 200; i++) { sim.tick(); contain(); } draw(); }
     else sim.alpha(0.7).restart();
   });

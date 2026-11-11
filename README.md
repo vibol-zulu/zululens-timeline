@@ -39,6 +39,8 @@ Upload `index.html` and `channels.csv` to the same folder on any static host (Gi
 | source | `main` or `swarm candidate`. Candidates show "not yet merged" |
 | show | `yes` or `no`. Use `no` to hide a row without deleting it |
 | caveat | Optional. A short warning shown in the tooltip, e.g. that the main platform does not publish audience numbers |
+| audience_est_m | Optional. Estimate including podcasts, in millions. Drawn as a dashed ring around the bubble when larger than audience_m |
+| est_source | Where the estimate came from, shown in the tooltip |
 | note | Your own notes. Not shown |
 
 Rows with no audience, no start date or `show = no` are skipped.
