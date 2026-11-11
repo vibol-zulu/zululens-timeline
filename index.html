@@ -59,8 +59,9 @@ body {
 @media (max-width: 600px) { .headline { flex-direction: column; align-items: flex-start; white-space: normal; font-size: clamp(30px, 9vw, 44px); } }   /* phones: date on its own line */
 .headline .year { margin-bottom: 0; }
 .prefix { font-size: clamp(48px, 8vw, 84px); font-weight: 600; line-height: 1; color: var(--corporate); letter-spacing: -0.03em; }
-.track { position: relative; padding-left: 124px; }
-.play-btn { position: absolute; left: 0; top: 50%; height: 28px; min-width: 92px; margin-top: -14px; padding: 0 14px 0 11px; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+.track { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }   /* play button above a full-width timeline */
+.track .bar { align-self: stretch; }
+.play-btn { position: relative; height: 28px; min-width: 92px; padding: 0 14px 0 11px; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
   font: inherit; font-size: 12px; font-weight: 500; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--corporate); cursor: pointer; z-index: 2; }
 .play-btn:hover { border-color: var(--corporate); }
 .play-btn svg { width: 12px; height: 12px; fill: currentColor; }
