@@ -112,7 +112,6 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
 .modal-body #count { color: var(--muted); font-variant-numeric: tabular-nums; }
 footer { padding-top: 10px; align-items: center; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--muted); }
 .msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-size: 13px; color: var(--muted); padding: 24px; }
-.drop { outline: 2px dashed var(--dial); outline-offset: -8px; }
 </style>
 
 <div class="app" id="app">
@@ -501,20 +500,6 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   }
   const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-  // ---------- drop a CSV to preview changes ----------
-  const app = $('app');
-  // Only a dragged *file* shows the outline, and it always clears when the drag ends or leaves the page.
-  const isFileDrag = e => e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files');
-  const clearDrop = () => app.classList.remove('drop');
-  app.addEventListener('dragover', e => { if (!isFileDrag(e)) return; e.preventDefault(); app.classList.add('drop'); });
-  app.addEventListener('dragleave', e => { if (!e.relatedTarget || !app.contains(e.relatedTarget)) clearDrop(); });
-  window.addEventListener('dragend', clearDrop);
-  window.addEventListener('pointerdown', clearDrop);
-  app.addEventListener('drop', e => {
-    e.preventDefault(); clearDrop();
-    const f = e.dataTransfer.files[0]; if (!f) return;
-    f.text().then(t => { const list = parse(t); if (list.length) { pinned = hovered = null; tip.hidden = true; load(list); } });
-  });
 
   // ---------- theme: light by default, toggle to dark ----------
   const root = document.documentElement;
@@ -556,7 +541,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
     .then(t => { resize(); load(parse(t)); stop(); })
     .catch(() => {
       const m = $('msg'); m.hidden = false;
-      m.textContent = 'Could not load channels.csv. Check it was published next to this page, or drop the CSV file here.';
+      m.textContent = 'Could not load channels.csv. Check it was published next to this page.';
       resize();
     });
 })();

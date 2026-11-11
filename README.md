@@ -49,8 +49,7 @@ Add a row with name, type, lean, start, `views_m`, `platform_type`, `show = yes`
 
 ## Updating
 
-- **Quick preview:** open the published page and drag an edited CSV onto it. Only you see this, and it resets on reload.
-- **Make it live:** save the edited `channels.csv` here and republish the artifact.
+Edit `channels.csv` (and `quarterly.csv` for 2024–2026), then push to GitHub and republish the artifact.
 
 Each bubble grows in a straight line from 0 at `start` to `audience_m` in October 2026. If `audience_2000` is filled, it moves in a straight line from that value in 2000 instead. Write "proposed" in `note` to flag a rough 2000 figure in the tooltip. Bubble area matches audience.
 
