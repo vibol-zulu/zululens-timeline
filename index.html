@@ -199,60 +199,39 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   <div class="modal-body">
 
     <h3>What you are looking at</h3>
-    <p>Each bubble is a US news or commentary channel. Teal bubbles are media companies with institutional newsrooms, from the big networks to smaller cable channels like Newsmax. Peach bubbles are independent channels run by creators or small teams. A bubble's area shows how many people it reaches each month: twice the area means about twice the audience.</p>
-    <p>Only national channels reaching at least 500,000 people a month (October 2026) are shown, so every bubble has an audience on a scale that can be set against legacy outlets. Smaller channels, local TV stations and local papers are left out.</p>
+    <p>Each bubble is a US news or commentary outlet reaching at least 500K people a month. Teal bubbles are media companies with newsrooms. Peach bubbles are independent creators and small teams. The bigger the bubble, the bigger its monthly audience.</p>
 
-    <h3>What the size measures</h3>
-    <p>We call it Unique Monthly Audience (UMA): our estimate of how many different people a channel reaches in a month, across every platform it uses. It is an educated estimate built from public numbers, not an official count.</p>
-
-    <h3>How an independent channel is estimated</h3>
-    <p class="formula">Monthly audience = monthly YouTube views &times; audience share</p>
-    <p>The audience share is the part of the views that are likely to be different people, since the same viewers watch many videos. It comes from the 2025 research and depends on the type of channel: long-form podcast 58.8%, interview 56.5%, daily show 55.0%, news commentary 53.5%, Rumble, X or TikTok 51.2%, live stream 48.8%, X only 47.5%.</p>
+    <h3>How we size a bubble</h3>
+    <p>We estimate how many different people each outlet reaches in a month, using public numbers.</p>
+    <p><strong>Independent channels</strong></p>
+    <p class="formula">YouTube views &times; audience share</p>
+    <p>The share (47&ndash;59%, depending on the type of channel) removes people who watch more than one video.</p>
     <p class="m">Example: MeidasTouch had 228.6M YouTube views in October 2026. As a news commentary channel, 53.5% count as people: 228.6M &times; 0.535 &asymp; 122M.</p>
-    <p>Channels that live mainly on TikTok, X, Substack, podcasts or Rumble keep our audited 2025 figure, because those platforms do not publish the numbers we need.</p>
-
-    <h3>How a media company is estimated</h3>
-    <p class="formula">Monthly audience = middle of (audience range &times; share kept)</p>
-    <p>For each company we estimate the combined monthly audience of all its news brands, such as CNN with CNN.com, HLN and its YouTube channel. We then keep only the share that is likely to be different people: 35% for cable TV, 40% for network TV, 45 to 55% for public, international and newspaper brands, and 60% for news wires. The figure is the middle of the resulting range.</p>
-    <p class="m">Example: Fox News&rsquo;s combined audience range is 146&ndash;176M a month. Keeping 35% for cable TV gives 51&ndash;62M, and the middle is &asymp; 56M.</p>
-    <p>Smaller cable networks (Newsmax, NewsNation, Scripps News, OAN and Real America's Voice) use the same 35% rule. The low figure is their monthly TV reach; the high figure adds their YouTube audience. Only Newsmax publishes its monthly TV reach. NewsNation's is estimated from its ratings. Scripps News, OAN and Real America's Voice are not rated by Nielsen, so they are sized on YouTube alone and are likely too small.</p>
+    <p><strong>Media companies</strong></p>
+    <p class="formula">Combined audience &times; share kept</p>
+    <p>We add up all of a company&rsquo;s news brands, keep the share that is likely different people (35&ndash;60%), and use the middle of the range.</p>
+    <p class="m">Example: Fox News reaches 146&ndash;176M a month in total. Keeping 35% gives &asymp; 56M.</p>
 
     <div id="estNote" hidden>
-    <h3>Dashed rings: estimates including podcasts</h3>
-    <p>Podcast apps such as Spotify and Apple do not publish listener numbers, so the solid bubbles leave most podcast listening out. Where a measured figure exists, a dashed ring shows our estimate including podcast listeners. For now this is Joe Rogan only: Podscribe estimates 4.7 million monthly audio listeners (October 2026). We add these to his public figure, assuming about 30% of them also watch on YouTube. Other podcast-first channels have no comparable published figure yet.</p>
+    <h3>Dashed rings</h3>
+    <p>A dashed ring shows an estimate that includes podcast listeners, where a measured figure exists.</p>
     </div>
 
-    <h3>The 2000 figures</h3>
-    <p>2000 audiences come from Nielsen TV ratings for the networks, and from print circulation and affiliate counts for the few independents that existed then.</p>
+    <h3>Over time</h3>
+    <p>Up to 2024, each bubble grows in a straight line from its launch, or from its 2000 size. From 2024, about 100 outlets follow real quarterly figures. Hover a bubble to see what its figures are based on.</p>
 
-    <h3>Bringing it up to date</h3>
-    <p>Independent channels use the formula above with their October 2026 YouTube views. Media companies use their 2025 audience range, moved up or down by the measured change in their TV viewers and website visitors (Q3 2026 against Q3 2025).</p>
-
-    <h3>How the growth is drawn</h3>
-    <p>Up to 2024, each bubble grows in a straight line from the year it started, or from its 2000 size for older outlets. We do not have yearly figures for that period, so the line is a simplification.</p>
-
-    <h3>2024 to 2026, quarter by quarter</h3>
-    <p>From 2024 the year label switches to quarters and the animation slows down, so you can see channels rise and fall. About 100 channels follow real figures for each quarter up to October 2026:</p>
-    <ul>
-      <li><strong>Independent channels on YouTube:</strong> a typical month's YouTube views in that quarter, with the same repeat-viewer rates. A one-off viral month is capped so it does not swamp the picture, and months where videos were deleted are skipped.</li>
-      <li><strong>TV networks</strong> (Fox News, CNN, MS NOW, NBC, ABC, CBS): each quarter's TV ratings from Nielsen together with their YouTube views, compared with their latest quarter.</li>
-      <li><strong>Reuters, AP, PBS NewsHour, BBC News, Scripps News, OAN and Real America's Voice:</strong> their YouTube views, compared the same way.</li>
-    </ul>
-    <p>The rest keep a straight line to October 2026: newspapers (New York Times, Washington Post, USA Today, Wall Street Journal), NPR, Newsmax and NewsNation (we have no quarterly TV series for them yet, and YouTube alone would hide Newsmax's falling TV audience), channels that live mainly on other platforms, and very small channels. A few TV figures, for late 2024 and early 2026, are estimated from the quarters around them. Hover a bubble to see what its 2024 to 2026 figures are based on.</p>
-
-    <h3>Where the numbers come from</h3>
-    <p>Nielsen (TV), Comscore and Similarweb (websites), Social Blade and vidIQ (YouTube), Podtrac, Spotify and Apple charts (podcasts), and follower counts on social platforms.</p>
+    <h3>Sources</h3>
+    <p>Nielsen (TV), Comscore and Similarweb (websites), vidIQ and Social Blade (YouTube).</p>
 
     <h3>Political lean</h3>
-    <p>Based on what each outlet says about itself, what it covers and its editorial position. For media companies it reflects the institution, not individual hosts. Labels are simplified.<!-- Spectrum (hidden for now): The Spectrum button lines the bubbles up in five groups: Left, Lean left, Center, Lean right and Right. Libertarian, anti-establishment and non-partisan outlets with no clear left or right lean sit in Center. --></p>
+    <p>Based on how each outlet describes itself and what it covers. Labels are simplified.<!-- Spectrum (hidden for now): The Spectrum button lines the bubbles up in five groups: Left, Lean left, Center, Lean right and Right. Libertarian, anti-establishment and non-partisan outlets with no clear left or right lean sit in Center. --></p>
 
     <h3>Keep in mind</h3>
     <ul>
-      <li>Public data only. We have no access to the platforms' own numbers.</li>
-      <li>Some of the biggest shows live mainly on platforms that do not publish audience numbers, such as Spotify (Joe Rogan), Apple Podcasts, SiriusXM, Rumble and paid apps like DailyWire+. Their figures lean on YouTube and other public counts, so they are likely too low.</li>
-      <li>Turning views into people is an estimate, usually within 10 to 20%.</li>
-      <li>Audiences are as measured on each platform: mostly American, with some viewers abroad.</li>
-      <li>A few small channels still use placeholder figures.</li>
+      <li>These are estimates from public data, not official counts.</li>
+      <li>Podcast apps, Rumble and paid apps don&rsquo;t publish audiences, so shows like Joe Rogan&rsquo;s are likely too low.</li>
+      <li>Scripps News, OAN and Real America&rsquo;s Voice have no Nielsen ratings, so they are sized on YouTube only.</li>
+      <li>Audiences are mostly American, with some viewers abroad.</li>
     </ul>
   </div>
 </dialog>
