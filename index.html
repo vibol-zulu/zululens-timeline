@@ -46,7 +46,7 @@ body {
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 14px;
 }
-.topbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 10px; }
+.topbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 10px; padding-inline: 24px; }   /* same side inset as the timeline */
 .topbar .headline { margin-bottom: 0; }
 .top-icons { display: inline-flex; align-items: center; gap: 10px; }
 .bottom { display: flex; flex-direction: column; padding-top: 14px; padding-bottom: 18px; }   /* title, play button and timeline */
@@ -54,7 +54,7 @@ body {
 .year { color: var(--corporate); font-size: clamp(48px, 8vw, 84px); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
   position: relative; display: inline-block; margin-bottom: 22px; }
 .progress { position: relative; }
-.headline { display: flex; align-items: baseline; gap: 0 0.28em; white-space: nowrap; margin-bottom: 22px; font-size: clamp(26px, 4.3vw, 58px); }   /* one line on wider screens, leaving room for the icons */
+.headline { display: flex; align-items: baseline; gap: 0 0.28em; white-space: nowrap; margin-bottom: 22px; font-size: clamp(24px, 3.9vw, 58px); }   /* one line on wider screens, leaving room for the icons */
 .headline .prefix, .headline .year { font-size: inherit; }
 @media (max-width: 600px) { .headline { flex-direction: column; align-items: flex-start; white-space: normal; font-size: clamp(30px, 9vw, 44px); } }   /* phones: date on its own line */
 .headline .year { margin-bottom: 0; }
@@ -78,7 +78,7 @@ body {
 .ticks span { position: absolute; top: -3px; width: 1px; height: 8px; background: var(--muted); opacity: 0.35; }
 .ticks span.yr { height: 10px; top: -4px; opacity: 0.6; }
 .ticks b { position: absolute; top: 9px; transform: translateX(-50%); font: 500 10px var(--font); color: var(--muted); font-variant-numeric: tabular-nums; }
-.meta { position: absolute; top: 4px; left: 0; z-index: 1; pointer-events: none; display: flex; flex-direction: column; gap: 8px; }
+.meta { position: absolute; top: 4px; left: 24px; z-index: 1; pointer-events: none; display: flex; flex-direction: column; gap: 8px; }
 .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .legend { display: flex; gap: 12px; font-size: 12px; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
