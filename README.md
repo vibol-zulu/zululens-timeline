@@ -45,3 +45,8 @@ Rows with no audience, no start date or `show = no` are skipped.
 - **Make it live:** save the edited `channels.csv` here and republish the artifact.
 
 Each bubble grows in a straight line from 0 at `start` to `audience_m` in October 2026. If `audience_2000` is filled, it moves in a straight line from that value in 2000 instead. Write "proposed" in `note` to flag a rough 2000 figure in the tooltip. Bubble area matches audience.
+
+## Records
+
+- `ZuluLens_UMA_Records.xlsx` — how each figure was calculated: platform factors, the October 2026 legacy recalculation (with live formulas), sources and a change log.
+- `legacy_2026_calc.csv` — the same legacy recalculation as plain data.

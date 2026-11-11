@@ -1,0 +1,16 @@
+name,range_2025,factor,tv_yoy_pct,digital_yoy_pct,digital_basis,change_pct,range_2026,uma_low,uma_high,uma_2026,status,note
+Fox News,150-180,0.35,-15.8,11.0,measured,-2.4,146-176,51.2,61.5,56.4,final,Q3 2026 Nielsen total day; Comscore multiplatform UV 169.7M
+CNN (Warner Bros. Discovery),80-100,0.35,7.6,-35.0,measured,-13.7,69-86,24.2,30.2,27.2,final,"Comscore UV 57.4M, weakest since 2015"
+MSNBC (NBCUniversal),70-90,0.35,20.3,-12.0,"peer average (Fox, CNN)",4.15,73-94,25.5,32.8,29.2,provisional,Now MS NOW (Versant); no digital figure published; 2025 range included NBC sub-brands
+NBC News (NBCUniversal),120-150,0.4,18.9,7.0,measured,12.95,136-169,54.2,67.8,61.0,final,Nightly News 6.63M vs 5.58M; NBCNews.com 105.4M
+ABC News (Disney),110-140,0.4,16.0,-23.0,measured,-3.5,106-135,42.5,54.0,48.2,final,World News Tonight 8.39M; ABCNews.com 36.6M
+CBS News (Paramount),100-130,0.4,3.0,9.0,measured,6.0,106-138,42.4,55.1,48.8,final,Evening News 3.93M; CBSNews.com 186.2M
+The New York Times,80-120,0.55,,-13.0,measured,-13.0,70-104,38.3,57.4,47.9,final,NYTimes.com 60.3M UV
+The Washington Post,60-90,0.55,,-13.0,"peer average (NYT, USA Today)",-13.0,52-78,28.7,43.1,35.9,provisional,No 2026 traffic published
+USA Today,35-55,0.55,,-13.9,measured,-13.9,30-47,16.6,26.0,21.3,final,USA TODAY Co. 161M vs 187M UV
+The Wall Street Journal,25-40,0.55,,-13.0,"peer average (NYT, USA Today)",-13.0,22-35,12.0,19.1,15.6,provisional,No 2026 traffic published; subs +13% (late 2025)
+Reuters,50-80,0.6,,-14.0,US news & media market (Similarweb Sep 2026),-14.0,43-69,25.8,41.3,33.5,provisional,No brand YoY published
+AP News,40-70,0.6,,-14.0,US news & media market (Similarweb Sep 2026),-14.0,34-60,20.6,36.1,28.4,provisional,No brand YoY published
+NPR,30-50,0.5,,0.0,"no data, kept at 2025",0.0,30-50,15.0,25.0,20.0,provisional,No 2026 audience figures found
+PBS NewsHour,20-40,0.5,,0.0,"no data, kept at 2025",0.0,20-40,10.0,20.0,15.0,provisional,No 2026 ratings found
+BBC News,40-60,0.45,,1.0,"BBC US & Canada, FY to Mar 2026",1.0,40-61,18.2,27.3,22.7,final,"71M US+Canada monthly visitors, +1%"
