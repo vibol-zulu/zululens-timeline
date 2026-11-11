@@ -51,6 +51,9 @@ header { display: flex; flex-direction: column; padding-top: 10px; }
 .year { color: var(--corporate); font-size: clamp(48px, 8vw, 84px); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
   position: relative; display: inline-block; margin-bottom: 22px; }
 .progress { position: relative; }
+.headline { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 16px; margin-bottom: 22px; }
+.headline .year { margin-bottom: 0; }
+.prefix { font-size: clamp(18px, 2.6vw, 30px); font-weight: 500; color: var(--fg); letter-spacing: -0.01em; }
 .track { position: relative; padding-left: 104px; }
 .play-btn { position: absolute; left: 0; top: 50%; height: 28px; min-width: 92px; margin-top: -14px; padding: 0 14px 0 11px; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
   font: inherit; font-size: 12px; font-weight: 500; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--corporate); cursor: pointer; z-index: 2; }
@@ -113,7 +116,8 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
 <div class="app" id="app">
   <header>
     <div class="progress">
-      <div class="year" id="yearLabel" aria-live="polite">2026</div>
+      <div class="headline"><span class="prefix">US news media landscape</span>
+      <div class="year" id="yearLabel" aria-live="polite">2026</div></div>
       <div class="track">
         <button class="play-btn" id="play" type="button" aria-label="Replay timeline from 2000"><svg viewBox="0 0 14 14" id="playIcon" aria-hidden="true"><path d="M3.5 2.2l8 4.8-8 4.8z"/></svg><span id="playText">Replay</span></button>
         <div class="bar" id="bar"><i id="barFill"></i><span class="head" id="head" tabindex="0" role="slider" aria-label="Year" aria-valuemin="2000" aria-valuemax="2026" aria-valuenow="2026"></span></div>
