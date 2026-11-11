@@ -28,6 +28,8 @@ Upload `index.html` and `channels.csv` to the same folder on any static host (Gi
 | type | `corporate` or `independent` (sets the colour) |
 | lean | Political lean, shown in the tooltip |
 | audience_m | Oct 2026 monthly audience in millions (e.g. `24.1`, `0.35`) |
+| views_m | Monthly views in millions (Oct 2026). If audience_m is blank, the page sets audience = views x the platform ratio |
+| platform_type | One of: Long-form podcast (0.588), Interview (0.565), Daily show / analysis (0.550), News commentary (0.535), Rumble / X / TikTok (0.512), Live stream (0.488), X-only (0.475) |
 | audience_m_audit | The Oct 2026 audit figure, kept for reference. Not used by the chart |
 | audience_2000 | Optional. Audience in 2000, for outlets founded before 2000. If filled, the bubble starts at this size in 2000 instead of growing from launch |
 | start | Launch date: `2015`, `2015-06` or `2015-06-01`. A year alone is placed mid-year |
@@ -38,6 +40,10 @@ Upload `index.html` and `channels.csv` to the same folder on any static host (Gi
 | note | Your own notes. Not shown |
 
 Rows with no audience, no start date or `show = no` are skipped.
+
+## Adding a new channel
+
+Add a row with name, type, lean, start, `views_m`, `platform_type`, `show = yes` and a source in `note`. Leave `audience_m` blank and the page works out the size from the views, using the same ratios as the 2025 research.
 
 ## Updating
 

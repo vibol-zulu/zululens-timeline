@@ -1,171 +1,171 @@
-name,type,lean,audience_m,audience_m_audit,audience_2000,start,start_approx,value,source,show,note
-Fox News,corporate,Right,56.4,190.0,16.5,1996-10-07,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 57.5); 2000: ZuluLens 2000 dataset"
-CNN (Warner Bros. Discovery),corporate,Center/Establishment,27.2,102.2,26,1980-06-01,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 31.5); 2000: ZuluLens 2000 dataset"
-MS NOW (Versant),corporate,Left-Leaning,29.2,63.2,12,1996-07-15,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 27.5); 2000: ZuluLens 2000 dataset"
-NBC News (NBCUniversal),corporate,Center,61.0,135.8,75,1940-02-20,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 54); 2000: ZuluLens 2000 dataset (NBC Nightly News)"
-ABC News (Disney),corporate,Center,48.3,61.0,70,1945-06-15,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 50); 2000: ZuluLens 2000 dataset (ABC World News Tonight)"
-CBS News (Paramount),corporate,Center,48.8,196.1,65,1927-09-18,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 46); 2000: ZuluLens 2000 dataset (CBS Evening News)"
-The New York Times,corporate,Center-Left,47.9,79.1,12,1851-09-18,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 55); 2000: Proposed rough 2000 figure, needs checking"
-The Washington Post,corporate,Center-Left,35.9,19.3,8,1877-12-06,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 41.5); 2000: Proposed rough 2000 figure, needs checking"
-BBC News,corporate,Center,22.7,63.5,3,1922-11-14,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 22.5); 2000: Proposed rough 2000 figure, needs checking"
-Reuters,corporate,Center/Neutral,33.5,24.4,2,1851-10-01,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 39); 2000: Proposed rough 2000 figure, needs checking"
-AP News,corporate,Center/Neutral,28.4,33.2,2,1846-05-22,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 33); 2000: Proposed rough 2000 figure, needs checking"
-NPR,corporate,Center-Left,20.0,86.3,20,1970-02-26,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 20); 2000: Proposed rough 2000 figure, needs checking"
-PBS NewsHour,corporate,Center,15.0,83.9,8,1975-10-20,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 15); 2000: Proposed rough 2000 figure, needs checking"
-USA Today,corporate,Center,21.3,79.1,10,1982-09-15,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 24.5); 2000: Proposed rough 2000 figure, needs checking"
-The Wall Street Journal,corporate,Center-Right,15.6,28.1,5,1889-07-08,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 18); 2000: Proposed rough 2000 figure, needs checking"
-Shawn Ryan Show,independent,Independent/Right-Leaning,28,45.5,,2019-11-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-MeidasTouch,independent,Progressive/Left,11.5,35.8,,2020-03-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Dan Bongino,independent,Right,48,3.1,,2015,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Brian Tyler Cohen,independent,Progressive/Democratic,60,18.1,,2011-10-16,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Steven Crowder,independent,Right,4.5,3.2,,2015,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Candace Owens,independent,Right,82.29,11.7,,2015-09-22,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Alex Jones,independent,Far Right/Conspiracy,6.5,5.9,,1996-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-The Rubin Report,independent,Lean Right,58.14,5.9,,2012-09-05,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-David Pakman,independent,Progressive/Social Democrat,17,13.3,,2005,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Tucker Carlson,independent,Right,40,26.3,,2023-12-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Charlie Kirk,independent,Conservative,38.5,1.5,,2012-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Megyn Kelly (The Megyn Kelly Show),independent,Right-Leaning,42,16.2,,2020-09-28,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Catturd,independent,Right,24.4,3.8,,2018-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-V Spehar (Under The Desk News),independent,Non-binary/Progressive,25,4.1,,2020-06-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Jack Posobiec,independent,Right,11,2.7,,2016-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Benny Johnson,independent,Right,55.8,24.1,,2013-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Joe Rogan,independent,Libertarian/Centrist,67,39.8,,2009-12-24,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Ben Shapiro,independent,Conservative,40,6.4,,2015,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-The Young Turks (TYT),independent,Progressive Left,25,8.0,,2002,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-The Jimmy Dore Show,independent,Anti-Establishment Populist,15,3.8,,2009,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Matt Walsh,independent,Right/Conservative,7.85,4.7,,2019-03-28,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Tim Pool (Timcast),independent,Lean Right,32,2.9,,2011-12-22,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Michael Knowles,independent,Conservative/Traditionalist,30,2.4,,2016-02-26,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Kyle Kulinski (Secular Talk),independent,Socialist/Progressive Left,15.5,6.4,,2008-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-HasanAbi,independent,Socialist/Far Left,16.4,12.6,,2018-03-23,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Breaking Points,independent,Progressive/Anti-Establishment,32.5,8.0,,2021-06-07,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-The Hill / Rising,corporate,Centrist/Mixed,31,29.0,0.5,1994,yes,estimate,main,yes,"Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit); 2000: Proposed rough 2000 figure, needs checking"
-Heather Cox Richardson,independent,Progressive/Left,11,3.2,,2019-11,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Jordan Peterson Podcast,independent,Conservative/Libertarian,16,1.8,,2016-12-07,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-LegalEagle,independent,Progressive/Center-Left,14.1,5.5,,2017-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Channel 5 with Andrew Callaghan,independent,Non-partisan/Observational,18,6.4,,2021-04-06,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Beau of the Fifth Column,independent,Anti-Establishment Left,13.9,1.3,,2018-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Lex Fridman,independent,Independent/Centrist,11,1.9,,2018-05-25,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Tim Dillon,independent,Lean Right,11,2.8,,2016,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Theo Von,independent,Lean Right,24,9.5,,2016-12-19,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Philip DeFranco,independent,Centrist,16.5,3.4,,2006-09-15,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-The Majority Report,independent,Progressive/Left,11.5,8.3,,2004,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Mehdi Hasan (Zeteo),independent,Progressive/Left,12.75,3.3,,2024-02-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-The Good Liars,independent,Liberal/Progressive,13.38,3.2,,2011,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
-Pondering Politics,independent,Left,4.8,4.8,,2021-09,no,estimate,main,yes,
-Zeihan on Geopolitics,independent,Center/Establishment (provisional),1.3,1.3,,2020-08,no,estimate,main,yes,
-WeAreChange,independent,Right,0.17,0.17,,2006,yes,estimate,main,yes,
-The Humanist Report,independent,Left,0.35,0.35,,2015,yes,estimate,main,yes,
-Geopolitical Economy Report,independent,Left,0.24,0.24,,2023,yes,estimate,main,yes,
-A Righteous Perspective,independent,Right (provisional),0.34,0.34,,,no,draft,main,no,Start date unknown
-AMTV,independent,Right,0.0357,0.0357,,2009,yes,estimate,main,yes,
-Chris Ray Gun,independent,Lean left (provisional),0.28,0.28,,2007,yes,draft,main,yes,
-Actual Justice Warrior,independent,Right,0.9,0.9,,2017-01-12,no,estimate,main,yes,
-PoliticsGirl,independent,Lean left,0.57,0.57,,2015,yes,estimate,main,yes,
-Golden State Times,independent,Right,0.13,0.13,,2015-04,no,estimate,main,yes,
-John Doyle,independent,Right,0.12,0.12,,2018,yes,estimate,main,yes,
-Political Voices Network,independent,Left,0.26,0.26,,,no,estimate,main,no,Start date unknown
-David Feldman,independent,Left (provisional),0.24,0.24,,2009,yes,estimate,main,yes,
-Raw News And Politics,independent,Left,0.32,0.32,,2020-03,no,estimate,main,yes,
-Exploring History with William C. Fox,independent,Center (provisional),0.0223,0.0223,,2015-02,no,estimate,main,yes,
-Aydin Paladin,independent,Right (provisional),0.0127,0.0127,,2017-01,no,estimate,main,yes,
-LiberalViewer,independent,Lean left,0.0004,0.0004,,2006-07,no,estimate,main,yes,
-The Rational National,independent,Left,0.44,0.44,,2015-12,no,estimate,main,yes,
-Democracy Docket,independent,Lean left,1.3,1.3,,2020-03-05,no,estimate,main,yes,
-Katie Phang,independent,Lean left (provisional),0.34,0.34,,2025,yes,draft,main,yes,
-Election Time,independent,Center (provisional),0.2,0.2,,2020,yes,draft,main,yes,
-Ben Dykes,independent,Right (provisional),0.12,0.12,,,no,draft,main,no,Start date unknown
-Microdots,independent,Unresolved,0.05,0.05,,2023-08-23,no,draft,main,yes,
-Destiny,independent,Lean left,3.0,3.0,,2013-07,no,estimate,main,yes,
-TYT Investigates,independent,Left (provisional),0.36,0.36,,2017-09,no,draft,main,yes,
-Misha Petrov,independent,Right (provisional),0.29,0.29,,2021-02,no,draft,main,yes,
-Waldorf Nation,independent,Left,0.14,0.14,,,no,draft,main,no,Start date unknown
-Let’s Talk Elections,independent,Lean left (provisional),1.5,1.5,,2017-06,no,estimate,main,yes,
-The First,independent,Right,0.1,0.1,,2019-10,no,draft,main,yes,
-Marc Lamont Hill,independent,Left (provisional),0.14,0.14,,2011-10,no,draft,main,yes,
-TYT’s The Conversation,independent,Left (provisional),0.09,0.09,,2009-07,no,draft,main,yes,
-James Klug,independent,Right,0.23,0.23,,2015-11,no,estimate,main,yes,
-Conservative Vibes,independent,Right,2.2,2.2,,2022-12,no,estimate,main,yes,
-Allie Beth Stuckey,independent,Right,0.94,0.94,,2016-01,no,estimate,main,yes,
-Mark Kaye,independent,Right,5.1,5.1,,2017,yes,estimate,main,yes,
-Matt Goodwin,independent,Right (provisional),0.1,0.1,,2011-07,no,draft,main,no,Outside US scope
-Hugh Hewitt,corporate,Right,0.08,0.08,,2014-02,no,draft,main,yes,
-Stu Does America,independent,Right,0.05,0.05,,2020-04,yes,draft,main,yes,
-Lauren Southern,independent,Right,0.05,0.05,,2015,yes,draft,main,no,Identity or status unclear
-Pop & Politics,independent,Right,0.34,0.34,,2015-04,no,draft,main,no,Identity or status unclear
-Sav Says,independent,Unresolved,0.12,0.12,,2022-12,no,draft,main,yes,
-The Based Conservative,independent,Right (provisional),0.62,0.62,,2016-08,no,estimate,main,yes,
-Authentic Conservative,independent,Right (provisional),0.0042,0.0042,,2015-03,no,estimate,main,yes,
-the Conservative TAKE,independent,Right (provisional),0.0022,0.0022,,2006-11,no,estimate,main,yes,
-Red Eagle Politics,independent,Right,0.22,0.22,,2018-08,no,estimate,main,yes,
-Status Coup News,independent,Lean right,0.51,0.51,,2019-01,no,estimate,main,yes,
-The Vanguard,independent,Left,0.37,0.37,,2020,yes,draft,main,yes,
-Drop Site News,independent,Left,0.23,0.23,,2024-07,no,estimate,main,yes,
-MentisWave,independent,Right,0.14,0.14,,2021-07,no,estimate,main,yes,
-TopherField,independent,Mixed/heterodox (libertarian),0.06,0.06,,2009-03,no,draft,main,no,Outside US scope
-Stratfor,independent,Center/Neutral (provisional),0.07,0.07,,1996,yes,draft,main,yes,
-Safety World News,corporate,Unresolved,0.08,0.08,,,no,draft,main,no,Start date unknown
-DEF – TALKS by Aadi,independent,Mixed/heterodox (India-first),0.07,0.07,,2020-04,no,draft,main,no,Outside US scope
-StratNewsGlobal,independent,Unresolved,0.07,0.07,,2020-01,no,draft,main,no,Outside US scope
-Luke Beasley,independent,Progressive/Left (provisional),3.8,3.8,,2016-06,no,estimate,main,yes,
-Mark Dice,independent,Right,0.37,0.37,,2007-01,no,estimate,main,yes,
-The Officer Tatum,independent,Right,5.5,5.5,,2012-01,no,estimate,main,yes,
-Anthony Brian Logan,independent,Right,0.31,0.31,,2006-05,no,estimate,main,yes,
-FreedomToons,independent,Right/Libertarian (provisional),0.28,0.28,,2012-04,no,estimate,main,yes,
-Mr. Beat,independent,Lean left,0.06,0.06,,2009-08,no,draft,main,yes,
-Right Side Broadcasting Network,independent,Right,0.07,0.07,,2014-06,no,draft,main,yes,
-The Next News Network,independent,Right (provisional),1.0,1.0,,2012-06,no,estimate,main,yes,
-Pod Save America,independent,Lean left,2.5,2.5,,2017-01-09,no,estimate,main,yes,
-Democracy Now!,independent,Progressive/Left,4.0,4.0,0.65,1996,yes,estimate,swarm candidate,yes,2000: ZuluLens 2000 dataset
-More Perfect Union,independent,Progressive/Labor,12.9,12.9,,2021,yes,estimate,swarm candidate,yes,
-Valuetainment,independent,Right/Libertarian,5.3,5.3,,2012,yes,estimate,swarm candidate,yes,
-Piers Morgan Uncensored,independent,Right-leaning/Establishment,3.7,3.7,,2022,yes,estimate,swarm candidate,yes,
-The Lincoln Project,independent,Anti-Trump/Right-to-Center,2.0,2.0,,2019-12,no,estimate,swarm candidate,yes,
-PragerU,independent,Right/Conservative,8.4,8.4,,2009,yes,estimate,swarm candidate,yes,
-Turning Point USA,independent,Right/Conservative,2.6,2.6,,2012,yes,estimate,swarm candidate,yes,
-TheQuartering,independent,Right/Anti-woke commentary,2.0,2.0,,2017,yes,estimate,swarm candidate,yes,
-Vaush,independent,Left/Socialist,1.6,1.6,,2019,yes,estimate,swarm candidate,yes,
-Robert Reich,independent,Left/Progressive,1.2,1.2,,2013,yes,estimate,swarm candidate,yes,
-Salty Cracker,independent,Right/Populist,1.2,1.2,,2020,yes,estimate,swarm candidate,yes,
-Russell Brand,independent,Anti-establishment/Right-leaning,1.0,1.0,,2014,yes,estimate,swarm candidate,yes,
-The Free Press,independent,Heterodox/Center-Right,0.71,0.71,,2021,yes,estimate,swarm candidate,yes,
-Kim Iversen,independent,Anti-establishment/Heterodox,0.64,0.64,,2021,yes,estimate,swarm candidate,yes,
-Mother Jones,independent,Left/Progressive,0.66,0.66,0.18,1976,yes,estimate,swarm candidate,yes,2000: ZuluLens 2000 dataset
-Conservative Twins (Hodge Twins),independent,Right/Conservative comedy,0.59,0.59,,2008,yes,estimate,swarm candidate,yes,
-ProPublica,independent,Center-Left/Investigative,1.0,1.0,,2008,yes,estimate,swarm candidate,yes,
-Ring of Fire,independent,Left/Progressive,1.2,1.2,,2004,yes,estimate,swarm candidate,yes,
-Thom Hartmann Program,independent,Progressive/Left,0.4,0.4,,2003,yes,estimate,swarm candidate,yes,
-Daily Kos,independent,Left/Progressive,0.19,0.19,,2002,yes,estimate,swarm candidate,yes,
-News Not Noise (Jessica Yellin),independent,Center/Establishment-lean,0.16,0.16,,2018,yes,estimate,swarm candidate,yes,
-The Lever,independent,Left/Investigative,0.17,0.17,,2020,yes,estimate,swarm candidate,yes,
-AwakenWithJP,independent,Right-libertarian/Comedy,0.29,0.29,,2013,yes,estimate,swarm candidate,yes,
-Second Thought,independent,Left/Socialist,0.19,0.19,,2017,yes,estimate,swarm candidate,yes,
-Styxhexenhammer666,independent,Right/Libertarian,0.0268,0.0268,,2013,yes,estimate,swarm candidate,yes,
-Empire Files,independent,Left/Anti-imperialist,0.0195,0.0195,,2015,yes,estimate,swarm candidate,yes,
-ContraPoints,independent,Left/Progressive,0.0635,0.0635,,2011,yes,estimate,swarm candidate,yes,
-Daily Caller,independent,Right/Conservative,0.0383,0.0383,,2010,yes,estimate,swarm candidate,yes,
-Just the News,independent,Right/Conservative,0.0237,0.0237,,2020,yes,estimate,swarm candidate,yes,
-Jacobin,independent,Left/Socialist,0.0713,0.0713,,2010,yes,estimate,swarm candidate,yes,
-Mr Reagan,independent,Right/Conservative,0.0536,0.0536,,2017,yes,estimate,swarm candidate,yes,
-Ian Carroll,independent,Right/Conspiracy-leaning,0.37,0.37,,2022,yes,estimate,swarm candidate,yes,
-David Doel,independent,Left/Progressive,0.0001,0.0001,,2016,yes,estimate,swarm candidate,yes,
-Knowing Better,independent,Center/Educational,0.0487,0.0487,,2016,yes,estimate,swarm candidate,yes,
-Some More News,independent,Left,,,,,no,,swarm candidate,no,No audience figure yet
-Emma Vigeland,independent,Left,,,,,no,,swarm candidate,no,No audience figure yet
-Nomiki Konst,independent,Left,,,,,no,,swarm candidate,no,No audience figure yet
-The Serfs,independent,Left,,,,,no,,swarm candidate,no,No audience figure yet
-The Grayzone,independent,Left/Anti-imperialist,,,,,no,,swarm candidate,no,No audience figure yet
-Katie Halper,independent,Left,,,,,no,,swarm candidate,no,No audience figure yet
-Brett Cooper,independent,Right,,,,,no,,swarm candidate,no,No audience figure yet
-Paul Joseph Watson,independent,Right/Conspiracy,,,,,no,,swarm candidate,no,No audience figure yet
-The Bulwark,independent,Center-Right/Anti-Trump,,,,,no,,swarm candidate,no,No audience figure yet
-The Dispatch,independent,Center-Right,,,,,no,,swarm candidate,no,No audience figure yet
-Breitbart,independent,Right,,,,,no,,swarm candidate,no,No audience figure yet
-The Intercept,independent,Left,,,,,no,,swarm candidate,no,No audience figure yet
-Occupy Democrats,independent,Left,,,,,no,,swarm candidate,no,No audience figure yet
-Glenn Beck,independent,Right,,,,,no,,swarm candidate,no,No audience figure yet
-Chris Hedges,independent,Left,,,,,no,,swarm candidate,no,No audience figure yet
-Lee Camp,independent,Left,,,,,no,,swarm candidate,no,No audience figure yet
-Sharon McMahon,independent,Center/Civics,,,,,no,,swarm candidate,no,No audience figure yet
-FD Signifier,independent,Left,,,,,no,,swarm candidate,no,No audience figure yet
+name,type,lean,audience_m,audience_m_audit,views_m,platform_type,audience_2000,start,start_approx,value,source,show,note
+Fox News,corporate,Right,56.4,190.0,,,16.5,1996-10-07,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 57.5); 2000: ZuluLens 2000 dataset"
+CNN (Warner Bros. Discovery),corporate,Center/Establishment,27.2,102.2,,,26,1980-06-01,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 31.5); 2000: ZuluLens 2000 dataset"
+MS NOW (Versant),corporate,Left-Leaning,29.2,63.2,,,12,1996-07-15,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 27.5); 2000: ZuluLens 2000 dataset"
+NBC News (NBCUniversal),corporate,Center,61.0,135.8,,,75,1940-02-20,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 54); 2000: ZuluLens 2000 dataset (NBC Nightly News)"
+ABC News (Disney),corporate,Center,48.3,61.0,,,70,1945-06-15,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 50); 2000: ZuluLens 2000 dataset (ABC World News Tonight)"
+CBS News (Paramount),corporate,Center,48.8,196.1,,,65,1927-09-18,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 46); 2000: ZuluLens 2000 dataset (CBS Evening News)"
+The New York Times,corporate,Center-Left,47.9,79.1,,,12,1851-09-18,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 55); 2000: Proposed rough 2000 figure, needs checking"
+The Washington Post,corporate,Center-Left,35.9,19.3,,,8,1877-12-06,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 41.5); 2000: Proposed rough 2000 figure, needs checking"
+BBC News,corporate,Center,22.7,63.5,,,3,1922-11-14,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 22.5); 2000: Proposed rough 2000 figure, needs checking"
+Reuters,corporate,Center/Neutral,33.5,24.4,,,2,1851-10-01,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 39); 2000: Proposed rough 2000 figure, needs checking"
+AP News,corporate,Center/Neutral,28.4,33.2,,,2,1846-05-22,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 33); 2000: Proposed rough 2000 figure, needs checking"
+NPR,corporate,Center-Left,20.0,86.3,,,20,1970-02-26,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 20); 2000: Proposed rough 2000 figure, needs checking"
+PBS NewsHour,corporate,Center,15.0,83.9,,,8,1975-10-20,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 15); 2000: Proposed rough 2000 figure, needs checking"
+USA Today,corporate,Center,21.3,79.1,,,10,1982-09-15,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, final (2025 repo value 24.5); 2000: Proposed rough 2000 figure, needs checking"
+The Wall Street Journal,corporate,Center-Right,15.6,28.1,,,5,1889-07-08,no,estimate,main,yes,"Size: Oct 2026 legacy recalculation, provisional (2025 repo value 18); 2000: Proposed rough 2000 figure, needs checking"
+Shawn Ryan Show,independent,Independent/Right-Leaning,28,45.5,,,,2019-11-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+MeidasTouch,independent,Progressive/Left,11.5,35.8,,,,2020-03-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Dan Bongino,independent,Right,48,3.1,,,,2015,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Brian Tyler Cohen,independent,Progressive/Democratic,60,18.1,,,,2011-10-16,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Steven Crowder,independent,Right,4.5,3.2,,,,2015,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Candace Owens,independent,Right,82.29,11.7,,,,2015-09-22,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Alex Jones,independent,Far Right/Conspiracy,6.5,5.9,,,,1996-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+The Rubin Report,independent,Lean Right,58.14,5.9,,,,2012-09-05,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+David Pakman,independent,Progressive/Social Democrat,17,13.3,,,,2005,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Tucker Carlson,independent,Right,40,26.3,,,,2023-12-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Charlie Kirk,independent,Conservative,38.5,1.5,,,,2012-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Megyn Kelly (The Megyn Kelly Show),independent,Right-Leaning,42,16.2,,,,2020-09-28,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Catturd,independent,Right,24.4,3.8,,,,2018-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+V Spehar (Under The Desk News),independent,Non-binary/Progressive,25,4.1,,,,2020-06-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Jack Posobiec,independent,Right,11,2.7,,,,2016-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Benny Johnson,independent,Right,55.8,24.1,,,,2013-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Joe Rogan,independent,Libertarian/Centrist,67,39.8,,,,2009-12-24,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Ben Shapiro,independent,Conservative,40,6.4,,,,2015,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+The Young Turks (TYT),independent,Progressive Left,25,8.0,,,,2002,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+The Jimmy Dore Show,independent,Anti-Establishment Populist,15,3.8,,,,2009,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Matt Walsh,independent,Right/Conservative,7.85,4.7,,,,2019-03-28,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Tim Pool (Timcast),independent,Lean Right,32,2.9,,,,2011-12-22,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Michael Knowles,independent,Conservative/Traditionalist,30,2.4,,,,2016-02-26,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Kyle Kulinski (Secular Talk),independent,Socialist/Progressive Left,15.5,6.4,,,,2008-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+HasanAbi,independent,Socialist/Far Left,16.4,12.6,,,,2018-03-23,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Breaking Points,independent,Progressive/Anti-Establishment,32.5,8.0,,,,2021-06-07,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+The Hill / Rising,corporate,Centrist/Mixed,31,29.0,,,0.5,1994,yes,estimate,main,yes,"Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit); 2000: Proposed rough 2000 figure, needs checking"
+Heather Cox Richardson,independent,Progressive/Left,11,3.2,,,,2019-11,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Jordan Peterson Podcast,independent,Conservative/Libertarian,16,1.8,,,,2016-12-07,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+LegalEagle,independent,Progressive/Center-Left,14.1,5.5,,,,2017-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Channel 5 with Andrew Callaghan,independent,Non-partisan/Observational,18,6.4,,,,2021-04-06,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Beau of the Fifth Column,independent,Anti-Establishment Left,13.9,1.3,,,,2018-01-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Lex Fridman,independent,Independent/Centrist,11,1.9,,,,2018-05-25,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Tim Dillon,independent,Lean Right,11,2.8,,,,2016,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Theo Von,independent,Lean Right,24,9.5,,,,2016-12-19,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Philip DeFranco,independent,Centrist,16.5,3.4,,,,2006-09-15,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+The Majority Report,independent,Progressive/Left,11.5,8.3,,,,2004,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Mehdi Hasan (Zeteo),independent,Progressive/Left,12.75,3.3,,,,2024-02-01,no,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+The Good Liars,independent,Liberal/Progressive,13.38,3.2,,,,2011,yes,estimate,main,yes,Size: ZuluLens 2025 repo value (audit value kept in audience_m_audit)
+Pondering Politics,independent,Left,16.6706,4.8,31.16,News commentary,,2021-09,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 4.8 at x0.155"
+Zeihan on Geopolitics,independent,Center/Establishment (provisional),4.7135,1.3,8.57,Daily show / analysis,,2020-08,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis, 2025 sheet ratio); was 1.3 at x0.155"
+WeAreChange,independent,Right,0.5832,0.17,1.09,News commentary,,2006,yes,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.17 at x0.155"
+The Humanist Report,independent,Left,1.2145,0.35,2.27,News commentary,,2015,yes,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.35 at x0.155"
+Geopolitical Economy Report,independent,Left,0.858,0.24,1.56,Daily show / analysis,,2023,yes,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis, 2025 sheet ratio); was 0.24 at x0.155"
+A Righteous Perspective,independent,Right (provisional),0.34,0.34,,,,,no,draft,main,no,Start date unknown
+AMTV,independent,Right,0.1231,0.0357,0.23,News commentary,,2009,yes,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0357 at x0.155"
+Chris Ray Gun,independent,Lean left (provisional),0.28,0.28,,,,2007,yes,draft,main,yes,
+Actual Justice Warrior,independent,Right,3.1191,0.9,5.83,News commentary,,2017-01-12,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.9 at x0.155"
+PoliticsGirl,independent,Lean left,1.9527,0.57,3.65,News commentary,,2015,yes,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.57 at x0.155"
+Golden State Times,independent,Right,0.4655,0.13,0.87,News commentary,,2015-04,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.13 at x0.155"
+John Doyle,independent,Right,0.428,0.12,0.8,News commentary,,2018,yes,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.12 at x0.155"
+Political Voices Network,independent,Left,0.9042,0.26,1.69,News commentary,,,no,estimate,main,no,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.26 at x0.155; Start date unknown"
+David Feldman,independent,Left (provisional),0.8132,0.24,1.52,News commentary,,2009,yes,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.24 at x0.155"
+Raw News And Politics,independent,Left,1.0914,0.32,2.04,News commentary,,2020-03,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.32 at x0.155"
+Exploring History with William C. Fox,independent,Center (provisional),0.0792,0.0223,0.144,Daily show / analysis,,2015-02,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis, 2025 sheet ratio); was 0.0223 at x0.155"
+Aydin Paladin,independent,Right (provisional),0.0439,0.0127,0.082,News commentary,,2017-01,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0127 at x0.155"
+LiberalViewer,independent,Lean left,0.0013,0.0004,0.0025,News commentary,,2006-07,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0004 at x0.155"
+The Rational National,independent,Left,1.5248,0.44,2.85,News commentary,,2015-12,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.44 at x0.155"
+Democracy Docket,independent,Lean left,4.4405,1.3,8.3,News commentary,,2020-03-05,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 1.3 at x0.155"
+Katie Phang,independent,Lean left (provisional),0.34,0.34,,,,2025,yes,draft,main,yes,
+Election Time,independent,Center (provisional),0.2,0.2,,,,2020,yes,draft,main,yes,
+Ben Dykes,independent,Right (provisional),0.12,0.12,,,,,no,draft,main,no,Start date unknown
+Microdots,independent,Unresolved,0.05,0.05,,,,2023-08-23,no,draft,main,yes,
+Destiny,independent,Lean left,9.4867,3.0,19.44,Live stream,,2013-07,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.488 (Live stream, 2025 sheet ratio); was 3.0 at x0.155"
+TYT Investigates,independent,Left (provisional),0.36,0.36,,,,2017-09,no,draft,main,yes,
+Misha Petrov,independent,Right (provisional),0.29,0.29,,,,2021-02,no,draft,main,yes,
+Waldorf Nation,independent,Left,0.14,0.14,,,,,no,draft,main,no,Start date unknown
+Let’s Talk Elections,independent,Lean left (provisional),5.1467,1.5,9.62,News commentary,,2017-06,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 1.5 at x0.155"
+The First,independent,Right,0.1,0.1,,,,2019-10,no,draft,main,yes,
+Marc Lamont Hill,independent,Left (provisional),0.14,0.14,,,,2011-10,no,draft,main,yes,
+TYT’s The Conversation,independent,Left (provisional),0.09,0.09,,,,2009-07,no,draft,main,yes,
+James Klug,independent,Right,0.7864,0.23,1.47,News commentary,,2015-11,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.23 at x0.155"
+Conservative Vibes,independent,Right,7.49,2.2,14.0,News commentary,,2022-12,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 2.2 at x0.155"
+Allie Beth Stuckey,independent,Right,3.2314,0.94,6.04,News commentary,,2016-01,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.94 at x0.155"
+Mark Kaye,independent,Right,17.5213,5.1,32.75,News commentary,,2017,yes,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 5.1 at x0.155"
+Matt Goodwin,independent,Right (provisional),0.1,0.1,,,,2011-07,no,draft,main,no,Outside US scope
+Hugh Hewitt,corporate,Right,0.08,0.08,,,,2014-02,no,draft,main,yes,
+Stu Does America,independent,Right,0.05,0.05,,,,2020-04,yes,draft,main,yes,
+Lauren Southern,independent,Right,0.05,0.05,,,,2015,yes,draft,main,no,Identity or status unclear
+Pop & Politics,independent,Right,0.34,0.34,,,,2015-04,no,draft,main,no,Identity or status unclear
+Sav Says,independent,Unresolved,0.12,0.12,,,,2022-12,no,draft,main,yes,
+The Based Conservative,independent,Right (provisional),2.14,0.62,4.0,News commentary,,2016-08,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.62 at x0.155"
+Authentic Conservative,independent,Right (provisional),0.0144,0.0042,0.027,News commentary,,2015-03,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0042 at x0.155"
+the Conservative TAKE,independent,Right (provisional),0.0075,0.0022,0.014,News commentary,,2006-11,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0022 at x0.155"
+Red Eagle Politics,independent,Right,0.749,0.22,1.4,News commentary,,2018-08,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.22 at x0.155"
+Status Coup News,independent,Lean right,1.7602,0.51,3.29,News commentary,,2019-01,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.51 at x0.155"
+The Vanguard,independent,Left,0.37,0.37,,,,2020,yes,draft,main,yes,
+Drop Site News,independent,Left,0.7918,0.23,1.48,News commentary,,2024-07,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.23 at x0.155"
+MentisWave,independent,Right,0.4762,0.14,0.89,News commentary,,2021-07,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.14 at x0.155"
+TopherField,independent,Mixed/heterodox (libertarian),0.06,0.06,,,,2009-03,no,draft,main,no,Outside US scope
+Stratfor,independent,Center/Neutral (provisional),0.07,0.07,,,,1996,yes,draft,main,yes,
+Safety World News,corporate,Unresolved,0.08,0.08,,,,,no,draft,main,no,Start date unknown
+DEF – TALKS by Aadi,independent,Mixed/heterodox (India-first),0.07,0.07,,,,2020-04,no,draft,main,no,Outside US scope
+StratNewsGlobal,independent,Unresolved,0.07,0.07,,,,2020-01,no,draft,main,no,Outside US scope
+Luke Beasley,independent,Progressive/Left (provisional),13.2413,3.8,24.75,News commentary,,2016-06,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 3.8 at x0.155"
+Mark Dice,independent,Right,1.268,0.37,2.37,News commentary,,2007-01,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.37 at x0.155"
+The Officer Tatum,independent,Right,18.8855,5.5,35.3,News commentary,,2012-01,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 5.5 at x0.155"
+Anthony Brian Logan,independent,Right,1.0539,0.31,1.97,News commentary,,2006-05,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.31 at x0.155"
+FreedomToons,independent,Right/Libertarian (provisional),0.9523,0.28,1.78,News commentary,,2012-04,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.28 at x0.155"
+Mr. Beat,independent,Lean left,0.06,0.06,,,,2009-08,no,draft,main,yes,
+Right Side Broadcasting Network,independent,Right,0.07,0.07,,,,2014-06,no,draft,main,yes,
+The Next News Network,independent,Right (provisional),3.4347,1.0,6.42,News commentary,,2012-06,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 1.0 at x0.155"
+Pod Save America,independent,Lean left,9.4139,2.5,16.01,Long-form podcast,,2017-01-09,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.588 (Long-form podcast, 2025 sheet ratio); was 2.5 at x0.155"
+Democracy Now!,independent,Progressive/Left,14.344,4.0,26.08,Daily show / analysis,0.65,1996,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis, 2025 sheet ratio); was 4.0 at x0.155; 2000: ZuluLens 2000 dataset"
+More Perfect Union,independent,Progressive/Labor,44.5922,12.9,83.35,News commentary,,2021,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 12.9 at x0.155"
+Valuetainment,independent,Right/Libertarian,20.1508,5.3,34.27,Long-form podcast,,2012,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.588 (Long-form podcast, 2025 sheet ratio); was 5.3 at x0.155"
+Piers Morgan Uncensored,independent,Right-leaning/Establishment,13.43,3.7,23.77,Interview,,2022,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.565 (Interview, 2025 sheet ratio); was 3.7 at x0.155"
+The Lincoln Project,independent,Anti-Trump/Right-to-Center,6.7464,2.0,12.61,News commentary,,2019-12,no,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 2.0 at x0.155"
+PragerU,independent,Right/Conservative,29.0024,8.4,54.21,News commentary,,2009,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 8.4 at x0.155"
+Turning Point USA,independent,Right/Conservative,9.0683,2.6,16.95,News commentary,,2012,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 2.6 at x0.155"
+TheQuartering,independent,Right/Anti-woke commentary,6.8319,2.0,12.77,News commentary,,2017,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 2.0 at x0.155"
+Vaush,independent,Left/Socialist,4.9386,1.6,10.12,Live stream,,2019,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.488 (Live stream, 2025 sheet ratio); was 1.6 at x0.155"
+Robert Reich,independent,Left/Progressive,4.2533,1.2,7.95,News commentary,,2013,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 1.2 at x0.155"
+Salty Cracker,independent,Right/Populist,4.1997,1.2,7.85,News commentary,,2020,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 1.2 at x0.155"
+Russell Brand,independent,Anti-establishment/Right-leaning,3.5524,1.0,6.64,News commentary,,2014,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 1.0 at x0.155"
+The Free Press,independent,Heterodox/Center-Right,2.461,0.71,4.6,News commentary,,2021,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.71 at x0.155"
+Kim Iversen,independent,Anti-establishment/Heterodox,2.266,0.64,4.12,Daily show / analysis,,2021,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis, 2025 sheet ratio); was 0.64 at x0.155"
+Mother Jones,independent,Left/Progressive,2.2684,0.66,4.24,News commentary,0.18,1976,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.66 at x0.155; 2000: ZuluLens 2000 dataset"
+Conservative Twins (Hodge Twins),independent,Right/Conservative comedy,2.0223,0.59,3.78,News commentary,,2008,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.59 at x0.155"
+ProPublica,independent,Center-Left/Investigative,3.6166,1.0,6.76,News commentary,,2008,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 1.0 at x0.155"
+Ring of Fire,independent,Left/Progressive,4.268,1.2,7.76,Daily show / analysis,,2004,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis, 2025 sheet ratio); was 1.2 at x0.155"
+Thom Hartmann Program,independent,Progressive/Left,1.408,0.4,2.56,Daily show / analysis,,2003,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis, 2025 sheet ratio); was 0.4 at x0.155"
+Daily Kos,independent,Left/Progressive,0.6473,0.19,1.21,News commentary,,2002,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.19 at x0.155"
+News Not Noise (Jessica Yellin),independent,Center/Establishment-lean,0.5564,0.16,1.04,News commentary,,2018,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.16 at x0.155"
+The Lever,independent,Left/Investigative,0.5778,0.17,1.08,News commentary,,2020,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.17 at x0.155"
+AwakenWithJP,independent,Right-libertarian/Comedy,0.9951,0.29,1.86,News commentary,,2013,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.29 at x0.155"
+Second Thought,independent,Left/Socialist,0.642,0.19,1.2,News commentary,,2017,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.19 at x0.155"
+Styxhexenhammer666,independent,Right/Libertarian,0.0926,0.0268,0.173,News commentary,,2013,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0268 at x0.155"
+Empire Files,independent,Left/Anti-imperialist,0.0674,0.0195,0.126,News commentary,,2015,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0195 at x0.155"
+ContraPoints,independent,Left/Progressive,0.2193,0.0635,0.41,News commentary,,2011,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0635 at x0.155"
+Daily Caller,independent,Right/Conservative,0.1321,0.0383,0.247,News commentary,,2010,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0383 at x0.155"
+Just the News,independent,Right/Conservative,0.0819,0.0237,0.153,News commentary,,2020,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0237 at x0.155"
+Jacobin,independent,Left/Socialist,0.2461,0.0713,0.46,News commentary,,2010,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0713 at x0.155"
+Mr Reagan,independent,Right/Conservative,0.1851,0.0536,0.346,News commentary,,2017,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0536 at x0.155"
+Ian Carroll,independent,Right/Conspiracy-leaning,1.2626,0.37,2.36,News commentary,,2022,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.37 at x0.155"
+David Doel,independent,Left/Progressive,0.0002,0.0001,0.0004,News commentary,,2016,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0001 at x0.155"
+Knowing Better,independent,Center/Educational,0.1727,0.0487,0.314,Daily show / analysis,,2016,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis, 2025 sheet ratio); was 0.0487 at x0.155"
+Some More News,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+Emma Vigeland,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+Nomiki Konst,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+The Serfs,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+The Grayzone,independent,Left/Anti-imperialist,,,,,,,no,,swarm candidate,no,No audience figure yet
+Katie Halper,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+Brett Cooper,independent,Right,,,,,,,no,,swarm candidate,no,No audience figure yet
+Paul Joseph Watson,independent,Right/Conspiracy,,,,,,,no,,swarm candidate,no,No audience figure yet
+The Bulwark,independent,Center-Right/Anti-Trump,,,,,,,no,,swarm candidate,no,No audience figure yet
+The Dispatch,independent,Center-Right,,,,,,,no,,swarm candidate,no,No audience figure yet
+Breitbart,independent,Right,,,,,,,no,,swarm candidate,no,No audience figure yet
+The Intercept,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+Occupy Democrats,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+Glenn Beck,independent,Right,,,,,,,no,,swarm candidate,no,No audience figure yet
+Chris Hedges,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+Lee Camp,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+Sharon McMahon,independent,Center/Civics,,,,,,,no,,swarm candidate,no,No audience figure yet
+FD Signifier,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet

@@ -167,7 +167,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       <li>Podcast charts and downloads</li>
       <li>Social media follower counts and engagement</li>
     </ul>
-    <p>The largest outlets use ZuluLens 2025 figures, which count audiences worldwide. Smaller channels added in 2026 use rough US-only estimates based on October 2026 YouTube views. 2000 figures come from the ZuluLens 2000 dataset, with rough placeholders where none existed.</p>
+    <p>Figures are audience as measured on each platform, so they include some viewers outside the US, though most are American. Legacy outlets are recalculated for October 2026 from their 2025 ranges using the latest TV ratings and web traffic. Independent channels added in 2026 are sized from their October 2026 YouTube views, using the same share of views the 2025 research counted for that type of channel. 2000 figures come from the ZuluLens 2000 dataset, with rough placeholders where none existed.</p>
 
     <h3>Removing double counting</h3>
     <p>Many people follow a channel on more than one platform. We apply overlap factors based on each outlet's main platform and media type (for example video-heavy or text- and podcast-led) to avoid counting the same person twice.</p>
@@ -181,7 +181,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       <li>Public data only, with no access to internal analytics</li>
       <li>Third-party estimates have margins of error</li>
       <li>Overlap between platforms is modelled, not measured</li>
-      <li>The dataset is provisional and mixes worldwide and US-only figures</li>
+      <li>The dataset is provisional; some newer channels count YouTube views only</li>
       <li>Use the sizes to compare channels, not as exact counts</li>
     </ul>
   </div>
@@ -196,6 +196,10 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   const FILL = 0.58;                           // share of the circle the 2026 bubbles cover
   const MIN_R = 1.6;
   const DATA_URL = 'channels.csv';
+  // Share of monthly views counted as unique audience, by platform type
+  // (medians from the 2025 ZuluLens research sheet). Used when a row has views_m but no audience_m.
+  const VIEW_RATIO = { 'Long-form podcast': 0.588, 'Interview': 0.565, 'Daily show / analysis': 0.550,
+    'News commentary': 0.535, 'Rumble / X / TikTok': 0.512, 'Live stream': 0.488, 'X-only': 0.475 };
 
   const $ = id => document.getElementById(id);
   const stage = $('stage'), canvas = $('canvas'), ctx = canvas.getContext('2d');
@@ -219,7 +223,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       name: (r.name || '').trim(),
       type: /corp/i.test(r.type) ? 'corporate' : 'independent',
       lean: r.lean || '',
-      final: parseFloat(r.audience_m),
+      final: parseFloat(r.audience_m) > 0 ? parseFloat(r.audience_m) : (parseFloat(r.views_m) || 0) * (VIEW_RATIO[(r.platform_type || '').trim()] || VIEW_RATIO['News commentary']),
       a2000: r.audience_2000 && r.audience_2000.trim() !== '' ? parseFloat(r.audience_2000) : null,
       a2000Proposed: /proposed/i.test(r.note || ''),
       startRaw: r.start || '',
