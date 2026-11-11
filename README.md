@@ -53,6 +53,10 @@ Add a row with name, type, lean, start, `views_m`, `platform_type`, `show = yes`
 
 Each bubble grows in a straight line from 0 at `start` to `audience_m` in October 2026. If `audience_2000` is filled, it moves in a straight line from that value in 2000 instead. Write "proposed" in `note` to flag a rough 2000 figure in the tooltip. Bubble area matches audience.
 
+## Quarterly data (2024 to 2026)
+
+`quarterly.csv` holds audience estimates for each quarter from 2024 Q1 to 2026 Q3 for independent channels with YouTube history. Each value = the channel's October 2026 audience x (that quarter's median monthly YouTube views / the Aug-Oct 2026 median), from vidIQ monthly history. Negative months are skipped; months above 5x the channel's usual level are capped. The `name` must match `channels.csv`. Channels not listed grow in a straight line.
+
 ## Records
 
 - `ZuluLens_UMA_Records.xlsx` — how each figure was calculated: platform factors, the October 2026 legacy recalculation (with live formulas), sources and a change log.

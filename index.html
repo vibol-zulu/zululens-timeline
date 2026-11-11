@@ -181,7 +181,8 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
     <p>For 2026 we move each 2025 figure up or down by the measured change in its TV viewers, website visitors or YouTube views. Newer channels are estimated straight from their YouTube views, using the same repeat-viewer rates. Channels we cannot measure keep their 2025 figure for now.</p>
 
     <h3>How the growth is drawn</h3>
-    <p>Each bubble grows in a straight line from the year it started to its 2026 size. Outlets older than 2000 start at their 2000 size instead. Real growth went up and down more than this.</p>
+    <p>Up to 2024, each bubble grows in a straight line from the year it started, or from its 2000 size for older outlets. We do not have yearly figures for that period, so the line is a simplification.</p>
+    <p>From 2024, about 90 independent channels follow their real ups and downs, quarter by quarter, based on their monthly YouTube views. The animation slows down so you can see them. Media companies and channels that are not mainly on YouTube keep a straight line to October 2026.</p>
 
     <h3>Where the numbers come from</h3>
     <p>Nielsen (TV), Comscore and Similarweb (websites), Social Blade and vidIQ (YouTube), Podtrac, Spotify and Apple charts (podcasts), and follower counts on social platforms.</p>
@@ -207,8 +208,12 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script>
 (() => {
-  const START = 2000, END = 2026;
+  const START = 2000;
   const DATA_DATE = 2026 + 9.5 / 12;           // estimates describe October 2026
+  const END = DATA_DATE;                       // the timeline ends in October 2026
+  const Q_START = 2024;                        // from here, channels with quarterly data follow it
+  const QUARTERLY_URL = 'quarterly.csv';
+  let QMAP = new Map();                        // name -> [[time, audience], ...] from quarterly.csv
   const GAP_DEG = 36;                          // empty wedge at 12 o'clock
   const FILL = 0.58;                           // share of the circle the 2026 bubbles cover
   const MIN_R = 1.6;
@@ -252,7 +257,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       draft: /draft/i.test(r.value || ''),
       source: r.source || '',
       show: !/^n/i.test(r.show || 'yes')
-    })).filter(d => d.name && d.show && d.final > 0 && d.start !== null).map(d => Object.assign(d, { pub: d.final, final: sizeMode === 'formula' && d.formula ? d.formula : d.final }));
+    })).filter(d => d.name && d.show && d.final > 0 && d.start !== null).map(d => Object.assign(d, { qpts: QMAP.get(d.name) || null })).map(d => Object.assign(d, { pub: d.final, final: sizeMode === 'formula' && d.formula ? d.formula : d.final }));
   }
   function load(list) {
     const old = new Map(nodes.map(n => [n.name, n]));
@@ -273,16 +278,28 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
     k = total ? FILL * R * R / total : 1;
     setYear(year, true);
   }
-  // Growth: from a known 2000 value when the CSV has one (outlets older than 2000),
-  // otherwise from 0 at launch. Straight line to the Oct 2026 estimate either way.
+  // Growth: a straight line from launch (0) or from the 2000 value, to the first known point.
+  // Channels in quarterly.csv then follow their quarterly figures (2024 Q1 to 2026 Q3) to October 2026.
+  // Everyone else goes in one straight line to October 2026.
   const audienceAt = (d, t) => {
-    t = START + (t - START) * (DATA_DATE - START) / (END - START);   // the 2026 end of the timeline = October 2026
     if (t >= DATA_DATE) return d.final;
-    if (d.a2000 !== null && !isNaN(d.a2000) && d.start <= START) {
-      return d.a2000 + (d.final - d.a2000) * Math.max(0, t - START) / (DATA_DATE - START);
+    const scale = d.pub ? d.final / d.pub : 1;          // keeps quarters in step with the Published / Formula switch
+    const pts = (d.qpts || []).filter(q => q[0] > d.start).map(q => [q[0], q[1] * scale]);
+    pts.push([DATA_DATE, d.final]);
+    const first = pts[0];
+    if (t >= first[0]) {
+      for (let i = 0; i < pts.length - 1; i++) {
+        const a = pts[i], b = pts[i + 1];
+        if (t <= b[0]) return a[1] + (b[1] - a[1]) * (t - a[0]) / (b[0] - a[0]);
+      }
+      return d.final;
     }
-    return t <= d.start ? 0 : d.final * (t - d.start) / (DATA_DATE - d.start);
+    if (d.a2000 !== null && !isNaN(d.a2000) && d.start <= START) {
+      return d.a2000 + (first[1] - d.a2000) * Math.max(0, t - START) / (first[0] - START);
+    }
+    return t <= d.start ? 0 : first[1] * (t - d.start) / (first[0] - d.start);
   };
+  const periodLabel = y => y < Q_START ? String(Math.floor(y)) : (y >= 2026.75 ? 'Oct 2026' : `Q${Math.floor((y % 1) * 4) + 1} ${Math.floor(y)}`);
   const radiusFor = a => a <= 0 ? 0 : Math.max(MIN_R, Math.sqrt(a * k));
 
   // ---------- layout ----------
@@ -383,7 +400,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   // ---------- time ----------
   function setYear(y, quiet) {
     year = Math.max(START, Math.min(END, y));
-    $('yearLabel').textContent = Math.floor(year);
+    $('yearLabel').textContent = periodLabel(year);
     const p = (year - START) / (END - START);
     $('barFill').style.width = (p * 100) + '%';
     $('head').style.left = (p * 100) + '%';
@@ -397,7 +414,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   function frame(t) {
     if (!playing) return;
     const dt = lastT ? (t - lastT) / 1000 : 0; lastT = t;
-    const next = year + dt * YEARS_PER_SEC;
+    const next = year + dt * (year >= Q_START ? 0.45 : YEARS_PER_SEC);   // slow down for the quarterly years
     if (next >= END) { setYear(END); stop(); return; }
     setYear(next);
     requestAnimationFrame(frame);
@@ -466,7 +483,8 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       `<b>${esc(d.name)}</b>` +
       `<div class="m">${d.type === 'corporate' ? 'Corporate' : 'Independent'}${d.lean ? ' · ' + esc(d.lean) : ''}</div>` +
       `<div>Launched ${startYear}${d.approx ? ' (approx.)' : ''}</div>` +
-      (year < END ? `<div>${Math.floor(year)}: ~${fmt(now)} a month</div>` : '') +
+      (year < END - 0.01 ? `<div>${periodLabel(year)}: ~${fmt(now)} a month</div>` : '') +
+      (d.qpts ? `<div class="m">2024–2026 follows quarterly YouTube views</div>` : '') +
       `<div>Oct 2026: ~${fmt(d.final)} a month</div>` +
       (d.formula && Math.abs(d.formula - d.pub) > 0.005 ? `<div class="m">${sizeMode === 'formula' ? `Published figure: ${fmt(d.pub)}` : `Sheet formula: ${fmt(d.formula)}`}</div>` : '') +
       (d.caveat ? `<div class="m">${esc(d.caveat)}</div>` : '') +
@@ -526,7 +544,20 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   new ResizeObserver(() => resize()).observe(stage);
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => draw());
 
-  fetch(DATA_URL).then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+  function parseQuarterly(text) {
+    const m = new Map();
+    for (const r of d3.csvParse(text)) {
+      const pts = [];
+      for (const k of Object.keys(r)) {
+        const q = /^(\d{4})_Q([1-4])$/.exec(k);
+        if (q && r[k] !== '' && !isNaN(parseFloat(r[k]))) pts.push([+q[1] + (+q[2] - 0.5) / 4, parseFloat(r[k])]);
+      }
+      if (pts.length) m.set((r.name || '').trim(), pts.sort((a, b) => a[0] - b[0]));
+    }
+    return m;
+  }
+  fetch(QUARTERLY_URL).then(r => r.ok ? r.text() : '').then(t => { if (t) QMAP = parseQuarterly(t); }).catch(() => {})
+    .then(() => fetch(DATA_URL)).then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
     .then(t => { resize(); load(parse(t)); stop(); })
     .catch(() => {
       const m = $('msg'); m.hidden = false;
