@@ -243,6 +243,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       lean: r.lean || '',
       final: parseFloat(r.audience_m) > 0 ? parseFloat(r.audience_m) : (parseFloat(r.views_m) || 0) * (VIEW_RATIO[(r.platform_type || '').trim()] || VIEW_RATIO['News commentary']),
       formula: parseFloat(r.audience_formula) > 0 ? parseFloat(r.audience_formula) : null,
+      caveat: (r.caveat || '').trim(),
       a2000: r.audience_2000 && r.audience_2000.trim() !== '' ? parseFloat(r.audience_2000) : null,
       a2000Proposed: /proposed/i.test(r.note || ''),
       startRaw: r.start || '',
@@ -275,6 +276,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   // Growth: from a known 2000 value when the CSV has one (outlets older than 2000),
   // otherwise from 0 at launch. Straight line to the Oct 2026 estimate either way.
   const audienceAt = (d, t) => {
+    t = START + (t - START) * (DATA_DATE - START) / (END - START);   // the 2026 end of the timeline = October 2026
     if (t >= DATA_DATE) return d.final;
     if (d.a2000 !== null && !isNaN(d.a2000) && d.start <= START) {
       return d.a2000 + (d.final - d.a2000) * Math.max(0, t - START) / (DATA_DATE - START);
@@ -464,9 +466,10 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       `<b>${esc(d.name)}</b>` +
       `<div class="m">${d.type === 'corporate' ? 'Corporate' : 'Independent'}${d.lean ? ' · ' + esc(d.lean) : ''}</div>` +
       `<div>Launched ${startYear}${d.approx ? ' (approx.)' : ''}</div>` +
-      (year < DATA_DATE ? `<div>${Math.floor(year)}: ~${fmt(now)} a month</div>` : '') +
+      (year < END ? `<div>${Math.floor(year)}: ~${fmt(now)} a month</div>` : '') +
       `<div>Oct 2026: ~${fmt(d.final)} a month</div>` +
       (d.formula && Math.abs(d.formula - d.pub) > 0.005 ? `<div class="m">${sizeMode === 'formula' ? `Published figure: ${fmt(d.pub)}` : `Sheet formula: ${fmt(d.formula)}`}</div>` : '') +
+      (d.caveat ? `<div class="m">${esc(d.caveat)}</div>` : '') +
       (d.draft ? `<div class="m">Placeholder figure, not yet rebuilt</div>` : '') +
       (d.a2000Proposed ? `<div class="m">2000 figure is a rough placeholder</div>` : '') +
       (/swarm/i.test(d.source) ? `<div class="m">New candidate, not yet merged</div>` : '');

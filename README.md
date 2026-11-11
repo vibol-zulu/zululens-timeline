@@ -37,6 +37,7 @@ Upload `index.html` and `channels.csv` to the same folder on any static host (Gi
 | value | `estimate` or `draft`. Draft shows "Placeholder figure" in the tooltip |
 | source | `main` or `swarm candidate`. Candidates show "not yet merged" |
 | show | `yes` or `no`. Use `no` to hide a row without deleting it |
+| caveat | Optional. A short warning shown in the tooltip, e.g. that the main platform does not publish audience numbers |
 | note | Your own notes. Not shown |
 
 Rows with no audience, no start date or `show = no` are skipped.
