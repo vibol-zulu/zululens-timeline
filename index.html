@@ -51,7 +51,9 @@ header { display: flex; flex-direction: column; padding-top: 10px; }
 .year { color: var(--corporate); font-size: clamp(48px, 8vw, 84px); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
   position: relative; display: inline-block; margin-bottom: 22px; }
 .progress { position: relative; }
-.headline { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 22px; }   /* title and date always on two lines, so the layout never jumps */
+.headline { display: flex; align-items: baseline; gap: 0 0.28em; white-space: nowrap; margin-bottom: 22px; font-size: clamp(26px, 4.8vw, 58px); }   /* one line on wider screens */
+.headline .prefix, .headline .year { font-size: inherit; }
+@media (max-width: 600px) { .headline { flex-direction: column; align-items: flex-start; white-space: normal; font-size: clamp(30px, 9vw, 44px); } }   /* phones: date on its own line */
 .headline .year { margin-bottom: 0; }
 .prefix { font-size: clamp(48px, 8vw, 84px); font-weight: 600; line-height: 1; color: var(--corporate); letter-spacing: -0.03em; }
 .track { position: relative; padding-left: 104px; }
