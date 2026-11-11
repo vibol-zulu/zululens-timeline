@@ -154,41 +154,36 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
     <button class="icon-btn" id="mClose" type="button" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
   </div>
   <div class="modal-body">
-    <p class="draft">Draft copy. This will be revised after the next audit of the audience numbers.</p>
+    <p class="draft">Draft. These figures are estimates and will change after the next review.</p>
 
-    <h3>What this shows</h3>
-    <p>Each bubble is a US news or commentary channel. Teal bubbles are corporate outlets owned by large media companies. Peach bubbles are independent channels run by creators or small companies. Bubble area matches the channel's estimated monthly audience, so a bubble twice the area has about twice the audience.</p>
+    <h3>What you are looking at</h3>
+    <p>Each bubble is a US news or commentary channel. Teal bubbles are big media companies. Peach bubbles are independent channels run by creators or small teams. The bigger the bubble, the more people it reaches each month.</p>
     <p id="count"></p>
 
-    <h3>How growth is drawn</h3>
-    <p>We only have audience figures for a few points in time, so the years in between are drawn, not measured. Each bubble grows in a straight line from zero at launch to its latest estimate. Outlets that existed before 2000 start at their 2000 figure instead and move in a straight line from there. Real growth was rarely this smooth.</p>
+    <h3>How we worked out the 2026 sizes</h3>
+    <ul>
+      <li><strong>Media companies:</strong> we took each one's 2025 size and moved it up or down by how much its TV viewers and website visitors changed in a year.</li>
+      <li><strong>Independent channels from our 2025 research:</strong> we took each one's 2025 size and moved it up or down by how much its YouTube views changed in a year.</li>
+      <li><strong>Newer independent channels:</strong> we took their monthly YouTube views and counted about half as people, because the same viewers often watch several videos.</li>
+      <li><strong>Channels we could not measure</strong> keep their 2025 size for now.</li>
+    </ul>
 
-    <h3>What is UMA?</h3>
-    <p>Unique Monthly Audience (UMA) is our cross-platform audience estimate. It combines publicly visible reach from websites, YouTube, podcasts and major social platforms into one figure. It is an educated estimate, not a verified audit.</p>
+    <h3>How the growth is drawn</h3>
+    <p>Each bubble grows in a straight line from the year it started to its 2026 size. Outlets older than 2000 start at their 2000 size instead. Real growth went up and down more than this.</p>
 
     <h3>Where the numbers come from</h3>
+    <p>TV ratings (Nielsen), website traffic (Comscore and Similarweb), YouTube views (vidIQ) and the ZuluLens 2025 research.</p>
+
+    <h3>The "Sheet formula" switch</h3>
+    <p>This shows the 2025 research channels sized the same way as the newer ones, from their YouTube views alone. It is there for comparison.</p>
+
+    <h3>Keep in mind</h3>
     <ul>
-      <li>YouTube analytics (Social Blade, vidIQ)</li>
-      <li>Website traffic estimates (SimilarWeb)</li>
-      <li>Podcast charts and downloads</li>
-      <li>Social media follower counts and engagement</li>
-    </ul>
-    <p>Figures are audience as measured on each platform, so they include some viewers outside the US, though most are American. Legacy outlets are recalculated for October 2026 from their 2025 ranges using the latest TV ratings and web traffic. Independent channels added in 2026 are sized from their October 2026 YouTube views, using the same share of views the 2025 research counted for that type of channel. 2000 figures come from the ZuluLens 2000 dataset, with rough placeholders where none existed.</p>
-
-    <h3>Removing double counting</h3>
-    <p>Many people follow a channel on more than one platform. We apply overlap factors based on each outlet's main platform and media type (for example video-heavy or text- and podcast-led) to avoid counting the same person twice.</p>
-    <p>For corporate outlets, audience was first estimated for each sub-brand (for example CNN and HLN, or NBC News and TODAY). A second pass then removed overlap across the company's brands. Corporate figures are therefore more heavily de-duplicated and mean "people reached by the whole news portfolio", not a sum of its channels.</p>
-
-    <h3>Political lean</h3>
-    <p>Lean is based on public self-description, content and editorial position. Labels are simplified for this chart.</p>
-
-    <h3>Limitations</h3>
-    <ul>
-      <li>Public data only, with no access to internal analytics</li>
-      <li>Third-party estimates have margins of error</li>
-      <li>Overlap between platforms is modelled, not measured</li>
-      <li>The dataset is provisional; some newer channels count YouTube views only</li>
-      <li>Use the sizes to compare channels, not as exact counts</li>
+      <li>These are estimates for comparing channels, not exact counts.</li>
+      <li>Newer channels count YouTube only, so podcast listeners are missing.</li>
+      <li>Most viewers are in the US, but some are abroad.</li>
+      <li>A few small channels still use placeholder figures.</li>
+      <li>Political leans are simplified labels.</li>
     </ul>
   </div>
 </dialog>
