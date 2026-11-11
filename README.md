@@ -30,6 +30,7 @@ Upload `index.html` and `channels.csv` to the same folder on any static host (Gi
 | audience_m | Oct 2026 monthly audience in millions (e.g. `24.1`, `0.35`) |
 | views_m | Monthly views in millions (Oct 2026). If audience_m is blank, the page sets audience = views x the platform ratio |
 | platform_type | One of: Long-form podcast (0.588), Interview (0.565), Daily show / analysis (0.550), News commentary (0.535), Rumble / X / TikTok (0.512), Live stream (0.488), X-only (0.475) |
+| audience_published | Previous figure (2025 value x YouTube change) for channels switched to the sheet formula in Nov 2026. Not used by the chart |
 | audience_m_audit | The Oct 2026 audit figure, kept for reference. Not used by the chart |
 | audience_2000 | Optional. Audience in 2000, for outlets founded before 2000. If filled, the bubble starts at this size in 2000 instead of growing from launch |
 | start | Launch date: `2015`, `2015-06` or `2015-06-01`. A year alone is placed mid-year |
@@ -55,7 +56,7 @@ Each bubble grows in a straight line from 0 at `start` to `audience_m` in Octobe
 
 ## Quarterly data (2024 to 2026)
 
-`quarterly.csv` holds audience estimates for each quarter from 2024 Q1 to 2026 Q3 for independent channels with YouTube history. Each value = the channel's October 2026 audience x (that quarter's median monthly YouTube views / the Aug-Oct 2026 median), from vidIQ monthly history. Negative months are skipped; months above 5x the channel's usual level are capped. The `name` must match `channels.csv`. Channels not listed grow in a straight line.
+`quarterly.csv` holds audience estimates for each quarter from 2024 Q1 to 2026 Q3 for independent channels with YouTube history. Each independent value = that quarter's median monthly YouTube views x the sheet's audience share for the platform type (the same formula as the October 2026 figure). TV networks use quarterly Nielsen ratings plus YouTube, from vidIQ monthly history. Negative months are skipped; months above 5x the channel's usual level are capped. The `name` must match `channels.csv`. Channels not listed grow in a straight line.
 
 ## Records
 

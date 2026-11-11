@@ -78,9 +78,6 @@ button.play {
 }
 button.play:hover { border-color: var(--muted); }
 .foot-left { display: inline-flex; align-items: center; gap: 10px; }
-.mode { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; }
-.mode button { font: inherit; font-size: 11px; color: var(--muted); background: transparent; border: 0; border-radius: 999px; padding: 4px 10px; cursor: pointer; }
-.mode button[aria-pressed="true"] { background: var(--corporate); color: var(--bg); }
 .icon-btn { width: 28px; height: 28px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
 .icon-btn:hover { color: var(--fg); border-color: var(--muted); }
 .icon-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
@@ -140,9 +137,6 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   <footer>
     <span class="foot-left">
       <button class="icon-btn" id="theme" type="button" aria-label="Switch to dark mode"><svg viewBox="0 0 16 16" id="themeIcon" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/></svg></button>
-      <span class="mode" role="group" aria-label="Bubble sizes">
-        <button type="button" id="modePub" aria-pressed="true">Published</button><button type="button" id="modeFormula" aria-pressed="false">Sheet formula</button>
-      </span>
       <button class="icon-btn" id="infoBtn" type="button" aria-label="Methodology" aria-haspopup="dialog"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M8 7.2v4"/><circle cx="8" cy="4.9" r="0.5" fill="currentColor"/></svg></button>
     </span>
   </footer>
@@ -178,7 +172,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
     <p>2000 audiences come from Nielsen TV ratings for the networks, and from print circulation and affiliate counts for the few independents that existed then.</p>
 
     <h3>Bringing it up to date</h3>
-    <p>For 2026 we move each 2025 figure up or down by the measured change in its TV viewers, website visitors or YouTube views. Newer channels are estimated straight from their YouTube views, using the same repeat-viewer rates. Channels we cannot measure keep their 2025 figure for now.</p>
+    <p>Independent channels on YouTube are estimated straight from their monthly YouTube views with the repeat-viewer rates above, for every quarter from 2024 to October 2026. Media companies keep their 2025 figure, moved up or down by the measured change in their TV viewers and website visitors. Channels that live mainly on TikTok, X, Substack, podcasts or Rumble keep our audited 2025 figure, because those platforms do not publish the numbers we need.</p>
 
     <h3>How the growth is drawn</h3>
     <p>Up to 2024, each bubble grows in a straight line from the year it started, or from its 2000 size for older outlets. We do not have yearly figures for that period, so the line is a simplification.</p>
@@ -190,16 +184,12 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
     <h3>Political lean</h3>
     <p>Based on what each outlet says about itself, what it covers and its editorial position. For media companies it reflects the institution, not individual hosts. Labels are simplified.</p>
 
-    <h3>The "Sheet formula" switch</h3>
-    <p>Shows our 2025 research channels sized only from their YouTube views with the repeat-viewer rates above, for comparison.</p>
-
     <h3>Keep in mind</h3>
     <ul>
       <li>Public data only. We have no access to the platforms' own numbers.</li>
       <li>Some of the biggest shows live mainly on platforms that do not publish audience numbers, such as Spotify (Joe Rogan), Apple Podcasts, SiriusXM, Rumble and paid apps like DailyWire+. Their figures lean on YouTube and other public counts, so they are likely too low.</li>
       <li>Turning views into people is an estimate, usually within 10 to 20%.</li>
       <li>Audiences are as measured on each platform: mostly American, with some viewers abroad.</li>
-      <li>For some channels the 2025 figure came from an AI-assisted research estimate rather than the steps above. Our records note which ones.</li>
       <li>A few small channels still use placeholder figures.</li>
     </ul>
   </div>
@@ -218,7 +208,6 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   const FILL = 0.58;                           // share of the circle the 2026 bubbles cover
   const MIN_R = 1.6;
   const DATA_URL = 'channels.csv';
-  let sizeMode = 'published';   // 'published' | 'formula' (2025 sheet formula applied to Oct 2026 YouTube views)
   // Share of monthly views counted as unique audience, by platform type
   // (medians from the 2025 ZuluLens research sheet). Used when a row has views_m but no audience_m.
   const VIEW_RATIO = { 'Long-form podcast': 0.588, 'Interview': 0.565, 'Daily show / analysis': 0.550,
@@ -247,7 +236,6 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       type: /corp/i.test(r.type) ? 'corporate' : 'independent',
       lean: r.lean || '',
       final: parseFloat(r.audience_m) > 0 ? parseFloat(r.audience_m) : (parseFloat(r.views_m) || 0) * (VIEW_RATIO[(r.platform_type || '').trim()] || VIEW_RATIO['News commentary']),
-      formula: parseFloat(r.audience_formula) > 0 ? parseFloat(r.audience_formula) : null,
       caveat: (r.caveat || '').trim(),
       a2000: r.audience_2000 && r.audience_2000.trim() !== '' ? parseFloat(r.audience_2000) : null,
       a2000Proposed: /proposed/i.test(r.note || ''),
@@ -257,7 +245,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       draft: /draft/i.test(r.value || ''),
       source: r.source || '',
       show: !/^n/i.test(r.show || 'yes')
-    })).filter(d => d.name && d.show && d.final > 0 && d.start !== null).map(d => Object.assign(d, { qpts: QMAP.get(d.name) || null })).map(d => Object.assign(d, { pub: d.final, final: sizeMode === 'formula' && d.formula ? d.formula : d.final }));
+    })).filter(d => d.name && d.show && d.final > 0 && d.start !== null).map(d => Object.assign(d, { qpts: QMAP.get(d.name) || null }));
   }
   function load(list) {
     const old = new Map(nodes.map(n => [n.name, n]));
@@ -271,7 +259,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
         vx: 0, vy: 0, r: 0
       });
     });
-    const total = d3.sum(nodes, d => d.pub);
+    const total = d3.sum(nodes, d => d.final);
     $('count').textContent = `This version shows ${nodes.length} channels: ${nodes.filter(d => d.type === 'corporate').length} corporate and ${nodes.filter(d => d.type === 'independent').length} independent.`;
     sim.nodes(nodes);
     resize();
@@ -283,8 +271,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   // Everyone else goes in one straight line to October 2026.
   const audienceAt = (d, t) => {
     if (t >= DATA_DATE) return d.final;
-    const scale = d.pub ? d.final / d.pub : 1;          // keeps quarters in step with the Published / Formula switch
-    const pts = (d.qpts || []).filter(q => q[0] > d.start).map(q => [q[0], q[1] * scale]);
+    const pts = (d.qpts || []).filter(q => q[0] > d.start).map(q => [q[0], q[1]]);
     pts.push([DATA_DATE, d.final]);
     const first = pts[0];
     if (t >= first[0]) {
@@ -329,7 +316,7 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
     R = Math.max(80, (Math.min(W, H) / 2 - labelRoom) * SCALE);
     cx = W / 2; cy = H / 2;
     if (oldR && oldR !== R) for (const d of nodes) { d.x *= R / oldR; d.y *= R / oldR; }
-    const total = d3.sum(nodes, d => d.pub);
+    const total = d3.sum(nodes, d => d.final);
     k = total ? FILL * R * R / total : 1;
     sim.force('x').x(d => (d.type === 'corporate' ? -0.22 : 0.22) * R);
     for (const d of nodes) d.r = radiusFor(audienceAt(d, year));
@@ -486,7 +473,6 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
       (year < END - 0.01 ? `<div>${periodLabel(year)}: ~${fmt(now)} a month</div>` : '') +
       (d.qpts ? `<div class="m">2024–2026 based on: ${esc(d.qpts.basis || 'Quarterly YouTube views')}</div>` : '') +
       `<div>Oct 2026: ~${fmt(d.final)} a month</div>` +
-      (d.formula && Math.abs(d.formula - d.pub) > 0.005 ? `<div class="m">${sizeMode === 'formula' ? `Published figure: ${fmt(d.pub)}` : `Sheet formula: ${fmt(d.formula)}`}</div>` : '') +
       (d.caveat ? `<div class="m">${esc(d.caveat)}</div>` : '') +
       (d.draft ? `<div class="m">Placeholder figure, not yet rebuilt</div>` : '') +
       (d.a2000Proposed ? `<div class="m">2000 figure is a rough placeholder</div>` : '') +
@@ -520,17 +506,6 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
   }
   applyTheme('light');
   $('theme').addEventListener('click', () => applyTheme(root.getAttribute('data-zl') === 'dark' ? 'light' : 'dark'));
-
-  // ---------- size mode toggle ----------
-  function setMode(m) {
-    sizeMode = m;
-    $('modePub').setAttribute('aria-pressed', m === 'published');
-    $('modeFormula').setAttribute('aria-pressed', m === 'formula');
-    for (const d of nodes) d.final = m === 'formula' && d.formula ? d.formula : d.pub;
-    setYear(year);
-  }
-  $('modePub').addEventListener('click', () => setMode('published'));
-  $('modeFormula').addEventListener('click', () => setMode('formula'));
 
   // ---------- methodology modal ----------
   const modal = $('methodology');
