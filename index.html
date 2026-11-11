@@ -116,7 +116,6 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
 .modal-body p { margin: 0 0 8px; color: var(--fg); max-width: 62ch; }
 .modal-body ul, .modal-body ol { margin: 0 0 8px; padding-left: 20px; }
 .modal-body li { margin-bottom: 2px; }
-.modal-body .draft { margin-top: 14px; font-size: 12px; color: var(--muted); }
 .modal-body #count { color: var(--muted); font-variant-numeric: tabular-nums; }
 .msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-size: 13px; color: var(--muted); padding: 24px; }
 </style>
@@ -160,12 +159,10 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <button class="icon-btn" id="mClose" type="button" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
   </div>
   <div class="modal-body">
-    <p class="draft">Draft. These figures are estimates and will change after the next review.</p>
 
     <h3>What you are looking at</h3>
     <p>Each bubble is a US news or commentary channel. Teal bubbles are media companies with institutional newsrooms, from the big networks to smaller cable channels like Newsmax. Peach bubbles are independent channels run by creators or small teams. A bubble's area shows how many people it reaches each month: twice the area means about twice the audience.</p>
     <p>Only national channels reaching at least 500,000 people a month (October 2026) are shown, so every bubble has an audience on a scale that can be set against legacy outlets. Smaller channels, local TV stations and local papers are left out.</p>
-    <p id="count"></p>
 
     <h3>What the size measures</h3>
     <p>We call it Unique Monthly Audience (UMA): our estimate of how many different people a channel reaches in a month, across every platform it uses. It is an educated estimate built from public numbers, not an official count.</p>
@@ -282,7 +279,6 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       });
     });
     const total = d3.sum(nodes, d => d.final);
-    $('count').textContent = `This version shows ${nodes.length} channels: ${nodes.filter(d => d.type === 'corporate').length} corporate and ${nodes.filter(d => d.type === 'independent').length} independent.`;
     sim.nodes(nodes);
     resize();
     k = total ? FILL * R * R / total : 1;
