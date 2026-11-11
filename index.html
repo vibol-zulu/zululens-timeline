@@ -140,6 +140,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
 .modal-body h3 { font-size: 13px; font-weight: 600; margin: 18px 0 4px; }
 .modal-body p { margin: 0 0 8px; color: var(--fg); max-width: 62ch; }
 .modal-body ul, .modal-body ol { margin: 0 0 8px; padding-left: 20px; }
+.modal-body .formula { margin: 4px 0 10px; padding: 8px 12px; border-left: 3px solid var(--corporate); background: var(--grid); font-weight: 600; color: var(--fg); }   /* formula box */
+.modal-body p.m { color: var(--muted); font-size: 0.92em; }
 .modal-body li { margin-bottom: 2px; }
 .modal-body #count { color: var(--muted); font-variant-numeric: tabular-nums; }
 .msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-size: 13px; color: var(--muted); padding: 24px; }
@@ -203,15 +205,15 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <p>We call it Unique Monthly Audience (UMA): our estimate of how many different people a channel reaches in a month, across every platform it uses. It is an educated estimate built from public numbers, not an official count.</p>
 
     <h3>How an independent channel is estimated</h3>
-    <ol>
-      <li><strong>Add up the views.</strong> We total a channel's monthly views across YouTube, podcasts, Rumble, X, TikTok and its website.</li>
-      <li><strong>Remove repeat viewers.</strong> The same people watch several videos and follow on several apps, so we count only part of the views as people. We remove 55% to 70%, depending on the type of channel. Long podcasts lose the least; short clips and posts on X lose the most.</li>
-      <li><strong>Take the middle.</strong> We work out a low and a high figure and use the point halfway between them.</li>
-      <li><strong>Check and adjust.</strong> We compare the result with public trackers and nudge it up or down where a platform is known to over- or under-count, for example YouTube views inflated by replays, or podcast listens that do not show up.</li>
-    </ol>
+    <p class="formula">Monthly audience = monthly YouTube views &times; audience share</p>
+    <p>The audience share is the part of the views that are likely to be different people, since the same viewers watch many videos. It comes from the 2025 research and depends on the type of channel: long-form podcast 58.8%, interview 56.5%, daily show 55.0%, news commentary 53.5%, Rumble, X or TikTok 51.2%, live stream 48.8%, X only 47.5%.</p>
+    <p class="m">Example: MeidasTouch had 228.6M YouTube views in October 2026. As a news commentary channel, 53.5% count as people: 228.6M &times; 0.535 &asymp; 122M.</p>
+    <p>Channels that live mainly on TikTok, X, Substack, podcasts or Rumble keep our audited 2025 figure, because those platforms do not publish the numbers we need.</p>
 
     <h3>How a media company is estimated</h3>
+    <p class="formula">Monthly audience = middle of (audience range &times; share kept)</p>
     <p>For each company we estimate the combined monthly audience of all its news brands, such as CNN with CNN.com, HLN and its YouTube channel. We then keep only the share that is likely to be different people: 35% for cable TV, 40% for network TV, 45 to 55% for public, international and newspaper brands, and 60% for news wires. The figure is the middle of the resulting range.</p>
+    <p class="m">Example: Fox News&rsquo;s combined audience range is 146&ndash;176M a month. Keeping 35% for cable TV gives 51&ndash;62M, and the middle is &asymp; 56M.</p>
     <p>Smaller cable networks (Newsmax, NewsNation, Scripps News, OAN and Real America's Voice) use the same 35% rule. The low figure is their monthly TV reach; the high figure adds their YouTube audience. Only Newsmax publishes its monthly TV reach. NewsNation's is estimated from its ratings. Scripps News, OAN and Real America's Voice are not rated by Nielsen, so they are sized on YouTube alone and are likely too small.</p>
 
     <h3>Dashed rings: estimates including podcasts</h3>
@@ -221,7 +223,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <p>2000 audiences come from Nielsen TV ratings for the networks, and from print circulation and affiliate counts for the few independents that existed then.</p>
 
     <h3>Bringing it up to date</h3>
-    <p>Independent channels on YouTube are estimated straight from their monthly YouTube views, using the repeat-viewer rates above. Media companies keep their 2025 figure, moved up or down by the measured change in their TV viewers and website visitors. Channels that live mainly on TikTok, X, Substack, podcasts or Rumble keep our audited 2025 figure, because those platforms do not publish the numbers we need.</p>
+    <p>Independent channels use the formula above with their October 2026 YouTube views. Media companies use their 2025 audience range, moved up or down by the measured change in their TV viewers and website visitors (Q3 2026 against Q3 2025).</p>
 
     <h3>How the growth is drawn</h3>
     <p>Up to 2024, each bubble grows in a straight line from the year it started, or from its 2000 size for older outlets. We do not have yearly figures for that period, so the line is a simplification.</p>
