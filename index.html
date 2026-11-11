@@ -241,7 +241,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   const tip = $('tip');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let showLabels = false;
+  let showLabels = matchMedia('(max-width: 600px)').matches;   // labels on by default on phones (desktop unaffected)
   let nodes = [], year = END, R = 300, cx = 0, cy = 0, W = 0, H = 0, k = 1;
   let hovered = null, pinned = null, playing = false, lastT = 0;
   const colors = {};
@@ -553,6 +553,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   $('theme').addEventListener('click', () => applyTheme(root.getAttribute('data-zl') === 'dark' ? 'light' : 'dark'));
 
   // ---------- bubble labels toggle (phones) ----------
+  $('labelsBtn').setAttribute('aria-pressed', String(showLabels));
+  $('labelsBtn').setAttribute('aria-label', showLabels ? 'Hide bubble labels' : 'Show bubble labels');
   $('labelsBtn').addEventListener('click', () => {
     showLabels = !showLabels;
     $('labelsBtn').setAttribute('aria-pressed', String(showLabels));
