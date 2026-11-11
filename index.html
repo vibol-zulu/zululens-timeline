@@ -453,51 +453,41 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       }
     }
     ctx.globalAlpha = 1;
-    // a label in every bubble: the name is shrunk (and split over two lines if that fits better) to fit inside
+    // labels: one font size for every bubble; a name goes on one line, or two if needed, and is left out if it can't fit
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     const fam = getComputedStyle(document.body).fontFamily;
-    const MIN_FS = 3.5;                                   // below this the text is unreadable, so it is skipped
-    const numR = recording ? 22 : 30;                     // bubbles above this also show their audience
+    const FS = Math.max(6, Math.min(10, R / 24));        // same size everywhere, scaled a little with the circle
+    const NUM_FS = FS - 1;
     for (const d of order) {
-      if (d.r < 4) continue;
+      if (d.r < FS) continue;
       if (W <= 600 && !showLabels && d !== focus) continue;   // phones: the labels toggle can turn them off
       const corp = d.type === 'corporate';
       const label = shortName(d.name);
-      const showNum = d.r > numR;
-      // try one line, then the best two-line split; keep whichever allows the bigger font
-      const layouts = [[label]];
-      const words = label.split(' ');
-      if (words.length > 1) {
-        ctx.font = `600 10px ${fam}`;
+      ctx.font = `600 ${FS}px ${fam}`;
+      const width = t => ctx.measureText(t).width;
+      let lines = null;
+      if (width(label) <= d.r * 1.95 && d.r >= FS * 0.75) lines = [label];
+      else {
+        const words = label.split(' ');
         let best = null;
         for (let i = 1; i < words.length; i++) {
           const pair = [words.slice(0, i).join(' '), words.slice(i).join(' ')];
-          const m = Math.max(...pair.map(t => ctx.measureText(t).width));
+          const m = Math.max(width(pair[0]), width(pair[1]));
           if (!best || m < best.m) best = { pair, m };
         }
-        layouts.push(best.pair);
+        if (best && best.m <= d.r * 1.8 && d.r >= FS * 1.3) lines = best.pair;
       }
-      let lines = null, fs = 0;
-      for (const L of layouts) {
-        ctx.font = `600 10px ${fam}`;
-        const w10 = Math.max(...L.map(t => ctx.measureText(t).width));   // width at 10px
-        const rows = L.length + (showNum ? 0.9 : 0);
-        const byW = 10 * d.r * (L.length > 1 ? 1.55 : 1.7) / w10;       // fit the width
-        const byH = d.r * 1.35 / (rows * 1.12);                          // fit the height
-        const f = Math.min(13, byW, byH);
-        if (f > fs) { fs = f; lines = L; }
-      }
-      if (fs < MIN_FS) continue;
-      ctx.font = `600 ${fs}px ${fam}`;
+      if (!lines) continue;
+      const lh = FS * 1.12;
+      const showNum = d.r >= (lines.length + 1) * lh * 0.8 + FS && d.r > 22;   // room for the audience under the name
       ctx.globalAlpha = focus && focus !== d ? 0.5 : 1;
       ctx.fillStyle = corp ? colors['corporate-fg'] : colors['independent-fg'];
-      const lh = fs * 1.12;
-      const block = lines.length * lh + (showNum ? (fs - 1.5) * 1.15 : 0);
+      const block = lines.length * lh + (showNum ? NUM_FS * 1.15 : 0);
       let y = cy + d.y - block / 2 + lh / 2;
       for (const t of lines) { ctx.fillText(t, cx + d.x, y); y += lh; }
       if (showNum) {
-        ctx.font = `400 ${fs - 1.5}px ${fam}`;
-        ctx.fillText(fmt(audienceAt(d, year)), cx + d.x, y - lh / 2 + (fs - 1.5) * 0.65);
+        ctx.font = `400 ${NUM_FS}px ${fam}`;
+        ctx.fillText(fmt(audienceAt(d, year)), cx + d.x, y - lh / 2 + NUM_FS * 0.65);
       }
     }
     ctx.globalAlpha = 1;
