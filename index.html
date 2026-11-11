@@ -85,6 +85,7 @@ body {
 .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .legend { display: flex; gap: 12px; font-size: 12px; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend span[hidden] { display: none; }
 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 .dot.c { background: var(--corporate); }
 .dot.i { background: var(--independent); box-shadow: inset 0 0 0 1px var(--independent-edge); }
@@ -174,7 +175,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       <div class="legend">
         <span><i class="dot c"></i>Corporate</span>
         <span><i class="dot i"></i>Independent</span>
-        <span><i class="dot e"></i>Estimate incl. podcasts</span>
+        <span id="estLegend" hidden><i class="dot e"></i>Estimate incl. podcasts</span>
       </div>
     </div>
     <div class="tip" id="tip" hidden></div>
@@ -216,8 +217,10 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <p class="m">Example: Fox News&rsquo;s combined audience range is 146&ndash;176M a month. Keeping 35% for cable TV gives 51&ndash;62M, and the middle is &asymp; 56M.</p>
     <p>Smaller cable networks (Newsmax, NewsNation, Scripps News, OAN and Real America's Voice) use the same 35% rule. The low figure is their monthly TV reach; the high figure adds their YouTube audience. Only Newsmax publishes its monthly TV reach. NewsNation's is estimated from its ratings. Scripps News, OAN and Real America's Voice are not rated by Nielsen, so they are sized on YouTube alone and are likely too small.</p>
 
+    <div id="estNote" hidden>
     <h3>Dashed rings: estimates including podcasts</h3>
     <p>Podcast apps such as Spotify and Apple do not publish listener numbers, so the solid bubbles leave most podcast listening out. Where a measured figure exists, a dashed ring shows our estimate including podcast listeners. For now this is Joe Rogan only: Podscribe estimates 4.7 million monthly audio listeners (October 2026). We add these to his public figure, assuming about 30% of them also watch on YouTube. Other podcast-first channels have no comparable published figure yet.</p>
+    </div>
 
     <h3>The 2000 figures</h3>
     <p>2000 audiences come from Nielsen TV ratings for the networks, and from print circulation and affiliate counts for the few independents that existed then.</p>
@@ -337,6 +340,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     });
     const total = d3.sum(nodes, d => d.final);
     sim.nodes(nodes);
+    const anyEst = nodes.some(d => d.est && d.est > d.final);   // ring legend and note only when an estimate is filled in
+    $('estLegend').hidden = !anyEst; $('estNote').hidden = !anyEst;
     resize();
     k = total ? FILL * R * R / total : 1;
     setYear(year, true);
