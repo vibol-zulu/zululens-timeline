@@ -623,16 +623,14 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     const startYear = d.startRaw.slice(0, 4);
     tip.innerHTML =
       `<b>${esc(d.name)}</b>` +
-      `<div class="m">${d.type === 'corporate' ? 'Corporate' : 'Independent'}${d.lean ? ' · ' + esc(d.lean) : ''}</div>` +
+      `<div class="m">${d.type === 'corporate' ? 'Corporate' : 'Independent'}${d.lean ? ' · ' + esc(d.lean.replace(/\s*\(provisional\)/i, '')) : ''}</div>` +
       `<div>Launched ${startYear}${d.approx ? ' (approx.)' : ''}</div>` +
       (year < END - 0.01 ? `<div>${periodLabel(year)}: ~${fmt(now)} a month</div>` : '') +
-      (d.qpts ? `<div class="m">2024–2026 based on: ${esc(d.qpts.basis || 'Quarterly YouTube views')}</div>` : '') +
+      (d.qpts ? `<div class="m">2024–26 by quarter, from ${/tv/i.test(d.qpts.basis || '') ? 'TV ratings and YouTube views' : 'YouTube views'}</div>` : '') +
       `<div>Oct 2026: ~${fmt(d.final)} a month${d.est ? ' (public data)' : ''}</div>` +
       (d.est ? `<div>Estimate incl. podcasts: ~${fmt(d.est)} a month</div><div class="m">${esc(d.estSource)}</div>` : '') +
       (d.caveat ? `<div class="m">${esc(d.caveat)}</div>` : '') +
-      (d.draft ? `<div class="m">Placeholder figure, not yet rebuilt</div>` : '') +
-      (d.a2000Proposed ? `<div class="m">2000 figure is a rough placeholder</div>` : '') +
-      (/swarm/i.test(d.source) ? `<div class="m">New candidate, not yet merged</div>` : '');
+      '';
     tip.hidden = false;
     const tw = tip.offsetWidth, th = tip.offsetHeight;
     let x = cx + d.x + d.r + 10, y = cy + d.y - th / 2;
