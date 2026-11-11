@@ -85,6 +85,8 @@ body {
 .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .legend { display: flex; gap: 12px; font-size: 12px; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
+.more-link { pointer-events: auto; align-self: flex-start; font-size: 12px; color: var(--corporate); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }   /* Substack link under the legend */
+.more-link:hover { opacity: 0.75; }
 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 .dot.c { background: var(--corporate); }
 .dot.i { background: var(--independent); box-shadow: inset 0 0 0 1px var(--independent-edge); }
@@ -149,6 +151,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
         <span><i class="dot c"></i>Corporate</span>
         <span><i class="dot i"></i>Independent</span>
       </div>
+      <a class="more-link" href="https://zulugroup.substack.com/" target="_blank" rel="noopener">Click here for more analysis on our Substack &rarr;</a>
     </div>
     <div class="tip" id="tip" hidden></div>
     <div class="msg" id="msg" hidden></div>
