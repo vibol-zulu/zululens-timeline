@@ -333,8 +333,13 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     const oldR = R;
     const labelRoom = 10;
     const SCALE = 0.8;                         // circle size as a share of the space available
-    R = Math.max(80, (Math.min(W, H) / 2 - labelRoom) * SCALE);
-    cx = W / 2; cy = H / 2;
+    // On phones the sub-title and legend sit above the circle, so centre the circle in the space
+    // between the bottom of the legend and the play button instead of the whole stage.
+    const meta = document.querySelector('.meta');
+    const topReserve = (W < 600 && meta) ? meta.offsetTop + meta.offsetHeight + 8 : 0;
+    const usableH = Math.max(160, H - topReserve);
+    R = Math.max(80, (Math.min(W, usableH) / 2 - labelRoom) * SCALE);
+    cx = W / 2; cy = topReserve + usableH / 2;
     if (oldR && oldR !== R) for (const d of nodes) { d.x *= R / oldR; d.y *= R / oldR; }
     const total = d3.sum(nodes, d => d.final);
     k = total ? FILL * R * R / total : 1;
