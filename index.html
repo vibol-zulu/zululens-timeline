@@ -96,10 +96,26 @@ button.play {
 button.play:hover { border-color: var(--muted); }
 .icon-btn { width: 28px; height: 28px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
 .icon-btn:hover { color: var(--fg); border-color: var(--muted); }
-#substackBtn svg { fill: currentColor; stroke: none; width: 12px; height: 12px; }   /* filled Substack mark */
+#substackBtn svg { fill: #FF6719; stroke: none; width: 12px; height: 12px; }   /* Substack orange */
 .icon-btn[aria-pressed="true"] { color: var(--bg); background: var(--fg); border-color: var(--fg); }   /* toggle on */
 #labelsBtn { display: none; }   /* phones only: bubbles are too small for labels by default */
-@media (max-width: 600px) { #labelsBtn { display: inline-grid; } }
+#menuBtn { display: none; }
+.icon-list { display: inline-flex; align-items: center; gap: 10px; }
+.ico-label { display: none; }
+@media (max-width: 600px) {   /* phones: icons move into a drop-down menu */
+  .top-icons { position: relative; }
+  #menuBtn { display: inline-grid; }
+  .icon-list { display: none; position: absolute; top: 36px; right: 0; z-index: 20; flex-direction: column; align-items: stretch; gap: 2px; min-width: 190px; padding: 6px;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 8px 28px rgba(0,0,0,0.14); }
+  .icon-list.open { display: flex; }
+  .icon-list .icon-btn, .icon-list #labelsBtn { display: flex; align-items: center; justify-content: flex-start; gap: 10px; width: auto; height: 38px; padding: 0 10px;
+    border: none; border-radius: 8px; color: var(--fg); background: transparent; font: inherit; font-size: 14px; text-decoration: none; }
+  .icon-list .icon-btn:hover { background: var(--grid); }
+  .icon-list .icon-btn[aria-pressed="true"] { background: transparent; color: var(--fg); }
+  .icon-list #labelsBtn::after { content: 'Off'; margin-left: auto; font-size: 12px; color: var(--muted); }
+  .icon-list #labelsBtn[aria-pressed="true"]::after { content: 'On'; color: var(--corporate); }
+  .ico-label { display: inline; }
+}
 .icon-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
 button.play svg { width: 10px; height: 10px; fill: currentColor; }
 :focus-visible { outline: 2px solid var(--dial); outline-offset: 2px; }
@@ -132,10 +148,13 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <div class="headline"><span class="prefix">US news media landscape</span>
       <div class="year" id="yearLabel" aria-live="polite">2026</div></div>
     <span class="top-icons">
-      <button class="icon-btn" id="labelsBtn" type="button" aria-label="Show bubble labels" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 3.5h7.2l3.8 4.5-3.8 4.5H2.5z"/><path d="M5 8h3"/></svg></button>
-      <a class="icon-btn" id="substackBtn" href="https://zulugroup.substack.com/" target="_blank" rel="noopener" aria-label="Zulu Group on Substack" title="Zulu Group on Substack"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3h9v1.5h-9zM3.5 5.9h9v1.5h-9zM3.5 8.8h9v5l-4.5-2.6-4.5 2.6z"/></svg></a>
-      <button class="icon-btn" id="infoBtn" type="button" aria-label="Methodology" aria-haspopup="dialog"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M8 7.2v4"/><circle cx="8" cy="4.9" r="0.5" fill="currentColor"/></svg></button>
-      <button class="icon-btn" id="theme" type="button" aria-label="Switch to dark mode"><svg viewBox="0 0 16 16" id="themeIcon" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/></svg></button>
+      <button class="icon-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="iconMenu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 4.5h10M3 8h10M3 11.5h10"/></svg></button>
+      <span class="icon-list" id="iconMenu">
+      <button class="icon-btn" id="labelsBtn" type="button" aria-label="Show bubble labels" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 3.5h7.2l3.8 4.5-3.8 4.5H2.5z"/><path d="M5 8h3"/></svg><span class="ico-label">Bubble labels</span></button>
+      <a class="icon-btn" id="substackBtn" href="https://zulugroup.substack.com/" target="_blank" rel="noopener" aria-label="Zulu Group on Substack" title="Zulu Group on Substack"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3h9v1.5h-9zM3.5 5.9h9v1.5h-9zM3.5 8.8h9v5l-4.5-2.6-4.5 2.6z"/></svg><span class="ico-label">Substack</span></a>
+      <button class="icon-btn" id="infoBtn" type="button" aria-label="Methodology" aria-haspopup="dialog"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M8 7.2v4"/><circle cx="8" cy="4.9" r="0.5" fill="currentColor"/></svg><span class="ico-label">Methodology</span></button>
+      <button class="icon-btn" id="theme" type="button" aria-label="Switch to dark mode"><svg viewBox="0 0 16 16" id="themeIcon" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/></svg><span class="ico-label" id="themeText">Dark mode</span></button>
+    </span>
     </span>
   </div>
 
@@ -587,6 +606,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     const dark = t === 'dark';
     $('themeIcon').innerHTML = dark ? '<circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M3 13l1.1-1.1M11.9 4.1 13 3"/>' : '<path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/>';
     $('theme').setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    $('themeText').textContent = dark ? 'Light mode' : 'Dark mode';
   }
   applyTheme('light');
   $('theme').addEventListener('click', () => applyTheme(root.getAttribute('data-zl') === 'dark' ? 'light' : 'dark'));
@@ -612,6 +632,14 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     $('labelsBtn').setAttribute('aria-label', showLabels ? 'Hide bubble labels' : 'Show bubble labels');
     draw();
   });
+
+  // ---------- phone menu ----------
+  const menu = $('iconMenu');
+  const setMenu = open => { menu.classList.toggle('open', open); $('menuBtn').setAttribute('aria-expanded', String(open)); };
+  $('menuBtn').addEventListener('click', e => { e.stopPropagation(); setMenu(!menu.classList.contains('open')); });
+  document.addEventListener('click', e => { if (!menu.contains(e.target)) setMenu(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+  for (const id of ['substackBtn', 'infoBtn', 'theme']) $(id).addEventListener('click', () => setMenu(false));
 
   // ---------- methodology modal ----------
   const modal = $('methodology');
