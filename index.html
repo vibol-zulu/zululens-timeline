@@ -64,7 +64,9 @@ body {
 .play-btn { position: relative; height: 28px; min-width: 92px; padding: 0 14px 0 11px; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
   font: inherit; font-size: 12px; font-weight: 500; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--corporate); cursor: pointer; z-index: 2; }
 .play-btn:hover { border-color: var(--corporate); }
-.stage .play-btn { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; }   /* centred between the circle and the timeline; JS sets its top */
+.stage .controls { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; gap: 8px; width: max-content; }   /* play + spectrum, centred between the bubbles and the timeline; JS sets its top */
+.play-btn[aria-pressed="true"] { background: var(--corporate); border-color: var(--corporate); color: var(--bg); }   /* spectrum on */
+.play-btn .spec-ico { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; }
 .play-btn svg { width: 12px; height: 12px; fill: currentColor; }
 .bar { position: relative; height: 2px; background: var(--grid); border-radius: 2px; cursor: pointer; touch-action: none; }
 .bar::before { content: ''; position: absolute; inset: -9px 0; }
@@ -136,7 +138,10 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
 
   <div class="stage" id="stage">
     <canvas id="canvas"></canvas>
+    <div class="controls" id="controls">
     <button class="play-btn" id="play" type="button" aria-label="Replay timeline from 2000"><svg viewBox="0 0 14 14" id="playIcon" aria-hidden="true"><path d="M3.5 2.2l8 4.8-8 4.8z"/></svg><span id="playText">Replay</span></button>
+    <button class="play-btn" id="specBtn" type="button" aria-pressed="false" aria-label="Arrange bubbles by political lean"><svg viewBox="0 0 14 14" class="spec-ico" aria-hidden="true"><path d="M1.5 7h11"/><circle cx="3" cy="7" r="1.6" fill="currentColor"/><circle cx="7.5" cy="7" r="1.2" fill="currentColor"/><circle cx="11" cy="7" r="1.8" fill="currentColor"/></svg><span>Spectrum</span></button>
+    </div>
     <div class="meta">
       <div class="brand">The rise of smaller independent news &amp; commentary channels around corporate media, 2000&ndash;2026 <em style="font-size: 0.88em; opacity: 0.7;">(min. 500K monthly audience)</em></div>
       <div class="legend">
@@ -205,7 +210,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <p>Nielsen (TV), Comscore and Similarweb (websites), Social Blade and vidIQ (YouTube), Podtrac, Spotify and Apple charts (podcasts), and follower counts on social platforms.</p>
 
     <h3>Political lean</h3>
-    <p>Based on what each outlet says about itself, what it covers and its editorial position. For media companies it reflects the institution, not individual hosts. Labels are simplified.</p>
+    <p>Based on what each outlet says about itself, what it covers and its editorial position. For media companies it reflects the institution, not individual hosts. Labels are simplified. The Spectrum button lines the bubbles up in five groups: Left, Lean left, Center, Lean right and Right. Libertarian, anti-establishment and non-partisan outlets with no clear left or right lean sit in Center.</p>
 
     <h3>Keep in mind</h3>
     <ul>
@@ -241,6 +246,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   const tip = $('tip');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  let spectrum = false, SW = 300;
   let showLabels = matchMedia('(max-width: 600px)').matches;   // labels on by default on phones (desktop unaffected)
   let nodes = [], year = END, R = 300, cx = 0, cy = 0, W = 0, H = 0, k = 1;
   let hovered = null, pinned = null, playing = false, lastT = 0;
@@ -254,11 +260,22 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     if (!m[2]) return y + 0.5;                 // year only: assume mid-year
     return y + (+m[2] - 1) / 12 + (m[3] ? (+m[3] - 1) / 365 : 0.5 / 12);
   }
+  // Political lean as five groups, from the free-text lean column.
+  const LEANS = ['Left', 'Lean left', 'Center', 'Lean right', 'Right'];
+  function leanBin(s) {
+    s = s.toLowerCase();
+    if (/center[- ]?left|lean left|left[- ]leaning|liberal/.test(s)) return -1;
+    if (/center[- ]?right|lean right|right[- ]leaning|right[- ]to[- ]center/.test(s)) return 1;
+    if (/\bleft|progressive|socialist/.test(s)) return -2;
+    if (/\bright|conservative/.test(s)) return 2;
+    return 0;   // center, non-partisan, libertarian/centrist, anti-establishment
+  }
   function parse(text) {
     return d3.csvParse(text).map(r => ({
       name: (r.name || '').trim(),
       type: /corp/i.test(r.type) ? 'corporate' : 'independent',
       lean: r.lean || '',
+      bin: leanBin(r.lean || ''),
       final: parseFloat(r.audience_m) > 0 ? parseFloat(r.audience_m) : (parseFloat(r.views_m) || 0) * (VIEW_RATIO[(r.platform_type || '').trim()] || VIEW_RATIO['News commentary']),
       caveat: (r.caveat || '').trim(),
       a2000: r.audience_2000 && r.audience_2000.trim() !== '' ? parseFloat(r.audience_2000) : null,
@@ -310,19 +327,29 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     return t <= d.start ? 0 : first[1] * (t - d.start) / (first[0] - d.start);
   };
   const periodLabel = y => y < Q_START ? String(Math.floor(y)) : (y >= 2026.75 ? 'Oct 2026' : `Q${Math.floor((y % 1) * 4) + 1} ${Math.floor(y)}`);
-  const radiusFor = a => a <= 0 ? 0 : Math.max(MIN_R, Math.sqrt(a * k));
+  // On narrow screens the spectrum band is not much wider than the circle, so bubbles shrink a little to fit the five groups.
+  const specScale = () => spectrum ? Math.min(1, Math.pow(SW / (1.7 * R), 0.8)) : 1;
+  const radiusFor = a => a <= 0 ? 0 : Math.max(MIN_R, Math.sqrt(a * k) * specScale());
 
   // ---------- layout ----------
   const collide = d3.forceCollide(d => d.r ? d.r + 0.8 : 0).strength(0.9).iterations(2);
   const sim = d3.forceSimulation()
-    .force('x', d3.forceX(d => (d.type === 'corporate' ? -0.22 : 0.22) * R).strength(0.035))
+    .force('x', d3.forceX(targetX).strength(0.035))
     .force('y', d3.forceY(0).strength(0.035))
     .force('collide', collide)
     .alphaDecay(0.03).velocityDecay(0.35)
     .on('tick', () => { contain(); draw(); })
     .stop();
 
+  function targetX(d) { return spectrum ? d.bin * SW * 0.42 : (d.type === 'corporate' ? -0.22 : 0.22) * R; }
   function contain() {
+    if (spectrum) {   // spectrum: keep bubbles inside a wide band instead of the circle
+      for (const d of nodes) {
+        const lx = SW - d.r - 2, ly = R - d.r - 2;
+        d.x = Math.max(-lx, Math.min(lx, d.x)); d.y = Math.max(-ly, Math.min(ly, d.y));
+      }
+      return;
+    }
     for (const d of nodes) {
       const lim = R - d.r - 2, dist = Math.hypot(d.x, d.y);
       if (dist > lim && dist > 0) { const s = Math.max(lim, 0) / dist; d.x *= s; d.y *= s; }
@@ -344,12 +371,13 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     const usableH = Math.max(160, H - topReserve - BTN_BAND);
     R = Math.max(80, (Math.min(W, usableH) / 2 - labelRoom) * SCALE);
     cx = W / 2; cy = topReserve + usableH / 2;
-    const pb = $('play'); pb.style.left = cx + 'px'; const barY = H + parseFloat(getComputedStyle(document.querySelector('.bottom')).paddingTop);   // timeline line, in stage coords
+    const pb = $('controls'); pb.style.left = cx + 'px'; const barY = H + parseFloat(getComputedStyle(document.querySelector('.bottom')).paddingTop);   // timeline line, in stage coords
     pb.style.top = Math.min(H - BTN_H, ((cy + R) + barY) / 2 - BTN_H / 2) + 'px';   // vertically centred between circle and timeline
     if (oldR && oldR !== R) for (const d of nodes) { d.x *= R / oldR; d.y *= R / oldR; }
     const total = d3.sum(nodes, d => d.final);
     k = total ? FILL * R * R / total : 1;
-    sim.force('x').x(d => (d.type === 'corporate' ? -0.22 : 0.22) * R);
+    SW = Math.max(R, Math.min(W / 2 - 24, R * 1.7));   // half-width of the spectrum band
+    sim.force('x').x(targetX).strength(spectrum ? 0.09 : 0.035);
     for (const d of nodes) d.r = radiusFor(audienceAt(d, year));
     collide.radius(d => d.r ? d.r + 0.8 : 0);
     draw();
@@ -365,15 +393,23 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     ctx.clearRect(0, 0, W, H);
     // faint grid outside the circle
     ctx.save();
-    ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.arc(cx, cy, R + 4, 0, Math.PI * 2, true); ctx.clip();
+    ctx.beginPath(); ctx.rect(0, 0, W, H); if (!spectrum) ctx.arc(cx, cy, R + 4, 0, Math.PI * 2, true); ctx.clip();
     ctx.strokeStyle = colors.grid; ctx.lineWidth = 1; ctx.beginPath();
     for (let x = (cx % 20); x <= W; x += 20) { ctx.moveTo(x, 0); ctx.lineTo(x, H); }
     for (let y = (cy % 20); y <= H; y += 20) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
     ctx.stroke(); ctx.restore();
     // circle edge
-    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
-    ctx.fillStyle = colors.lens; ctx.fill();
-    ctx.strokeStyle = colors.line; ctx.lineWidth = 1; ctx.stroke();
+    if (!spectrum) {
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
+      ctx.fillStyle = colors.lens; ctx.fill();
+      ctx.strokeStyle = colors.line; ctx.lineWidth = 1; ctx.stroke();
+    } else {   // spectrum axis: a line under the bubbles with the five lean groups
+      const ay = cy + R + 8;
+      ctx.strokeStyle = colors.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx - SW, ay); ctx.lineTo(cx + SW, ay); ctx.stroke();
+      ctx.fillStyle = colors.muted; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.font = `500 ${W < 600 ? 9 : 11}px ${getComputedStyle(document.body).fontFamily}`;
+      LEANS.forEach((t, i) => { const x = cx + (i - 2) * SW * 0.42; ctx.fillRect(x - 0.5, ay - 3, 1, 6); ctx.fillText(t, x, ay + 6); });
+    }
 
     const focus = pinned || hovered;
     const order = nodes.filter(d => d.r > 0).sort((a, b) => b.r - a.r);
@@ -551,6 +587,18 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   }
   applyTheme('light');
   $('theme').addEventListener('click', () => applyTheme(root.getAttribute('data-zl') === 'dark' ? 'light' : 'dark'));
+
+  // ---------- political spectrum toggle ----------
+  $('specBtn').addEventListener('click', () => {
+    spectrum = !spectrum;
+    $('specBtn').setAttribute('aria-pressed', String(spectrum));
+    $('specBtn').setAttribute('aria-label', spectrum ? 'Back to the circle' : 'Arrange bubbles by political lean');
+    sim.force('x').x(targetX).strength(spectrum ? 0.09 : 0.035);
+    for (const d of nodes) d.r = radiusFor(audienceAt(d, year));
+    collide.radius(d => d.r ? d.r + 0.8 : 0);   // refresh collision sizes after the resize
+    if (reduceMotion) { sim.alpha(0.5); for (let i = 0; i < 200; i++) { sim.tick(); contain(); } draw(); }
+    else sim.alpha(0.7).restart();
+  });
 
   // ---------- bubble labels toggle (phones) ----------
   $('labelsBtn').setAttribute('aria-pressed', String(showLabels));
