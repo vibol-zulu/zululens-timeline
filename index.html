@@ -46,10 +46,10 @@ body {
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 14px;
 }
-.topbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 10px; padding-inline: 24px; }   /* same side inset as the timeline */
+.topbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-top: 18px; padding-bottom: 10px; padding-inline: 24px; }   /* same side inset as the timeline */
 .topbar .headline { margin-bottom: 0; }
 .top-icons { display: inline-flex; align-items: center; gap: 10px; }
-.bottom { display: flex; flex-direction: column; padding-top: 14px; padding-bottom: 18px; }   /* title, play button and timeline */
+.bottom { display: flex; flex-direction: column; padding-top: 14px; padding-bottom: 38px; }   /* title, play button and timeline */
 .brand { font-size: 13px; color: var(--muted); max-width: 44ch; line-height: 1.4; }
 .year { color: var(--corporate); font-size: clamp(48px, 8vw, 84px); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
   position: relative; display: inline-block; margin-bottom: 22px; }
@@ -64,7 +64,7 @@ body {
 .play-btn { position: relative; height: 28px; min-width: 92px; padding: 0 14px 0 11px; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
   font: inherit; font-size: 12px; font-weight: 500; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--corporate); cursor: pointer; z-index: 2; }
 .play-btn:hover { border-color: var(--corporate); }
-.stage .play-btn { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; }   /* centred under the circle; JS sets its top */
+.stage .play-btn { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; }   /* centred between the circle and the timeline; JS sets its top */
 .play-btn svg { width: 12px; height: 12px; fill: currentColor; }
 .bar { position: relative; height: 2px; background: var(--grid); border-radius: 2px; cursor: pointer; touch-action: none; }
 .bar::before { content: ''; position: absolute; inset: -9px 0; }
@@ -337,11 +337,12 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     // play button underneath it (on every screen size).
     const meta = document.querySelector('.meta');
     const topReserve = meta ? meta.offsetTop + meta.offsetHeight + 8 : 0;
-    const BTN_GAP = 18, BTN_H = 28;                  // play button sits centred under the circle
-    const usableH = Math.max(160, H - topReserve - BTN_GAP - BTN_H);
+    const BTN_H = 28, BTN_BAND = 76;                 // band under the circle for the play button
+    const usableH = Math.max(160, H - topReserve - BTN_BAND);
     R = Math.max(80, (Math.min(W, usableH) / 2 - labelRoom) * SCALE);
     cx = W / 2; cy = topReserve + usableH / 2;
-    const pb = $('play'); pb.style.left = cx + 'px'; pb.style.top = Math.min(H - BTN_H, cy + R + BTN_GAP) + 'px';
+    const pb = $('play'); pb.style.left = cx + 'px'; const barY = H + parseFloat(getComputedStyle(document.querySelector('.bottom')).paddingTop);   // timeline line, in stage coords
+    pb.style.top = Math.min(H - BTN_H, ((cy + R) + barY) / 2 - BTN_H / 2) + 'px';   // vertically centred between circle and timeline
     if (oldR && oldR !== R) for (const d of nodes) { d.x *= R / oldR; d.y *= R / oldR; }
     const total = d3.sum(nodes, d => d.final);
     k = total ? FILL * R * R / total : 1;
