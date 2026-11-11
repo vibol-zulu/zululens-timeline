@@ -104,7 +104,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
 .modal-body { overflow-y: auto; padding: 4px 20px 22px; font-size: 13.5px; line-height: 1.6; }
 .modal-body h3 { font-size: 13px; font-weight: 600; margin: 18px 0 4px; }
 .modal-body p { margin: 0 0 8px; color: var(--fg); max-width: 62ch; }
-.modal-body ul { margin: 0 0 8px; padding-left: 18px; }
+.modal-body ul, .modal-body ol { margin: 0 0 8px; padding-left: 20px; }
 .modal-body li { margin-bottom: 2px; }
 .modal-body .draft { margin-top: 14px; font-size: 12px; color: var(--muted); }
 .modal-body #count { color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -157,33 +157,48 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
     <p class="draft">Draft. These figures are estimates and will change after the next review.</p>
 
     <h3>What you are looking at</h3>
-    <p>Each bubble is a US news or commentary channel. Teal bubbles are big media companies. Peach bubbles are independent channels run by creators or small teams. The bigger the bubble, the more people it reaches each month.</p>
+    <p>Each bubble is a US news or commentary channel. Teal bubbles are big media companies. Peach bubbles are independent channels run by creators or small teams. A bubble's area shows how many people it reaches each month: twice the area means about twice the audience.</p>
     <p id="count"></p>
 
-    <h3>How we worked out the 2026 sizes</h3>
-    <ul>
-      <li><strong>Media companies:</strong> we took each one's 2025 size and moved it up or down by how much its TV viewers and website visitors changed in a year.</li>
-      <li><strong>Independent channels from our 2025 research:</strong> we took each one's 2025 size and moved it up or down by how much its YouTube views changed in a year.</li>
-      <li><strong>Newer independent channels:</strong> we took their monthly YouTube views and counted about half as people, because the same viewers often watch several videos.</li>
-      <li><strong>Channels we could not measure</strong> keep their 2025 size for now.</li>
-    </ul>
+    <h3>What the size measures</h3>
+    <p>We call it Unique Monthly Audience (UMA): our estimate of how many different people a channel reaches in a month, across every platform it uses. It is an educated estimate built from public numbers, not an official count.</p>
+
+    <h3>How an independent channel is estimated</h3>
+    <ol>
+      <li><strong>Add up the views.</strong> We total a channel's monthly views across YouTube, podcasts, Rumble, X, TikTok and its website.</li>
+      <li><strong>Remove repeat viewers.</strong> The same people watch several videos and follow on several apps, so we count only part of the views as people. We remove 55% to 70%, depending on the type of channel. Long podcasts lose the least; short clips and posts on X lose the most.</li>
+      <li><strong>Take the middle.</strong> We work out a low and a high figure and use the point halfway between them.</li>
+      <li><strong>Check and adjust.</strong> We compare the result with public trackers and nudge it up or down where a platform is known to over- or under-count, for example YouTube views inflated by replays, or podcast listens that do not show up.</li>
+    </ol>
+
+    <h3>How a media company is estimated</h3>
+    <p>For each company we estimate the combined monthly audience of all its news brands, such as CNN with CNN.com, HLN and its YouTube channel. We then keep only the share that is likely to be different people: 35% for cable TV, 40% for network TV, 45 to 55% for public, international and newspaper brands, and 60% for news wires. The figure is the middle of the resulting range.</p>
+
+    <h3>The 2000 figures</h3>
+    <p>2000 audiences come from Nielsen TV ratings for the networks, and from print circulation and affiliate counts for the few independents that existed then.</p>
+
+    <h3>Bringing it up to date</h3>
+    <p>For 2026 we move each 2025 figure up or down by the measured change in its TV viewers, website visitors or YouTube views. Newer channels are estimated straight from their YouTube views, using the same repeat-viewer rates. Channels we cannot measure keep their 2025 figure for now.</p>
 
     <h3>How the growth is drawn</h3>
     <p>Each bubble grows in a straight line from the year it started to its 2026 size. Outlets older than 2000 start at their 2000 size instead. Real growth went up and down more than this.</p>
 
     <h3>Where the numbers come from</h3>
-    <p>TV ratings (Nielsen), website traffic (Comscore and Similarweb), YouTube views (vidIQ) and the ZuluLens 2025 research.</p>
+    <p>Nielsen (TV), Comscore and Similarweb (websites), Social Blade and vidIQ (YouTube), Podtrac, Spotify and Apple charts (podcasts), and follower counts on social platforms.</p>
+
+    <h3>Political lean</h3>
+    <p>Based on what each outlet says about itself, what it covers and its editorial position. For media companies it reflects the institution, not individual hosts. Labels are simplified.</p>
 
     <h3>The "Sheet formula" switch</h3>
-    <p>This shows the 2025 research channels sized the same way as the newer ones, from their YouTube views alone. It is there for comparison.</p>
+    <p>Shows our 2025 research channels sized only from their YouTube views with the repeat-viewer rates above, for comparison.</p>
 
     <h3>Keep in mind</h3>
     <ul>
-      <li>These are estimates for comparing channels, not exact counts.</li>
-      <li>Newer channels count YouTube only, so podcast listeners are missing.</li>
-      <li>Most viewers are in the US, but some are abroad.</li>
+      <li>Public data only. We have no access to the platforms' own numbers.</li>
+      <li>Turning views into people is an estimate, usually within 10 to 20%.</li>
+      <li>Audiences are as measured on each platform: mostly American, with some viewers abroad.</li>
+      <li>For some channels the 2025 figure came from an AI-assisted research estimate rather than the steps above. Our records note which ones.</li>
       <li>A few small channels still use placeholder figures.</li>
-      <li>Political leans are simplified labels.</li>
     </ul>
   </div>
 </dialog>
