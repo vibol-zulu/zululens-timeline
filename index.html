@@ -46,12 +46,14 @@ body {
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 14px;
 }
-header { display: flex; flex-direction: column; padding-top: 10px; }
+.topbar { display: flex; justify-content: flex-end; padding-bottom: 6px; }
+.top-icons { display: inline-flex; align-items: center; gap: 10px; }
+.bottom { display: flex; flex-direction: column; padding-top: 14px; padding-bottom: 18px; }   /* title, play button and timeline */
 .brand { font-size: 13px; color: var(--muted); max-width: 44ch; line-height: 1.4; }
 .year { color: var(--corporate); font-size: clamp(48px, 8vw, 84px); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
   position: relative; display: inline-block; margin-bottom: 22px; }
 .progress { position: relative; }
-.headline { display: flex; align-items: baseline; gap: 0 0.28em; white-space: nowrap; margin-bottom: 36px; font-size: clamp(26px, 4.8vw, 58px); }   /* one line on wider screens */
+.headline { display: flex; align-items: baseline; gap: 0 0.28em; white-space: nowrap; margin-bottom: 22px; font-size: clamp(26px, 4.8vw, 58px); }   /* one line on wider screens */
 .headline .prefix, .headline .year { font-size: inherit; }
 @media (max-width: 600px) { .headline { flex-direction: column; align-items: flex-start; white-space: normal; font-size: clamp(30px, 9vw, 44px); } }   /* phones: date on its own line */
 .headline .year { margin-bottom: 0; }
@@ -73,7 +75,7 @@ header { display: flex; flex-direction: column; padding-top: 10px; }
 .ticks span { position: absolute; top: -3px; width: 1px; height: 8px; background: var(--muted); opacity: 0.35; }
 .ticks span.yr { height: 10px; top: -4px; opacity: 0.6; }
 .ticks b { position: absolute; top: 9px; transform: translateX(-50%); font: 500 10px var(--font); color: var(--muted); font-variant-numeric: tabular-nums; }
-.meta { position: absolute; top: 26px; left: 0; z-index: 1; pointer-events: none; display: flex; flex-direction: column; gap: 8px; }
+.meta { position: absolute; top: 4px; left: 0; z-index: 1; pointer-events: none; display: flex; flex-direction: column; gap: 8px; }
 .controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .legend { display: flex; gap: 12px; font-size: 12px; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
@@ -86,7 +88,6 @@ button.play {
   padding: 6px 14px 6px 11px; display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
 }
 button.play:hover { border-color: var(--muted); }
-.foot-left { display: inline-flex; align-items: center; gap: 10px; }
 .icon-btn { width: 28px; height: 28px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
 .icon-btn:hover { color: var(--fg); border-color: var(--muted); }
 .icon-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
@@ -114,21 +115,16 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
 .modal-body li { margin-bottom: 2px; }
 .modal-body .draft { margin-top: 14px; font-size: 12px; color: var(--muted); }
 .modal-body #count { color: var(--muted); font-variant-numeric: tabular-nums; }
-footer { padding-top: 10px; align-items: center; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--muted); }
 .msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-size: 13px; color: var(--muted); padding: 24px; }
 </style>
 
 <div class="app" id="app">
-  <header>
-    <div class="progress">
-      <div class="headline"><span class="prefix">US news media landscape</span>
-      <div class="year" id="yearLabel" aria-live="polite">2026</div></div>
-      <div class="track">
-        <button class="play-btn" id="play" type="button" aria-label="Replay timeline from 2000"><svg viewBox="0 0 14 14" id="playIcon" aria-hidden="true"><path d="M3.5 2.2l8 4.8-8 4.8z"/></svg><span id="playText">Replay</span></button>
-        <div class="bar" id="bar"><div class="ticks" id="ticks" aria-hidden="true"></div><i id="barFill"></i><span class="head" id="head" tabindex="0" role="slider" aria-label="Year" aria-valuemin="2000" aria-valuemax="2026" aria-valuenow="2026"></span></div>
-      </div>
-    </div>
-  </header>
+  <div class="topbar">
+    <span class="top-icons">
+      <button class="icon-btn" id="infoBtn" type="button" aria-label="Methodology" aria-haspopup="dialog"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M8 7.2v4"/><circle cx="8" cy="4.9" r="0.5" fill="currentColor"/></svg></button>
+      <button class="icon-btn" id="theme" type="button" aria-label="Switch to dark mode"><svg viewBox="0 0 16 16" id="themeIcon" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/></svg></button>
+    </span>
+  </div>
 
   <div class="stage" id="stage">
     <canvas id="canvas"></canvas>
@@ -143,12 +139,16 @@ footer { padding-top: 10px; align-items: center; display: flex; justify-content:
     <div class="msg" id="msg" hidden></div>
   </div>
 
-  <footer>
-    <span class="foot-left">
-      <button class="icon-btn" id="theme" type="button" aria-label="Switch to dark mode"><svg viewBox="0 0 16 16" id="themeIcon" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/></svg></button>
-      <button class="icon-btn" id="infoBtn" type="button" aria-label="Methodology" aria-haspopup="dialog"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M8 7.2v4"/><circle cx="8" cy="4.9" r="0.5" fill="currentColor"/></svg></button>
-    </span>
-  </footer>
+  <div class="bottom">
+    <div class="progress">
+      <div class="headline"><span class="prefix">US news media landscape</span>
+      <div class="year" id="yearLabel" aria-live="polite">2026</div></div>
+      <div class="track">
+        <button class="play-btn" id="play" type="button" aria-label="Replay timeline from 2000"><svg viewBox="0 0 14 14" id="playIcon" aria-hidden="true"><path d="M3.5 2.2l8 4.8-8 4.8z"/></svg><span id="playText">Replay</span></button>
+        <div class="bar" id="bar"><div class="ticks" id="ticks" aria-hidden="true"></div><i id="barFill"></i><span class="head" id="head" tabindex="0" role="slider" aria-label="Year" aria-valuemin="2000" aria-valuemax="2026" aria-valuenow="2026"></span></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <dialog class="modal" id="methodology" aria-labelledby="mTitle">
