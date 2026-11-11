@@ -1,0 +1,499 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ZuluLens Timeline</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one square stage. The microscope circle holds the bubbles; the large year shows progress. */
+:root {
+  --bg: #ffffff;
+  --lens: #ffffff;
+  --fg: hsl(160 10% 20%);
+  --muted: hsl(215 16% 47%);
+  --line: hsl(220 13% 88%);
+  --grid: rgba(0, 0, 0, 0.02);
+  --corporate: #00564A;
+  --corporate-fg: #F8D4C8;
+  --independent: #F8D4C8;
+  --independent-edge: hsl(15 55% 76%);
+  --independent-fg: #00564A;
+  --dial: hsl(170 100% 17%);
+  --card: rgba(255, 255, 255, 0.96);
+  --card-solid: #ffffff;
+  --font: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+/* Light is always the default. Dark only applies when the page's own toggle sets data-zl="dark",
+   so the viewer's system or claude.ai theme never switches it. */
+:root { color-scheme: light; }
+:root[data-zl="dark"] {
+  --bg: hsl(170 30% 6%); --lens: hsl(170 28% 9%); --fg: hsl(0 0% 95%); --muted: hsl(0 0% 65%);
+  --line: hsl(170 20% 20%); --grid: rgba(255, 255, 255, 0.02);
+  --corporate: hsl(170 60% 40%); --corporate-fg: hsl(15 60% 90%);
+  --independent: hsl(15 50% 75%); --independent-edge: hsl(15 50% 75%); --independent-fg: hsl(170 30% 10%);
+  --dial: hsl(170 60% 50%); --card: hsla(170, 30%, 9%, 0.95); --card-solid: hsl(170 30% 9%);
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font);
+  -webkit-font-smoothing: antialiased; overflow: hidden;
+}
+.app {
+  height: 100%; box-sizing: border-box; display: grid; grid-template-rows: auto 1fr auto; row-gap: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 14px;
+}
+header { display: flex; flex-direction: column; padding-top: 10px; }
+.brand { font-size: 13px; color: var(--muted); max-width: 44ch; line-height: 1.4; }
+.year { color: var(--corporate); font-size: clamp(48px, 8vw, 84px); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
+  position: relative; display: inline-block; margin-bottom: 22px; }
+.progress { position: relative; }
+.track { position: relative; padding-left: 104px; }
+.play-btn { position: absolute; left: 0; top: 50%; height: 28px; min-width: 92px; margin-top: -14px; padding: 0 14px 0 11px; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  font: inherit; font-size: 12px; font-weight: 500; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--corporate); cursor: pointer; z-index: 2; }
+.play-btn:hover { border-color: var(--corporate); }
+.play-btn svg { width: 12px; height: 12px; fill: currentColor; }
+.bar { position: relative; height: 2px; background: var(--grid); border-radius: 2px; cursor: pointer; touch-action: none; }
+.bar::before { content: ''; position: absolute; inset: -9px 0; }
+.head { position: absolute; top: 50%; left: 100%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%;
+  background: var(--corporate); border: 1.5px solid var(--corporate); box-sizing: border-box; cursor: grab; transition: transform .15s; }
+.bar:hover .head, .head:focus-visible, .bar.dragging .head { transform: scale(1.3); }
+.bar.dragging .head { cursor: grabbing; }
+.head:focus-visible { outline: 2px solid var(--dial); outline-offset: 2px; }
+.bar i { display: block; height: 100%; width: 100%; border-radius: 2px; background: var(--corporate); opacity: 0.3; }
+.meta { position: absolute; top: 26px; left: 0; z-index: 1; pointer-events: none; display: flex; flex-direction: column; gap: 8px; }
+.controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.legend { display: flex; gap: 12px; font-size: 12px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.dot.c { background: var(--corporate); }
+.dot.i { background: var(--independent); box-shadow: inset 0 0 0 1px var(--independent-edge); }
+button.play {
+  font: inherit; font-size: 12px; font-weight: 500; color: var(--fg);
+  background: transparent; border: 1px solid var(--line); border-radius: 999px;
+  padding: 6px 14px 6px 11px; display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+}
+button.play:hover { border-color: var(--muted); }
+.foot-left { display: inline-flex; align-items: center; gap: 10px; }
+.icon-btn { width: 28px; height: 28px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
+.icon-btn:hover { color: var(--fg); border-color: var(--muted); }
+.icon-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+button.play svg { width: 10px; height: 10px; fill: currentColor; }
+:focus-visible { outline: 2px solid var(--dial); outline-offset: 2px; }
+.stage { position: relative; min-height: 0; display: grid; place-items: center; }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tip {
+  position: absolute; pointer-events: none; background: var(--card); color: var(--fg);
+  border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; font-size: 12px; line-height: 1.45;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08); max-width: 240px; z-index: 2;
+}
+.tip b { font-size: 13px; font-weight: 600; display: block; margin-bottom: 2px; }
+.tip .m { color: var(--muted); }
+.modal { width: min(560px, calc(100vw - 32px)); max-height: min(80vh, 760px); padding: 0; border: 1px solid var(--line); border-radius: 14px;
+  background: var(--card-solid); color: var(--fg); box-shadow: 0 20px 60px rgba(0,0,0,0.18); font-family: var(--font); }
+.modal[open] { display: flex; flex-direction: column; }
+.modal::backdrop { background: rgba(0, 20, 16, 0.35); }
+.modal-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 12px; border-bottom: 1px solid var(--line); }
+.modal-head h2 { margin: 0; font-size: 17px; font-weight: 600; color: var(--corporate); }
+.modal-body { overflow-y: auto; padding: 4px 20px 22px; font-size: 13.5px; line-height: 1.6; }
+.modal-body h3 { font-size: 13px; font-weight: 600; margin: 18px 0 4px; }
+.modal-body p { margin: 0 0 8px; color: var(--fg); max-width: 62ch; }
+.modal-body ul { margin: 0 0 8px; padding-left: 18px; }
+.modal-body li { margin-bottom: 2px; }
+.modal-body .draft { margin-top: 14px; font-size: 12px; color: var(--muted); }
+.modal-body #count { color: var(--muted); font-variant-numeric: tabular-nums; }
+footer { padding-top: 10px; align-items: center; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--muted); }
+.msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-size: 13px; color: var(--muted); padding: 24px; }
+.drop { outline: 2px dashed var(--dial); outline-offset: -8px; }
+</style>
+
+<div class="app" id="app">
+  <header>
+    <div class="progress">
+      <div class="year" id="yearLabel" aria-live="polite">2026</div>
+      <div class="track">
+        <button class="play-btn" id="play" type="button" aria-label="Replay timeline from 2000"><svg viewBox="0 0 14 14" id="playIcon" aria-hidden="true"><path d="M3.5 2.2l8 4.8-8 4.8z"/></svg><span id="playText">Replay</span></button>
+        <div class="bar" id="bar"><i id="barFill"></i><span class="head" id="head" tabindex="0" role="slider" aria-label="Year" aria-valuemin="2000" aria-valuemax="2026" aria-valuenow="2026"></span></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="stage" id="stage">
+    <canvas id="canvas"></canvas>
+    <div class="meta">
+      <div class="brand">The rise of smaller independent news &amp; commentary channels around corporate media, 2000&ndash;2026</div>
+      <div class="legend">
+        <span><i class="dot c"></i>Corporate</span>
+        <span><i class="dot i"></i>Independent</span>
+      </div>
+    </div>
+    <div class="tip" id="tip" hidden></div>
+    <div class="msg" id="msg" hidden></div>
+  </div>
+
+  <footer>
+    <span class="foot-left">
+      <button class="icon-btn" id="theme" type="button" aria-label="Switch to dark mode"><svg viewBox="0 0 16 16" id="themeIcon" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/></svg></button>
+      <button class="icon-btn" id="infoBtn" type="button" aria-label="Methodology" aria-haspopup="dialog"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M8 7.2v4"/><circle cx="8" cy="4.9" r="0.5" fill="currentColor"/></svg></button>
+    </span>
+  </footer>
+</div>
+
+<dialog class="modal" id="methodology" aria-labelledby="mTitle">
+  <div class="modal-head">
+    <h2 id="mTitle">Methodology</h2>
+    <button class="icon-btn" id="mClose" type="button" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+  </div>
+  <div class="modal-body">
+    <p class="draft">Draft copy. This will be revised after the next audit of the audience numbers.</p>
+
+    <h3>What this shows</h3>
+    <p>Each bubble is a US news or commentary channel. Teal bubbles are corporate outlets owned by large media companies. Peach bubbles are independent channels run by creators or small companies. Bubble area matches the channel's estimated monthly audience, so a bubble twice the area has about twice the audience.</p>
+    <p id="count"></p>
+
+    <h3>How growth is drawn</h3>
+    <p>We only have audience figures for a few points in time, so the years in between are drawn, not measured. Each bubble grows in a straight line from zero at launch to its latest estimate. Outlets that existed before 2000 start at their 2000 figure instead and move in a straight line from there. Real growth was rarely this smooth.</p>
+
+    <h3>What is UMA?</h3>
+    <p>Unique Monthly Audience (UMA) is our cross-platform audience estimate. It combines publicly visible reach from websites, YouTube, podcasts and major social platforms into one figure. It is an educated estimate, not a verified audit.</p>
+
+    <h3>Where the numbers come from</h3>
+    <ul>
+      <li>YouTube analytics (Social Blade, vidIQ)</li>
+      <li>Website traffic estimates (SimilarWeb)</li>
+      <li>Podcast charts and downloads</li>
+      <li>Social media follower counts and engagement</li>
+    </ul>
+    <p>The largest outlets use ZuluLens 2025 figures, which count audiences worldwide. Smaller channels added in 2026 use rough US-only estimates based on October 2026 YouTube views. 2000 figures come from the ZuluLens 2000 dataset, with rough placeholders where none existed.</p>
+
+    <h3>Removing double counting</h3>
+    <p>Many people follow a channel on more than one platform. We apply overlap factors based on each outlet's main platform and media type (for example video-heavy or text- and podcast-led) to avoid counting the same person twice.</p>
+    <p>For corporate outlets, audience was first estimated for each sub-brand (for example CNN and HLN, or NBC News and TODAY). A second pass then removed overlap across the company's brands. Corporate figures are therefore more heavily de-duplicated and mean "people reached by the whole news portfolio", not a sum of its channels.</p>
+
+    <h3>Political lean</h3>
+    <p>Lean is based on public self-description, content and editorial position. Labels are simplified for this chart.</p>
+
+    <h3>Limitations</h3>
+    <ul>
+      <li>Public data only, with no access to internal analytics</li>
+      <li>Third-party estimates have margins of error</li>
+      <li>Overlap between platforms is modelled, not measured</li>
+      <li>The dataset is provisional and mixes worldwide and US-only figures</li>
+      <li>Use the sizes to compare channels, not as exact counts</li>
+    </ul>
+  </div>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(() => {
+  const START = 2000, END = 2026;
+  const DATA_DATE = 2026 + 9.5 / 12;           // estimates describe October 2026
+  const GAP_DEG = 36;                          // empty wedge at 12 o'clock
+  const FILL = 0.58;                           // share of the circle the 2026 bubbles cover
+  const MIN_R = 1.6;
+  const DATA_URL = 'channels.csv';
+
+  const $ = id => document.getElementById(id);
+  const stage = $('stage'), canvas = $('canvas'), ctx = canvas.getContext('2d');
+  const tip = $('tip');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let nodes = [], year = END, R = 300, cx = 0, cy = 0, W = 0, H = 0, k = 1;
+  let hovered = null, pinned = null, playing = false, lastT = 0;
+  const colors = {};
+
+  // ---------- data ----------
+  function toYear(s) {
+    const m = /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec(s || '');
+    if (!m) return null;
+    const y = +m[1];
+    if (!m[2]) return y + 0.5;                 // year only: assume mid-year
+    return y + (+m[2] - 1) / 12 + (m[3] ? (+m[3] - 1) / 365 : 0.5 / 12);
+  }
+  function parse(text) {
+    return d3.csvParse(text).map(r => ({
+      name: (r.name || '').trim(),
+      type: /corp/i.test(r.type) ? 'corporate' : 'independent',
+      lean: r.lean || '',
+      final: parseFloat(r.audience_m),
+      a2000: r.audience_2000 && r.audience_2000.trim() !== '' ? parseFloat(r.audience_2000) : null,
+      a2000Proposed: /proposed/i.test(r.note || ''),
+      startRaw: r.start || '',
+      start: toYear(r.start),
+      approx: /^y/i.test(r.start_approx || ''),
+      draft: /draft/i.test(r.value || ''),
+      source: r.source || '',
+      show: !/^n/i.test(r.show || 'yes')
+    })).filter(d => d.name && d.show && d.final > 0 && d.start !== null);
+  }
+  function load(list) {
+    const old = new Map(nodes.map(n => [n.name, n]));
+    nodes = list.map((d, i) => {
+      const prev = old.get(d.name);
+      const side = d.type === 'corporate' ? -1 : 1;
+      const a = (i * 2.399963) % (Math.PI * 2);
+      return Object.assign(d, {
+        x: prev ? prev.x : side * R * 0.3 + Math.cos(a) * R * 0.35 * Math.random(),
+        y: prev ? prev.y : Math.sin(a) * R * 0.5 * Math.random(),
+        vx: 0, vy: 0, r: 0
+      });
+    });
+    const total = d3.sum(nodes, d => d.final);
+    $('count').textContent = `This version shows ${nodes.length} channels: ${nodes.filter(d => d.type === 'corporate').length} corporate and ${nodes.filter(d => d.type === 'independent').length} independent.`;
+    sim.nodes(nodes);
+    resize();
+    k = total ? FILL * R * R / total : 1;
+    setYear(year, true);
+  }
+  // Growth: from a known 2000 value when the CSV has one (outlets older than 2000),
+  // otherwise from 0 at launch. Straight line to the Oct 2026 estimate either way.
+  const audienceAt = (d, t) => {
+    if (t >= DATA_DATE) return d.final;
+    if (d.a2000 !== null && !isNaN(d.a2000) && d.start <= START) {
+      return d.a2000 + (d.final - d.a2000) * Math.max(0, t - START) / (DATA_DATE - START);
+    }
+    return t <= d.start ? 0 : d.final * (t - d.start) / (DATA_DATE - d.start);
+  };
+  const radiusFor = a => a <= 0 ? 0 : Math.max(MIN_R, Math.sqrt(a * k));
+
+  // ---------- layout ----------
+  const collide = d3.forceCollide(d => d.r ? d.r + 0.8 : 0).strength(0.9).iterations(2);
+  const sim = d3.forceSimulation()
+    .force('x', d3.forceX(d => (d.type === 'corporate' ? -0.22 : 0.22) * R).strength(0.035))
+    .force('y', d3.forceY(0).strength(0.035))
+    .force('collide', collide)
+    .alphaDecay(0.03).velocityDecay(0.35)
+    .on('tick', () => { contain(); draw(); })
+    .stop();
+
+  function contain() {
+    for (const d of nodes) {
+      const lim = R - d.r - 2, dist = Math.hypot(d.x, d.y);
+      if (dist > lim && dist > 0) { const s = Math.max(lim, 0) / dist; d.x *= s; d.y *= s; }
+    }
+  }
+  function resize() {
+    const rect = stage.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    W = rect.width; H = rect.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const oldR = R;
+    const labelRoom = 10;
+    const SCALE = 0.8;                         // circle size as a share of the space available
+    R = Math.max(80, (Math.min(W, H) / 2 - labelRoom) * SCALE);
+    cx = W / 2; cy = H / 2;
+    if (oldR && oldR !== R) for (const d of nodes) { d.x *= R / oldR; d.y *= R / oldR; }
+    const total = d3.sum(nodes, d => d.final);
+    k = total ? FILL * R * R / total : 1;
+    sim.force('x').x(d => (d.type === 'corporate' ? -0.22 : 0.22) * R);
+    for (const d of nodes) d.r = radiusFor(audienceAt(d, year));
+    collide.radius(d => d.r ? d.r + 0.8 : 0);
+    draw();
+  }
+
+  // ---------- drawing ----------
+  function readColors() {
+    const cs = getComputedStyle(document.documentElement);
+    for (const n of ['lens', 'fg', 'muted', 'line', 'grid', 'corporate', 'corporate-fg', 'independent', 'independent-edge', 'independent-fg', 'bg'])
+      colors[n] = cs.getPropertyValue('--' + n).trim();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    // faint grid outside the circle
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.arc(cx, cy, R + 4, 0, Math.PI * 2, true); ctx.clip();
+    ctx.strokeStyle = colors.grid; ctx.lineWidth = 1; ctx.beginPath();
+    for (let x = (cx % 20); x <= W; x += 20) { ctx.moveTo(x, 0); ctx.lineTo(x, H); }
+    for (let y = (cy % 20); y <= H; y += 20) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
+    ctx.stroke(); ctx.restore();
+    // circle edge
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.fillStyle = colors.lens; ctx.fill();
+    ctx.strokeStyle = colors.line; ctx.lineWidth = 1; ctx.stroke();
+
+    const focus = pinned || hovered;
+    const order = nodes.filter(d => d.r > 0).sort((a, b) => b.r - a.r);
+    for (const d of order) {
+      const x = cx + d.x, y = cy + d.y, corp = d.type === 'corporate';
+      ctx.globalAlpha = focus && focus !== d ? 0.45 : 1;
+      ctx.beginPath(); ctx.arc(x, y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = corp ? colors.corporate : colors.independent; ctx.fill();
+      if (!corp && d.r > 2.5) { ctx.strokeStyle = colors['independent-edge']; ctx.lineWidth = 0.75; ctx.stroke(); }
+    }
+    ctx.globalAlpha = 1;
+    // labels on bubbles big enough to hold them
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (const d of order) {
+      if (d.r < 20 && d !== focus) continue;
+      const corp = d.type === 'corporate';
+      const label = shortName(d.name);
+      let fs = Math.max(9, Math.min(13, d.r / 3.6));
+      ctx.font = `600 ${fs}px ${getComputedStyle(document.body).fontFamily}`;
+      const w = ctx.measureText(label).width;
+      if (w > d.r * 1.7) { fs = Math.max(8, fs * d.r * 1.7 / w); ctx.font = `600 ${fs}px ${getComputedStyle(document.body).fontFamily}`; }
+      if (d.r >= 20 && ctx.measureText(label).width < d.r * 1.8) {
+        ctx.globalAlpha = focus && focus !== d ? 0.5 : 1;
+        ctx.fillStyle = corp ? colors['corporate-fg'] : colors['independent-fg'];
+        ctx.fillText(label, cx + d.x, cy + d.y - (d.r > 30 ? fs * 0.45 : 0));
+        if (d.r > 30) {
+          ctx.font = `400 ${fs - 1.5}px ${getComputedStyle(document.body).fontFamily}`;
+          ctx.fillText(fmt(audienceAt(d, year)), cx + d.x, cy + d.y + fs * 0.75);
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+    if (focus && focus.r > 0) {
+      ctx.beginPath(); ctx.arc(cx + focus.x, cy + focus.y, focus.r + 1.5, 0, Math.PI * 2);
+      ctx.strokeStyle = colors.fg; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+    if (focus) placeTip(focus);
+  }
+  const shortName = n => n.replace(/\s*\(.*?\)\s*/g, ' ').trim();
+  const fmt = m => m >= 10 ? `${m.toFixed(0)}M` : m >= 1 ? `${m.toFixed(1)}M` : m >= 0.1 ? `${(m).toFixed(2)}M` : `${Math.max(1, Math.round(m * 1000))}K`;
+
+  // ---------- time ----------
+  function setYear(y, quiet) {
+    year = Math.max(START, Math.min(END, y));
+    $('yearLabel').textContent = Math.floor(year);
+    const p = (year - START) / (END - START);
+    $('barFill').style.width = (p * 100) + '%';
+    $('head').style.left = (p * 100) + '%';
+    $('head').setAttribute('aria-valuenow', Math.floor(year));
+    for (const d of nodes) d.r = radiusFor(audienceAt(d, year));
+    collide.radius(d => d.r ? d.r + 0.8 : 0);
+    if (reduceMotion || quiet) { sim.alpha(0.3); for (let i = 0; i < (quiet ? 160 : 40); i++) { sim.tick(); contain(); } draw(); }
+    else { sim.alpha(Math.max(sim.alpha(), 0.25)).restart(); }
+  }
+  const YEARS_PER_SEC = 1.6;
+  function frame(t) {
+    if (!playing) return;
+    const dt = lastT ? (t - lastT) / 1000 : 0; lastT = t;
+    const next = year + dt * YEARS_PER_SEC;
+    if (next >= END) { setYear(END); stop(); return; }
+    setYear(next);
+    requestAnimationFrame(frame);
+  }
+  function play() {
+    if (year >= END - 0.01) setYear(START, true);
+    playing = true; lastT = 0;
+    $('play').setAttribute('aria-label', 'Pause timeline'); $('playText').textContent = 'Pause';
+    $('playIcon').innerHTML = '<path d="M3.5 2.5h2.6v9H3.5zM8.4 2.5H11v9H8.4z"/>';
+    requestAnimationFrame(frame);
+  }
+  function stop() {
+    playing = false;
+    const atEnd = year >= END - 0.01;
+    $('play').setAttribute('aria-label', atEnd ? 'Replay timeline from 2000' : 'Play timeline'); $('playText').textContent = atEnd ? 'Replay' : 'Play';
+    $('playIcon').innerHTML = '<path d="M3.5 2.2l8 4.8-8 4.8z"/>';
+  }
+  $('play').addEventListener('click', () => playing ? stop() : play());
+
+  // ---------- scrub on the progress bar ----------
+  const bar = $('bar');
+  const yearAtX = x => { const r = bar.getBoundingClientRect(); return START + Math.max(0, Math.min(1, (x - r.left) / r.width)) * (END - START); };
+  let scrubbing = false;
+  bar.addEventListener('pointerdown', e => {
+    scrubbing = true; stop(); bar.classList.add('dragging'); bar.setPointerCapture(e.pointerId);
+    setYear(yearAtX(e.clientX)); e.preventDefault();
+  });
+  bar.addEventListener('pointermove', e => { if (scrubbing) setYear(yearAtX(e.clientX)); });
+  const endScrub = () => { if (!scrubbing) return; scrubbing = false; bar.classList.remove('dragging'); stop(); };
+  bar.addEventListener('pointerup', endScrub);
+  bar.addEventListener('pointercancel', endScrub);
+  $('head').addEventListener('keydown', e => {
+    const step = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 }[e.key];
+    if (e.key === 'Home') { stop(); setYear(START); e.preventDefault(); }
+    else if (e.key === 'End') { stop(); setYear(END); e.preventDefault(); }
+    else if (step) { stop(); setYear(Math.max(START, Math.min(END, Math.round(year) + step))); e.preventDefault(); }
+  });
+
+  // ---------- hover / tap ----------
+  function hit(e) {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left - cx, y = e.clientY - rect.top - cy;
+    let best = null;
+    for (const d of nodes) if (d.r > 0) {
+      const dist = Math.hypot(x - d.x, y - d.y);
+      if (dist <= Math.max(d.r, 4) && (!best || d.r < best.r)) best = d;
+    }
+    return best;
+  }
+  stage.addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch') return;
+    const d = hit(e);
+    if (d !== hovered) { hovered = d; stage.style.cursor = d ? 'pointer' : ''; if (!d) tip.hidden = true; draw(); }
+  });
+  stage.addEventListener('pointerleave', () => { hovered = null; if (!pinned) tip.hidden = true; draw(); });
+  stage.addEventListener('click', e => {
+    const d = hit(e);
+    pinned = d && d !== pinned ? d : null;
+    if (!pinned && !hovered) tip.hidden = true;
+    draw();
+  });
+  function placeTip(d) {
+    const now = audienceAt(d, year);
+    const startYear = d.startRaw.slice(0, 4);
+    tip.innerHTML =
+      `<b>${esc(d.name)}</b>` +
+      `<div class="m">${d.type === 'corporate' ? 'Corporate' : 'Independent'}${d.lean ? ' · ' + esc(d.lean) : ''}</div>` +
+      `<div>Launched ${startYear}${d.approx ? ' (approx.)' : ''}</div>` +
+      (year < DATA_DATE ? `<div>${Math.floor(year)}: ~${fmt(now)} a month</div>` : '') +
+      `<div>Oct 2026: ~${fmt(d.final)} a month</div>` +
+      (d.draft ? `<div class="m">Placeholder figure, not yet rebuilt</div>` : '') +
+      (d.a2000Proposed ? `<div class="m">2000 figure is a rough placeholder</div>` : '') +
+      (/swarm/i.test(d.source) ? `<div class="m">New candidate, not yet merged</div>` : '');
+    tip.hidden = false;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    let x = cx + d.x + d.r + 10, y = cy + d.y - th / 2;
+    if (x + tw > W - 4) x = cx + d.x - d.r - 10 - tw;
+    tip.style.left = Math.max(4, Math.min(W - tw - 4, x)) + 'px';
+    tip.style.top = Math.max(4, Math.min(H - th - 4, y)) + 'px';
+  }
+  const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  // ---------- drop a CSV to preview changes ----------
+  const app = $('app');
+  app.addEventListener('dragover', e => { e.preventDefault(); app.classList.add('drop'); });
+  app.addEventListener('dragleave', e => { if (e.target === app) app.classList.remove('drop'); });
+  app.addEventListener('drop', e => {
+    e.preventDefault(); app.classList.remove('drop');
+    const f = e.dataTransfer.files[0]; if (!f) return;
+    f.text().then(t => { const list = parse(t); if (list.length) { pinned = hovered = null; tip.hidden = true; load(list); } });
+  });
+
+  // ---------- theme: light by default, toggle to dark ----------
+  const root = document.documentElement;
+  function applyTheme(t) {
+    root.setAttribute('data-zl', t);
+    const dark = t === 'dark';
+    $('themeIcon').innerHTML = dark ? '<circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M3 13l1.1-1.1M11.9 4.1 13 3"/>' : '<path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/>';
+    $('theme').setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  applyTheme('light');
+  $('theme').addEventListener('click', () => applyTheme(root.getAttribute('data-zl') === 'dark' ? 'light' : 'dark'));
+
+  // ---------- methodology modal ----------
+  const modal = $('methodology');
+  $('infoBtn').addEventListener('click', () => { if (playing) stop(); modal.showModal(); });
+  $('mClose').addEventListener('click', () => modal.close());
+  modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });
+
+  // ---------- boot ----------
+  readColors();
+  new MutationObserver(() => { readColors(); draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-zl'] });
+  new ResizeObserver(() => resize()).observe(stage);
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => draw());
+
+  fetch(DATA_URL).then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(t => { resize(); load(parse(t)); stop(); })
+    .catch(() => {
+      const m = $('msg'); m.hidden = false;
+      m.textContent = 'Could not load channels.csv. Check it was published next to this page, or drop the CSV file here.';
+      resize();
+    });
+})();
+</script>
