@@ -78,7 +78,7 @@ Election Time,independent,Center (provisional),0.2,0.2,,,,2020,yes,draft,main,ye
 Ben Dykes,independent,Right (provisional),0.12,0.12,,,,,no,draft,main,no,Start date unknown
 Microdots,independent,Unresolved,0.05,0.05,,,,2023-08-23,no,draft,main,yes,
 Destiny,independent,Lean left,9.4867,3.0,19.44,Live stream,,2013-07,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.488 (Live stream, 2025 sheet ratio); was 3.0 at x0.155"
-TYT Investigates,independent,Left (provisional),0.36,0.36,,,,2017-09,no,draft,main,yes,
+TYT Investigates,independent,Left (provisional),4.7291,0.36,8.83949,News commentary,,2017-09,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary); vidIQ @tytinvestigatesreports, fetched 11 Nov 2026; was 0.36"
 Misha Petrov,independent,Right (provisional),0.29,0.29,,,,2021-02,no,draft,main,yes,
 Waldorf Nation,independent,Left,0.14,0.14,,,,,no,draft,main,no,Start date unknown
 Let’s Talk Elections,independent,Lean left (provisional),5.1467,1.5,9.62,News commentary,,2017-06,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 1.5 at x0.155"
@@ -113,8 +113,8 @@ Mark Dice,independent,Right,1.268,0.37,2.37,News commentary,,2007-01,no,estimate
 The Officer Tatum,independent,Right,18.8855,5.5,35.3,News commentary,,2012-01,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 5.5 at x0.155"
 Anthony Brian Logan,independent,Right,1.0539,0.31,1.97,News commentary,,2006-05,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.31 at x0.155"
 FreedomToons,independent,Right/Libertarian (provisional),0.9523,0.28,1.78,News commentary,,2012-04,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.28 at x0.155"
-Mr. Beat,independent,Lean left,0.06,0.06,,,,2009-08,no,draft,main,yes,
-Right Side Broadcasting Network,independent,Right,0.07,0.07,,,,2014-06,no,draft,main,yes,
+Mr. Beat,independent,Lean left,5.1318,0.06,9.330574,Daily show / analysis,,2009-08,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis); vidIQ @iammrbeat, fetched 11 Nov 2026; was 0.06"
+Right Side Broadcasting Network,independent,Right,11.5852,0.07,23.740118,Live stream,,2014-06,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.488 (Live stream); vidIQ @rsbn, fetched 11 Nov 2026; was 0.07"
 The Next News Network,independent,Right (provisional),3.4347,1.0,6.42,News commentary,,2012-06,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 1.0 at x0.155"
 Pod Save America,independent,Lean left,9.4139,2.5,16.01,Long-form podcast,,2017-01-09,no,estimate,main,yes,"Size: Oct 2026 YouTube views x 0.588 (Long-form podcast, 2025 sheet ratio); was 2.5 at x0.155"
 Democracy Now!,independent,Progressive/Left,14.344,4.0,26.08,Daily show / analysis,0.65,1996,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis, 2025 sheet ratio); was 4.0 at x0.155; 2000: ZuluLens 2000 dataset"
@@ -151,21 +151,21 @@ Mr Reagan,independent,Right/Conservative,0.1851,0.0536,0.346,News commentary,,20
 Ian Carroll,independent,Right/Conspiracy-leaning,1.2626,0.37,2.36,News commentary,,2022,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.37 at x0.155"
 David Doel,independent,Left/Progressive,0.0002,0.0001,0.0004,News commentary,,2016,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary, 2025 sheet ratio); was 0.0001 at x0.155"
 Knowing Better,independent,Center/Educational,0.1727,0.0487,0.314,Daily show / analysis,,2016,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis, 2025 sheet ratio); was 0.0487 at x0.155"
-Some More News,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+Some More News,independent,Left,2.1651,,4.046959,News commentary,,2018,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary); vidIQ @smn, fetched 11 Nov 2026; was none"
 Emma Vigeland,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
-Nomiki Konst,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
-The Serfs,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
-The Grayzone,independent,Left/Anti-imperialist,,,,,,,no,,swarm candidate,no,No audience figure yet
-Katie Halper,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
-Brett Cooper,independent,Right,,,,,,,no,,swarm candidate,no,No audience figure yet
-Paul Joseph Watson,independent,Right/Conspiracy,,,,,,,no,,swarm candidate,no,No audience figure yet
-The Bulwark,independent,Center-Right/Anti-Trump,,,,,,,no,,swarm candidate,no,No audience figure yet
-The Dispatch,independent,Center-Right,,,,,,,no,,swarm candidate,no,No audience figure yet
-Breitbart,independent,Right,,,,,,,no,,swarm candidate,no,No audience figure yet
-The Intercept,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+Nomiki Konst,independent,Left,0.0014,,0.002547,Daily show / analysis,,2019,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis); vidIQ @thenomikishow, fetched 11 Nov 2026; was none"
+The Serfs,independent,Left,0.0785,,0.146805,News commentary,,2015-04,no,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary); vidIQ @theserfstv, fetched 11 Nov 2026; was none"
+The Grayzone,independent,Left/Anti-imperialist,1.2507,,2.337779,News commentary,,2015-12,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary); vidIQ @thegrayzone7996, fetched 11 Nov 2026; was none"
+Katie Halper,independent,Left,1.5054,,2.664507,Interview,,2015,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.565 (Interview); vidIQ @thekatiehalpershow, fetched 11 Nov 2026; was none"
+Brett Cooper,independent,Right,5.408,,10.108474,News commentary,,2024-11,yes,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary); vidIQ @bbrettcooper, fetched 11 Nov 2026; was none"
+Paul Joseph Watson,independent,Right/Conspiracy,9.2282,,17.249027,News commentary,,2011-07,no,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary); vidIQ @prisonplanetlive, fetched 11 Nov 2026; was none"
+The Bulwark,independent,Center-Right/Anti-Trump,40.5782,,69.010588,Long-form podcast,,2018-12,no,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.588 (Long-form podcast); vidIQ @bulwarkmedia, fetched 11 Nov 2026; was none"
+The Dispatch,independent,Center-Right,0.2851,,0.532887,News commentary,,2019-10,no,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary); vidIQ @thedispatchpods, fetched 11 Nov 2026; was none"
+Breitbart,independent,Right,2.1373,,3.994915,News commentary,,2007,no,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary); vidIQ @breitbartnews92, fetched 11 Nov 2026; was none"
+The Intercept,independent,Left,0.0745,,0.139304,News commentary,,2014-02,no,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary); vidIQ @theinterceptflm, fetched 11 Nov 2026; was none"
 Occupy Democrats,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
-Glenn Beck,independent,Right,,,,,,,no,,swarm candidate,no,No audience figure yet
-Chris Hedges,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+Glenn Beck,independent,Right,21.5414,,39.166132,Daily show / analysis,,2011-09,no,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.55 (Daily show / analysis); vidIQ @glennbeck, fetched 11 Nov 2026; was none"
+Chris Hedges,independent,Left,2.4779,,4.385663,Interview,,2022-06,no,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.565 (Interview); vidIQ @chrishedgeschannel, fetched 11 Nov 2026; was none"
 Lee Camp,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
 Sharon McMahon,independent,Center/Civics,,,,,,,no,,swarm candidate,no,No audience figure yet
-FD Signifier,independent,Left,,,,,,,no,,swarm candidate,no,No audience figure yet
+FD Signifier,independent,Left,1.6129,,3.014779,News commentary,,2020-05,no,estimate,swarm candidate,yes,"Size: Oct 2026 YouTube views x 0.535 (News commentary); vidIQ @fdsignifire, fetched 11 Nov 2026; was none"
