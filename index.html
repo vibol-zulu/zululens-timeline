@@ -460,7 +460,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     // labels: one font size for every bubble; a name goes on one line, or two if needed, and is left out if it can't fit
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     const fam = getComputedStyle(document.body).fontFamily;
-    const FS = Math.max(6, Math.min(10, R / 24));        // same size everywhere, scaled a little with the circle
+    const FS = Math.max(5, Math.min(8.5, R / 30));        // same size everywhere, scaled a little with the circle
     const NUM_FS = FS - 1;
     for (const d of order) {
       if (d.r < FS) continue;
