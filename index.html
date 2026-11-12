@@ -243,7 +243,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <p>Legacy media built their reach on TV, a visual medium. YouTube is its closest equivalent for independents, and the only platform with consistent public numbers. This formula doesn&rsquo;t count audio-only listening on Spotify and Apple. For the biggest podcast-led shows we estimate it separately from other research (see Outer circles below); other podcast-led shows may still be understated.</p>
     <p>The share (47&ndash;59%, depending on the type of channel) is meant to remove people who watch more than one video.</p>
     <div class="assume"><strong>This share is an assumption, not a measured figure.</strong> No platform publishes how many of a channel&rsquo;s views come from different people. Our percentages come from the 2025 research, where they were set by judgement, with no published source. The idea: formats people watch habitually (daily shows, live streams, X posts) get more repeat views, so a smaller share counts as people; one-off long episodes (podcasts, interviews) get fewer, so a larger share counts. The only public measurement we found (Comscore, 2013) suggests the real share may be lower, so independent audiences may be overstated.</div>
-    <p><strong>Large YouTube figures are likely too high.</strong> Channels that post many videos a day, like MeidasTouch, get heavy repeat viewing from loyal fans, and YouTube counts Shorts as views too, so far fewer of their views are different people. Independent rankings agree: Edison puts MeidasTouch 20th in US weekly podcast reach, below several channels that look smaller here. Channels above 40M on YouTube carry this warning.</p>
+    <p><strong>Large YouTube figures are likely too high.</strong> Channels that post many videos a day, like MeidasTouch, get heavy repeat viewing from loyal fans, and YouTube counts Shorts as views too, so far fewer of their views are different people. Independent rankings agree: Edison puts MeidasTouch 20th in US weekly podcast reach, below several channels that look smaller here. Channels above 40M on YouTube carry this note. Each YouTube-sized channel&rsquo;s tooltip also shows how many videos it posts a month, its share of Shorts and its average views per video, so you can see when a big figure comes from posting volume.</p>
     <p class="m">Example: MeidasTouch had 228.6M YouTube views in October 2026. As a news commentary channel, 53.5% count as people: 228.6M &times; 0.535 &asymp; 122M.</p>
     <p><strong>Media companies</strong></p>
     <p class="formula">Combined audience &times; share kept</p>
@@ -348,6 +348,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       final: parseFloat(r.audience_m) > 0 ? parseFloat(r.audience_m) : (parseFloat(r.views_m) || 0) * (VIEW_RATIO[(r.platform_type || '').trim()] || VIEW_RATIO['News commentary']),
       caveat: (r.caveat || '').trim(),
       ytBased: parseFloat(r.views_m) > 0,   // sized from YouTube views
+      views: parseFloat(r.views_m) || 0,
+      uploads: parseFloat(r.uploads_pm) || 0, shortsPct: r.shorts_pct === '' || r.shorts_pct == null ? null : parseFloat(r.shorts_pct), uploadsNote: (r.uploads_note || '').trim(),
       est: parseFloat(r.audience_est_m) > 0 ? parseFloat(r.audience_est_m) : null,   // estimate incl. podcasts (dashed ring)
       estSource: (r.est_source || '').trim(),
       a2000: r.audience_2000 && r.audience_2000.trim() !== '' ? parseFloat(r.audience_2000) : null,
@@ -567,6 +569,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     }
     if (focus) placeTip(focus);
   }
+  const fmtViews = v => v >= 1e6 ? `${(v / 1e6).toFixed(1)}M` : `${Math.round(v / 1e3)}K`;
   const shortName = n => n.replace(/\s*\(.*?\)\s*/g, ' ').trim();
   const fmt = m => m >= 10 ? `${m.toFixed(0)}M` : m >= 1 ? `${m.toFixed(1)}M` : m >= 0.1 ? `${(m).toFixed(2)}M` : `${Math.max(1, Math.round(m * 1000))}K`;
 
@@ -700,6 +703,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       (d.est
         ? `<div>Solid circle: ~${fmt(d.final)} a month on YouTube (Oct 2026)</div><div>Faint circle: ~${fmt(d.est)} a month, including podcasts and other platforms</div><div class="m">${esc(d.estSource)}</div>`
         : `<div>Oct 2026: ~${fmt(d.final)} a month</div>`) +
+      (d.type === 'independent' && d.ytBased && d.uploads > 0   // posting statistic: context for how big the YouTube figure is
+        ? `<div class="m">Posts ~${Math.round(d.uploads)} videos a month${d.uploadsNote ? ' (' + esc(d.uploadsNote) + ')' : d.shortsPct !== null ? ` (${Math.round(d.shortsPct)}% Shorts)` : ''} · ~${fmtViews(d.views * 1e6 / d.uploads)} views per video</div>` : '') +
       (d.type === 'independent' && d.ytBased && d.final >= 40 && !d.est && !/too low/i.test(d.caveat)
         ? `<div class="m">Large YouTube figure: channels that post many videos get heavy repeat viewing, and Shorts views count too, so this is likely too high.</div>` : '') +
       (d.caveat ? (/too low/i.test(d.caveat) ? `<div class="warn">${esc(d.caveat.replace(/;\s*likely too low/i, '')).replace(/\.$/, '')}. Likely too low.</div>` : `<div class="m">${esc(d.caveat)}</div>`) : '') +
