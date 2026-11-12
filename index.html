@@ -102,6 +102,7 @@ button.play {
 button.play:hover { border-color: var(--muted); }
 .icon-btn { width: 28px; height: 28px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
 .icon-btn:hover { color: var(--fg); border-color: var(--muted); }
+.size-ctl[hidden] { display: none; }
 .size-ctl { position: absolute; top: calc(100% + 14px); left: 0; pointer-events: auto; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }   /* vertical, under the link; outside the meta box so the circle keeps its size */
 .size-ctl input { -webkit-appearance: none; appearance: none; writing-mode: vertical-lr; direction: rtl; width: 12px; height: 120px; margin: 0; cursor: pointer;
   background: linear-gradient(var(--line), var(--line)) center / 2px 100% no-repeat; }   /* thin line; top = bigger */
@@ -281,8 +282,9 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   const recording = new URLSearchParams(location.search).has('record');   // video export mode, driven frame by frame by a script
   if (recording) document.documentElement.classList.add('recording');
   let spectrum = false, SW = 300;
-  let userScale = 1;   // Size slider (remembered per browser)
-  try { const v = parseFloat(localStorage.getItem('zl-size')); if (v >= 0.7 && v <= 1.4) userScale = v; } catch (e) {}
+  const SIZE_SLIDER = false;   // the Size slider is hidden for now; set true to bring it back
+  let userScale = 1.4;         // fixed at the slider's maximum while it is hidden
+  if (SIZE_SLIDER) try { const v = parseFloat(localStorage.getItem('zl-size')); if (v >= 0.7 && v <= 1.4) userScale = v; } catch (e) {}
   let showLabels = matchMedia('(max-width: 600px)').matches;   // labels on by default on phones (desktop unaffected)
   let nodes = [], year = END, R = 300, cx = 0, cy = 0, W = 0, H = 0, k = 1;
   let hovered = null, pinned = null, playing = false, lastT = 0;
@@ -717,6 +719,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
 
   // ---------- Size slider ----------
   const sizeSlider = $('sizeSlider');
+  if (!SIZE_SLIDER) sizeSlider.closest('.size-ctl').hidden = true;
   sizeSlider.value = userScale;
   sizeSlider.addEventListener('input', () => {
     userScale = parseFloat(sizeSlider.value);
