@@ -419,7 +419,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     const topReserve = meta ? meta.offsetTop + meta.offsetHeight + 8 : 0;
     const BTN_H = 28, BTN_BAND = recording ? 28 : 76;   // band under the circle for the play button (none when recording)
     const usableH = Math.max(160, H - topReserve - BTN_BAND);
-    R = Math.max(80, Math.min(W / 2 - 12, (Math.min(W, usableH) / 2 - labelRoom) * SCALE * userScale));   // userScale: the Size slider
+    const maxR = W <= 600 ? W / 2 + 6 : W / 2 - 12;   // phones: the circle may use part of the page margin
+    R = Math.max(80, Math.min(maxR, (Math.min(W * (W <= 600 ? 1.1 : 1), usableH) / 2 - labelRoom) * SCALE * userScale));   // userScale: the Size slider
     cx = W / 2; cy = topReserve + usableH / 2;
     const pb = $('controls'); pb.style.left = cx + 'px'; const barY = H + parseFloat(getComputedStyle(document.querySelector('.bottom')).paddingTop);   // timeline line, in stage coords
     pb.style.top = Math.min(H - BTN_H, ((cy + R) + barY) / 2 - BTN_H / 2) + 'px';   // vertically centred between circle and timeline
