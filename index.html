@@ -102,6 +102,10 @@ button.play {
 button.play:hover { border-color: var(--muted); }
 .icon-btn { width: 28px; height: 28px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
 .icon-btn:hover { color: var(--fg); border-color: var(--muted); }
+.size-ctl { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); margin-right: 4px; }
+.size-ctl input { width: 90px; accent-color: var(--corporate); }
+@media (max-width: 600px) { .size-ctl { display: none; } }
+html.recording .size-ctl { display: none; }
 html.recording .top-icons, html.recording .controls, html.recording .tip { display: none !important; }   /* video export (?record): no icons or play button */
 #substackBtn svg { fill: #FF6719; stroke: none; width: 12px; height: 12px; }   /* Substack orange */
 .icon-btn[aria-pressed="true"] { color: var(--bg); background: var(--fg); border-color: var(--fg); }   /* toggle on */
@@ -159,6 +163,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <div class="headline"><span class="prefix">US news media landscape</span>
       <div class="year" id="yearLabel" aria-live="polite">2026</div></div>
     <span class="top-icons">
+      <label class="size-ctl" title="Size of the circle and bubbles"><span>Size</span><input type="range" id="sizeSlider" min="0.7" max="1.4" step="0.05" value="1" aria-label="Size of the circle and bubbles"></label>
       <button class="icon-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="iconMenu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 4.5h10M3 8h10M3 11.5h10"/></svg></button>
       <span class="icon-list" id="iconMenu">
       <button class="icon-btn" id="labelsBtn" type="button" aria-label="Show bubble labels" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 3.5h7.2l3.8 4.5-3.8 4.5H2.5z"/><path d="M5 8h3"/></svg><span class="ico-label">Bubble labels</span></button>
@@ -270,6 +275,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   const recording = new URLSearchParams(location.search).has('record');   // video export mode, driven frame by frame by a script
   if (recording) document.documentElement.classList.add('recording');
   let spectrum = false, SW = 300;
+  let userScale = 1;   // Size slider (remembered per browser)
+  try { const v = parseFloat(localStorage.getItem('zl-size')); if (v >= 0.7 && v <= 1.4) userScale = v; } catch (e) {}
   let showLabels = matchMedia('(max-width: 600px)').matches;   // labels on by default on phones (desktop unaffected)
   let nodes = [], year = END, R = 300, cx = 0, cy = 0, W = 0, H = 0, k = 1;
   let hovered = null, pinned = null, playing = false, lastT = 0;
@@ -404,7 +411,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     const topReserve = meta ? meta.offsetTop + meta.offsetHeight + 8 : 0;
     const BTN_H = 28, BTN_BAND = recording ? 28 : 76;   // band under the circle for the play button (none when recording)
     const usableH = Math.max(160, H - topReserve - BTN_BAND);
-    R = Math.max(80, (Math.min(W, usableH) / 2 - labelRoom) * SCALE);
+    R = Math.max(80, Math.min(W / 2 - 12, (Math.min(W, usableH) / 2 - labelRoom) * SCALE * userScale));   // userScale: the Size slider
     cx = W / 2; cy = topReserve + usableH / 2;
     const pb = $('controls'); pb.style.left = cx + 'px'; const barY = H + parseFloat(getComputedStyle(document.querySelector('.bottom')).paddingTop);   // timeline line, in stage coords
     pb.style.top = Math.min(H - BTN_H, ((cy + R) + barY) / 2 - BTN_H / 2) + 'px';   // vertically centred between circle and timeline
@@ -701,6 +708,16 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   readColors();
   new MutationObserver(() => { readColors(); draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-zl'] });
   new ResizeObserver(() => resize()).observe(stage);
+
+  // ---------- Size slider ----------
+  const sizeSlider = $('sizeSlider');
+  sizeSlider.value = userScale;
+  sizeSlider.addEventListener('input', () => {
+    userScale = parseFloat(sizeSlider.value);
+    try { localStorage.setItem('zl-size', String(userScale)); } catch (e) {}
+    resize();
+    if (!reduceMotion) sim.alpha(Math.max(sim.alpha(), 0.3)).restart(); else { for (let i = 0; i < 60; i++) { sim.tick(); contain(); } draw(); }
+  });
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => draw());
 
   function parseQuarterly(text) {
