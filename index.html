@@ -113,7 +113,20 @@ button.play:hover { border-color: var(--muted); }
 .size-ctl input:focus-visible { outline: 2px solid var(--corporate); outline-offset: 3px; border-radius: 4px; }
 @media (max-width: 600px) { .size-ctl { display: none; } }
 html.recording .size-ctl { display: none; }
+html.video-year .bottom, html.video-yeartop .bottom { display: none !important; }
+html.video-yeartop .headline { flex-direction: column-reverse; align-items: flex-start; gap: 4px; }
+html.video-yeartop .headline .prefix { font-size: clamp(18px, 2.6vw, 30px); color: var(--muted); font-weight: 500; letter-spacing: 0; }   /* video option: no timeline */
+.video-year-label { display: none; }
+html.video-subbelow .topbar { visibility: hidden; height: 0; padding: 0; overflow: hidden; }   /* keep the grid row so the circle still has room */
+.video-sub, .video-legend { display: none; }
+html.video-subbelow .video-legend { display: flex; gap: 18px; position: absolute; left: 50%; transform: translateX(-50%); font-size: clamp(14px, 2vw, 22px); color: var(--muted); white-space: nowrap; z-index: 2; }
+html.video-subbelow .video-legend span { display: inline-flex; align-items: center; gap: 8px; }
+html.video-subbelow .video-legend .dot { width: 0.7em; height: 0.7em; }
+html.video-subbelow.video-year .video-year-label { font-size: clamp(30px, 5vw, 54px); }   /* slightly smaller year in this layout */
+html.video-subbelow .video-sub { display: block; position: absolute; left: 50%; transform: translateX(-50%); font-size: clamp(19px, 3vw, 32px); font-weight: 500; color: var(--muted); white-space: nowrap; z-index: 2; }
+html.video-year .video-year-label { display: block; position: absolute; left: 50%; transform: translateX(-50%); font-size: clamp(36px, 6vw, 64px); font-weight: 600; letter-spacing: -0.02em; color: var(--corporate); font-variant-numeric: tabular-nums; z-index: 2; white-space: nowrap; }
 html.recording .top-icons, html.recording .controls, html.recording .tip, html.recording #yearLabel, html.recording .meta { display: none !important; }   /* video: title and timeline only */   /* video export (?record): no icons or play button */
+html.video-yeartop #yearLabel { display: block !important; font-size: clamp(56px, 9vw, 96px); margin: 0; }
 #substackBtn svg { fill: #FF6719; stroke: none; width: 12px; height: 12px; }   /* Substack orange */
 .icon-btn[aria-pressed="true"] { color: var(--bg); background: var(--fg); border-color: var(--fg); }   /* toggle on */
 #labelsBtn { display: none; }   /* phones only: bubbles are too small for labels by default */
@@ -197,6 +210,9 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       <label class="size-ctl" title="Size of the circle and bubbles"><span>Size</span><input type="range" id="sizeSlider" min="0.7" max="1.4" step="0.05" value="1" aria-label="Size of the circle and bubbles" aria-orientation="vertical"></label>
     </div>
     <div class="tip" id="tip" hidden></div>
+    <div class="video-year-label" id="videoYear" aria-hidden="true"></div>
+    <div class="video-sub" id="videoSub" aria-hidden="true">US news media landscape</div>
+    <div class="video-legend" id="videoLegend" aria-hidden="true"><span><i class="dot c"></i>Corporate</span><span><i class="dot i"></i>Independent</span></div>
     <div class="msg" id="msg" hidden></div>
   </div>
 
@@ -283,7 +299,15 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   const tip = $('tip');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const recording = new URLSearchParams(location.search).has('record');   // video export mode, driven frame by frame by a script
+  const qs = new URLSearchParams(location.search);
+  const recording = qs.has('record');   // video export mode, driven frame by frame by a script
+  const videoYear = recording && qs.has('yearbelow');   // video option: year under the circle, no timeline
+  const slowFrom = recording && qs.get('slowfrom') ? parseFloat(qs.get('slowfrom')) : null;   // video option: slow down from this year
+  if (videoYear) document.documentElement.classList.add('video-year');
+  const yearTop = recording && qs.has('yeartop');   // video option: the year is the main title, the title a subtitle below it; no timeline
+  if (yearTop) document.documentElement.classList.add('video-yeartop');
+  const subBelow = videoYear && qs.has('subbelow');   // video option: title moves under the year, below the circle
+  if (subBelow) document.documentElement.classList.add('video-subbelow');
   if (recording) document.documentElement.classList.add('recording');
   let spectrum = false, SW = 300;
   const SIZE_SLIDER = false;   // the Size slider is hidden for now; set true to bring it back
@@ -417,18 +441,27 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const oldR = R;
     const labelRoom = 10;
-    const SCALE = recording ? 0.96 : 0.9;      // circle size as a share of the space available (bigger in the video)
+    const SCALE = subBelow ? 1 : recording ? 0.96 : 0.9;      // circle size as a share of the space available (bigger in the video)
     // Centre the circle between the bottom of the legend and the timeline, leaving room for the
     // play button underneath it (on every screen size).
     const meta = document.querySelector('.meta');
     const topReserve = meta ? meta.offsetTop + meta.offsetHeight + 8 : 0;
-    const BTN_H = 28, BTN_BAND = recording ? 28 : 76;   // band under the circle for the play button (none when recording)
+    const BTN_H = 28, BTN_BAND = subBelow ? 160 : videoYear ? 110 : recording ? 28 : 76;   // band under the circle for the play button (none when recording)
     const usableH = Math.max(160, H - topReserve - BTN_BAND);
     const maxR = W <= 600 ? W / 2 - 22 : W / 2 - 12;   // phones: leave a margin either side
     R = Math.max(80, Math.min(maxR, (Math.min(W, usableH) / 2 - labelRoom) * SCALE * userScale));   // userScale: the Size slider
     cx = W / 2; cy = topReserve + usableH / 2;
     const pb = $('controls'); pb.style.left = cx + 'px'; const barY = H + parseFloat(getComputedStyle(document.querySelector('.bottom')).paddingTop);   // timeline line, in stage coords
     pb.style.top = Math.min(H - BTN_H, ((cy + R) + barY) / 2 - BTN_H / 2) + 'px';   // vertically centred between circle and timeline
+    // space between the circle and the year; in the subtitle layout it matches the space above the circle
+    const yfs = parseFloat(getComputedStyle($('videoYear')).fontSize);
+    const YEAR_GAP = subBelow ? (rect.top + cy - R) - yfs * 0.24 : 18;   // 0.24 x font size = blank space above the digits
+    if (videoYear) $('videoYear').style.top = (cy + R + YEAR_GAP) + 'px';   // year under the circle (video option)
+    if (subBelow) {
+      const subTop = cy + R + YEAR_GAP + parseFloat(getComputedStyle($('videoYear')).fontSize) * 1.25;
+      $('videoSub').style.top = subTop + 'px';
+      $('videoLegend').style.top = (subTop + parseFloat(getComputedStyle($('videoSub')).fontSize) * 1.7) + 'px';   // Corporate / Independent under the subtitle
+    }   // title under the year (from the year's font size, so it never overlaps)
     if (oldR && oldR !== R) for (const d of nodes) { d.x *= R / oldR; d.y *= R / oldR; }
     const total = d3.sum(nodes, d => Math.max(d.final, d.est || 0));   // outer circles count towards the space used
     k = total ? FILL * R * R / total : 1;
@@ -562,6 +595,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   function setYear(y, quiet) {
     year = Math.max(START, Math.min(END, y));
     $('yearLabel').textContent = periodLabel(year);
+    if (videoYear) $('videoYear').textContent = periodLabel(year);
     updateBar();
     $('head').setAttribute('aria-valuenow', Math.floor(year));
     for (const d of nodes) sizeNode(d);
@@ -600,7 +634,10 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   if (recording) window.rec = {
     start() { sim.stop(); setYear(START, true); return periodLabel(year); },
     step(dt, ticksPerFrame = 1) {
-      if (year < END) setYear(Math.min(END, year + dt * (year >= Q_START ? QUARTER_YEARS_PER_SEC : YEARS_PER_SEC)));
+      const speed = slowFrom !== null
+        ? (year >= Q_START ? QUARTER_YEARS_PER_SEC * 0.75 : year >= slowFrom ? 1.2 : YEARS_PER_SEC)   // slower from slowFrom (video option)
+        : (year >= Q_START ? QUARTER_YEARS_PER_SEC : YEARS_PER_SEC);
+      if (year < END) setYear(Math.min(END, year + dt * speed));
       for (let i = 0; i < ticksPerFrame; i++) { sim.tick(); contain(); }
       draw();
       return year >= END;

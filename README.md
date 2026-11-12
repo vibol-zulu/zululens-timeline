@@ -76,4 +76,9 @@ python export_video.py --size square    # 1080x1080
 python export_video.py --size vertical  # 1080x1920
 ```
 
-Add `--theme dark` for dark mode. Videos are saved in `video/` (not committed). The script opens `index.html?record`, which hides the controls and lets the script step the animation one frame at a time.
+Add `--theme dark` for dark mode. Other options: `--scale 3` for 2160×2160; `--year-below` (year under the circle, no timeline); `--sub-below` (title and Corporate/Independent labels under the year); `--slow-from 2020` (slower playback from that year). The current social video uses:
+
+```bash
+python export_video.py --size square --scale 3 --year-below --sub-below --slow-from 2020
+```
+ Videos are saved in `video/` (not committed). The script opens `index.html?record`, which hides the controls and lets the script step the animation one frame at a time.

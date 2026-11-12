@@ -34,6 +34,9 @@ def main():
     ap.add_argument('--hold-start', type=float, default=0.6, help='seconds to hold on 2000')
     ap.add_argument('--hold-end', type=float, default=3.0, help='seconds to hold on Oct 2026')
     ap.add_argument('--scale', type=float, default=None, help='pixel scale (1.5 = 1080p square; 3 = 2160x2160)')
+    ap.add_argument('--year-below', action='store_true', help='show the year under the circle and hide the timeline')
+    ap.add_argument('--sub-below', action='store_true', help='with --year-below: put the title under the year instead of at the top')
+    ap.add_argument('--slow-from', type=float, default=None, help='slow the animation from this year, e.g. 2020')
     ap.add_argument('--out', default=None)
     a = ap.parse_args()
 
@@ -43,7 +46,7 @@ def main():
     out = a.out or os.path.join(here, 'video', f'ZuluLens_timeline_{a.size}_{a.theme}_{int(w * scale)}.mp4')
     os.makedirs(os.path.dirname(out), exist_ok=True)
     srv = serve(here)
-    url = f'http://127.0.0.1:{srv.server_address[1]}/index.html?record'
+    url = f'http://127.0.0.1:{srv.server_address[1]}/index.html?record' + ('&yearbelow' if a.year_below else '') + ('&subbelow' if a.sub_below else '') + (f'&slowfrom={a.slow_from}' if a.slow_from else '')
 
     ff = subprocess.Popen([
         'ffmpeg', '-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', str(a.fps), '-i', '-',
