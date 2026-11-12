@@ -113,7 +113,7 @@ button.play:hover { border-color: var(--muted); }
 .size-ctl input:focus-visible { outline: 2px solid var(--corporate); outline-offset: 3px; border-radius: 4px; }
 @media (max-width: 600px) { .size-ctl { display: none; } }
 html.recording .size-ctl { display: none; }
-html.recording .top-icons, html.recording .controls, html.recording .tip { display: none !important; }   /* video export (?record): no icons or play button */
+html.recording .top-icons, html.recording .controls, html.recording .tip, html.recording #yearLabel, html.recording .meta { display: none !important; }   /* video: title and timeline only */   /* video export (?record): no icons or play button */
 #substackBtn svg { fill: #FF6719; stroke: none; width: 12px; height: 12px; }   /* Substack orange */
 .icon-btn[aria-pressed="true"] { color: var(--bg); background: var(--fg); border-color: var(--fg); }   /* toggle on */
 #labelsBtn { display: none; }   /* phones only: bubbles are too small for labels by default */
@@ -283,7 +283,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   if (recording) document.documentElement.classList.add('recording');
   let spectrum = false, SW = 300;
   const SIZE_SLIDER = false;   // the Size slider is hidden for now; set true to bring it back
-  let userScale = 1.4;         // fixed at the slider's maximum while it is hidden
+  let userScale = recording ? 1 : 1.4;   // fixed at the slider's maximum while it is hidden (the video has its own size)
   if (SIZE_SLIDER) try { const v = parseFloat(localStorage.getItem('zl-size')); if (v >= 0.7 && v <= 1.4) userScale = v; } catch (e) {}
   let showLabels = matchMedia('(max-width: 600px)').matches;   // labels on by default on phones (desktop unaffected)
   let nodes = [], year = END, R = 300, cx = 0, cy = 0, W = 0, H = 0, k = 1;
@@ -470,7 +470,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       if (d.re > d.r + 1) {   // fainter outer circle: cross-platform figure incl. podcasts
         const a = ctx.globalAlpha;
         ctx.beginPath(); ctx.arc(x, y, d.re, 0, Math.PI * 2);
-        ctx.globalAlpha = a * 0.38; ctx.fillStyle = colors.independent; ctx.fill();
+        const darkMode = document.documentElement.getAttribute('data-zl') === 'dark';
+        ctx.globalAlpha = a * (darkMode ? 0.32 : 0.38); ctx.fillStyle = darkMode ? '#F8D4C8' : colors.independent; ctx.fill();   // dark: a pale pink so it reads as pink, not brown
         ctx.globalAlpha = a * 0.7; ctx.strokeStyle = colors['independent-edge']; ctx.lineWidth = 0.75; ctx.stroke();
         ctx.globalAlpha = a;
       }
