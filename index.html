@@ -158,6 +158,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
 .modal-body h3 { font-size: 13px; font-weight: 600; margin: 18px 0 4px; }
 .modal-body p { margin: 0 0 8px; color: var(--fg); max-width: 62ch; }
 .modal-body ul, .modal-body ol { margin: 0 0 8px; padding-left: 20px; }
+.modal-body .assume { margin: 6px 0 12px; padding: 10px 12px; border-radius: 6px; background: var(--warn-bg); color: var(--warn-fg); border-left: 3px solid var(--warn-edge); line-height: 1.5; }   /* assumption notice */
 .modal-body .formula { margin: 4px 0 10px; padding: 8px 12px; border-left: 3px solid var(--corporate); background: var(--grid); font-weight: 600; color: var(--fg); }   /* formula box */
 .modal-body p.m { color: var(--muted); font-size: 0.92em; }
 .modal-body li { margin-bottom: 2px; }
@@ -221,9 +222,10 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <h3>How we size a bubble</h3>
     <p>We estimate how many different people each outlet reaches in a month, using public numbers.</p>
     <p><strong>Independent channels</strong></p>
-    <p class="formula">YouTube views &times; audience share</p>
+    <p class="formula">YouTube views &times; assumed audience share</p>
     <p>Legacy media built their reach on TV, a visual medium. YouTube is its closest equivalent for independents, and the only platform with consistent public numbers. Audio-only listening on Spotify and Apple is not counted, so podcast-led shows are understated.</p>
-    <p>The share (47&ndash;59%, depending on the type of channel) removes people who watch more than one video.</p>
+    <p>The share (47&ndash;59%, depending on the type of channel) is meant to remove people who watch more than one video.</p>
+    <div class="assume"><strong>This share is an assumption, not a measured figure.</strong> No platform publishes how many of a channel&rsquo;s views come from different people. Our percentages come from the 2025 research, where they were set by judgement, with no published source. The only public measurement we found (Comscore, 2013) suggests the real share may be lower, so independent audiences may be overstated.</div>
     <p class="m">Example: MeidasTouch had 228.6M YouTube views in October 2026. As a news commentary channel, 53.5% count as people: 228.6M &times; 0.535 &asymp; 122M.</p>
     <p><strong>Media companies</strong></p>
     <p class="formula">Combined audience &times; share kept</p>
@@ -249,6 +251,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <h3>Keep in mind</h3>
     <ul>
       <li>These are estimates from public data, not official counts.</li>
+      <li><strong>Independent figures depend on an assumed share of views that are different people.</strong> If the real share is lower, those bubbles are too big.</li>
       <li>Podcast apps, Rumble and paid apps don&rsquo;t publish audiences, so some shows, like Glenn Beck&rsquo;s or The Bulwark&rsquo;s, are likely too low.</li>
       <li>Scripps News, OAN and Real America&rsquo;s Voice have no Nielsen ratings, so they are sized on YouTube only.</li>
       <li>&ldquo;US&rdquo; means where an outlet is based, not where its audience lives. Audiences are counted as each platform measures them, so YouTube figures include viewers outside the US.</li>
