@@ -33,12 +33,14 @@ def main():
     ap.add_argument('--theme', choices=['light', 'dark'], default='light')
     ap.add_argument('--hold-start', type=float, default=0.6, help='seconds to hold on 2000')
     ap.add_argument('--hold-end', type=float, default=3.0, help='seconds to hold on Oct 2026')
+    ap.add_argument('--scale', type=float, default=None, help='pixel scale (1.5 = 1080p square; 3 = 2160x2160)')
     ap.add_argument('--out', default=None)
     a = ap.parse_args()
 
     here = os.path.dirname(os.path.abspath(__file__))
     w, h, scale = SIZES[a.size]
-    out = a.out or os.path.join(here, 'video', f'ZuluLens_timeline_{a.size}_{a.theme}.mp4')
+    if a.scale: scale = a.scale
+    out = a.out or os.path.join(here, 'video', f'ZuluLens_timeline_{a.size}_{a.theme}_{int(w * scale)}.mp4')
     os.makedirs(os.path.dirname(out), exist_ok=True)
     srv = serve(here)
     url = f'http://127.0.0.1:{srv.server_address[1]}/index.html?record'
