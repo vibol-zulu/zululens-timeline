@@ -117,7 +117,8 @@ html.video-year .bottom, html.video-yeartop .bottom { display: none !important; 
 html.video-yeartop .headline { flex-direction: column-reverse; align-items: flex-start; gap: 4px; }
 html.video-yeartop .headline .prefix { font-size: clamp(18px, 2.6vw, 30px); color: var(--muted); font-weight: 500; letter-spacing: 0; }   /* video option: no timeline */
 .video-year-label { display: none; }
-html.video-subbelow .topbar { visibility: hidden; height: 0; padding: 0; overflow: hidden; }   /* keep the grid row so the circle still has room */
+html.video-circleonly .bottom { display: none !important; }
+html.video-circleonly .topbar, html.video-subbelow .topbar { visibility: hidden; height: 0; padding: 0; overflow: hidden; }   /* keep the grid row so the circle still has room */
 .video-sub, .video-legend { display: none; }
 html.video-subbelow .video-legend { display: flex; gap: 18px; position: absolute; left: 50%; transform: translateX(-50%); font-size: clamp(14px, 2vw, 22px); color: var(--muted); white-space: nowrap; z-index: 2; }
 html.video-subbelow .video-legend span { display: inline-flex; align-items: center; gap: 8px; }
@@ -306,6 +307,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   if (videoYear) document.documentElement.classList.add('video-year');
   const yearTop = recording && qs.has('yeartop');   // video option: the year is the main title, the title a subtitle below it; no timeline
   if (yearTop) document.documentElement.classList.add('video-yeartop');
+  const circleOnly = recording && qs.has('circleonly');   // video option: just the circle, bubbles and grid
+  if (circleOnly) document.documentElement.classList.add('video-circleonly');
   const subBelow = videoYear && qs.has('subbelow');   // video option: title moves under the year, below the circle
   if (subBelow) document.documentElement.classList.add('video-subbelow');
   if (recording) document.documentElement.classList.add('recording');
@@ -441,12 +444,12 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const oldR = R;
     const labelRoom = 10;
-    const SCALE = subBelow ? 1 : recording ? 0.96 : 0.9;      // circle size as a share of the space available (bigger in the video)
+    const SCALE = circleOnly ? 0.94 : subBelow ? 1 : recording ? 0.96 : 0.9;      // circle size as a share of the space available (bigger in the video)
     // Centre the circle between the bottom of the legend and the timeline, leaving room for the
     // play button underneath it (on every screen size).
     const meta = document.querySelector('.meta');
     const topReserve = meta ? meta.offsetTop + meta.offsetHeight + 8 : 0;
-    const BTN_H = 28, BTN_BAND = subBelow ? 160 : videoYear ? 110 : recording ? 28 : 76;   // band under the circle for the play button (none when recording)
+    const BTN_H = 28, BTN_BAND = circleOnly ? 0 : subBelow ? 160 : videoYear ? 110 : recording ? 28 : 76;   // band under the circle for the play button (none when recording)
     const usableH = Math.max(160, H - topReserve - BTN_BAND);
     const maxR = W <= 600 ? W / 2 - 22 : W / 2 - 12;   // phones: leave a margin either side
     R = Math.max(80, Math.min(maxR, (Math.min(W, usableH) / 2 - labelRoom) * SCALE * userScale));   // userScale: the Size slider
