@@ -314,7 +314,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   if (recording) document.documentElement.classList.add('recording');
   let spectrum = false, SW = 300;
   const SIZE_SLIDER = false;   // the Size slider is hidden for now; set true to bring it back
-  let userScale = recording ? 1 : 1.4;   // fixed at the slider's maximum while it is hidden (the video has its own size)
+  let userScale = recording ? 1 : 1.3;   // fixed at the slider's maximum while it is hidden (the video has its own size)
   if (SIZE_SLIDER) try { const v = parseFloat(localStorage.getItem('zl-size')); if (v >= 0.7 && v <= 1.4) userScale = v; } catch (e) {}
   let showLabels = matchMedia('(max-width: 600px)').matches;   // labels on by default on phones (desktop unaffected)
   let nodes = [], year = END, R = 300, cx = 0, cy = 0, W = 0, H = 0, k = 1;
