@@ -16,6 +16,7 @@ SIZES = {  # CSS viewport and scale; output pixels = viewport x scale
     'wide': (1280, 720, 1.5),
     'square': (720, 720, 1.5),
     'vertical': (720, 1280, 1.5),
+    'portrait': (720, 900, 1.5),   # 4:5, 1080x1350 - best for the LinkedIn / Instagram feed
 }
 
 def serve(folder):

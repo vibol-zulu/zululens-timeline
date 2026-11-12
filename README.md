@@ -84,4 +84,10 @@ Add `--theme dark` for dark mode. Other options: `--scale 3` for 2160×2160; `--
 ```bash
 python export_video.py --size square --scale 3 --year-below --sub-below --slow-from 2020
 ```
+
+For LinkedIn (4:5 portrait, 1080×1350, 30fps):
+
+```bash
+python export_video.py --size portrait --fps 30 --year-below --sub-below --slow-from 2020
+```
  Videos are saved in `video/` (not committed). The script opens `index.html?record`, which hides the controls and lets the script step the animation one frame at a time.
