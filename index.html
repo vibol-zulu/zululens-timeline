@@ -93,7 +93,7 @@ html.recording .method-link { display: none; }
 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 .dot.c { background: var(--corporate); }
 .dot.i { background: var(--independent); box-shadow: inset 0 0 0 1px var(--independent-edge); }
-.dot.e { background: transparent; border: 1px dashed var(--muted); box-sizing: border-box; }   /* dashed estimate ring */
+.dot.e { background: color-mix(in srgb, var(--independent) 38%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--independent-edge) 70%, transparent); }   /* faint outer circle */
 button.play {
   font: inherit; font-size: 12px; font-weight: 500; color: var(--fg);
   background: transparent; border: 1px solid var(--line); border-radius: 999px;
@@ -181,7 +181,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       <div class="legend">
         <span><i class="dot c"></i>Corporate</span>
         <span><i class="dot i"></i>Independent</span>
-        <span id="estLegend" hidden><i class="dot e"></i>Estimate incl. podcasts</span>
+        <span id="estLegend" hidden><i class="dot e"></i>Incl. podcasts &amp; other platforms</span>
       </div>
       <button class="method-link" id="methodLink" type="button" aria-haspopup="dialog">How we measured this</button>
     </div>
@@ -215,15 +215,14 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <p>Legacy media built their reach on TV, a visual medium. YouTube is its closest equivalent for independents, and the only platform with consistent public numbers. Audio-only listening on Spotify and Apple is not counted, so podcast-led shows are understated.</p>
     <p>The share (47&ndash;59%, depending on the type of channel) removes people who watch more than one video.</p>
     <p class="m">Example: MeidasTouch had 228.6M YouTube views in October 2026. As a news commentary channel, 53.5% count as people: 228.6M &times; 0.535 &asymp; 122M.</p>
-    <p>Five of the biggest podcast-led shows (Joe Rogan, Candace Owens, Tucker Carlson, Ben Shapiro and Theo Von) use our 2025 cross-platform estimate instead, moved by their change in YouTube views, because YouTube alone misses most of their audience.</p>
     <p><strong>Media companies</strong></p>
     <p class="formula">Combined audience &times; share kept</p>
     <p>We add up all of a company&rsquo;s news brands, keep the share that is likely different people (35&ndash;60%), and use the middle of the range.</p>
     <p class="m">Example: Fox News reaches 146&ndash;176M a month in total. Keeping 35% gives &asymp; 56M.</p>
 
     <div id="estNote" hidden>
-    <h3>Dashed rings</h3>
-    <p>A dashed ring shows an estimate that includes podcast listeners, where a measured figure exists.</p>
+    <h3>Outer circles</h3>
+    <p>For five of the biggest podcast-led shows (Joe Rogan, Candace Owens, Tucker Carlson, Ben Shapiro and Theo Von), the solid circle is their YouTube audience and the fainter outer circle includes podcasts and other platforms. The outer figure comes from our 2025 cross-platform research, moved by their change in YouTube views.</p>
     </div>
 
     <h3>Over time</h3>
@@ -326,7 +325,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
         vx: 0, vy: 0, r: 0
       });
     });
-    const total = d3.sum(nodes, d => d.final);
+    const total = d3.sum(nodes, d => Math.max(d.final, d.est || 0));   // outer circles count towards the space used
     sim.nodes(nodes);
     const anyEst = nodes.some(d => d.est && d.est > d.final);   // ring legend and note only when an estimate is filled in
     $('estLegend').hidden = !anyEst; $('estNote').hidden = !anyEst;
@@ -410,7 +409,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     const pb = $('controls'); pb.style.left = cx + 'px'; const barY = H + parseFloat(getComputedStyle(document.querySelector('.bottom')).paddingTop);   // timeline line, in stage coords
     pb.style.top = Math.min(H - BTN_H, ((cy + R) + barY) / 2 - BTN_H / 2) + 'px';   // vertically centred between circle and timeline
     if (oldR && oldR !== R) for (const d of nodes) { d.x *= R / oldR; d.y *= R / oldR; }
-    const total = d3.sum(nodes, d => d.final);
+    const total = d3.sum(nodes, d => Math.max(d.final, d.est || 0));   // outer circles count towards the space used
     k = total ? FILL * R * R / total : 1;
     SW = Math.max(R, Math.min(W / 2 - 24, R * 1.7));   // half-width of the spectrum band
     sim.force('x').x(targetX).strength(spectrum ? 0.09 : 0.035);
@@ -452,13 +451,16 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     for (const d of order) {
       const x = cx + d.x, y = cy + d.y, corp = d.type === 'corporate';
       ctx.globalAlpha = focus && focus !== d ? 0.45 : 1;
+      if (d.re > d.r + 1) {   // fainter outer circle: cross-platform figure incl. podcasts
+        const a = ctx.globalAlpha;
+        ctx.beginPath(); ctx.arc(x, y, d.re, 0, Math.PI * 2);
+        ctx.globalAlpha = a * 0.38; ctx.fillStyle = colors.independent; ctx.fill();
+        ctx.globalAlpha = a * 0.7; ctx.strokeStyle = colors['independent-edge']; ctx.lineWidth = 0.75; ctx.stroke();
+        ctx.globalAlpha = a;
+      }
       ctx.beginPath(); ctx.arc(x, y, d.r, 0, Math.PI * 2);
       ctx.fillStyle = corp ? colors.corporate : colors.independent; ctx.fill();
       if (!corp && d.r > 2.5) { ctx.strokeStyle = colors['independent-edge']; ctx.lineWidth = 0.75; ctx.stroke(); }
-      if (d.re > d.r + 1) {   // dashed ring: estimate incl. podcasts
-        ctx.beginPath(); ctx.arc(x, y, d.re, 0, Math.PI * 2);
-        ctx.setLineDash([3, 3]); ctx.strokeStyle = colors.muted; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
-      }
     }
     ctx.globalAlpha = 1;
     // labels: one font size for every bubble; a name goes on one line, or two if needed, and is left out if it can't fit
@@ -467,14 +469,15 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     const FS = Math.max(5, Math.min(8.5, R / 30));        // same size everywhere, scaled a little with the circle
     const NUM_FS = FS - 1;
     for (const d of order) {
-      if (d.r < FS) continue;
+      const rr = Math.max(d.r, (d.re || 0) * 0.8);   // a name may spill into its faint outer circle
+      if (rr < FS) continue;
       if (W <= 600 && !showLabels && d !== focus) continue;   // phones: the labels toggle can turn them off
       const corp = d.type === 'corporate';
       const label = shortName(d.name);
       ctx.font = `600 ${FS}px ${fam}`;
       const width = t => ctx.measureText(t).width;
       let lines = null;
-      if (width(label) <= d.r * 1.95 && d.r >= FS * 0.75) lines = [label];
+      if (width(label) <= rr * 1.95 && rr >= FS * 0.75) lines = [label];
       else {
         const words = label.split(' ');
         let best = null;
@@ -483,11 +486,11 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
           const m = Math.max(width(pair[0]), width(pair[1]));
           if (!best || m < best.m) best = { pair, m };
         }
-        if (best && best.m <= d.r * 1.8 && d.r >= FS * 1.3) lines = best.pair;
+        if (best && best.m <= rr * 1.8 && rr >= FS * 1.3) lines = best.pair;
       }
       if (!lines) continue;
       const lh = FS * 1.12;
-      const showNum = d.r >= (lines.length + 1) * lh * 0.8 + FS && d.r > 22;   // room for the audience under the name
+      const showNum = rr >= (lines.length + 1) * lh * 0.8 + FS && rr > 22;   // room for the audience under the name
       ctx.globalAlpha = focus && focus !== d ? 0.5 : 1;
       ctx.fillStyle = corp ? colors['corporate-fg'] : colors['independent-fg'];
       const block = lines.length * lh + (showNum ? NUM_FS * 1.15 : 0);
@@ -631,8 +634,8 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       `<div>Launched ${startYear}${d.approx ? ' (approx.)' : ''}</div>` +
       (year < END - 0.01 ? `<div>${periodLabel(year)}: ~${fmt(now)} a month</div>` : '') +
       (d.qpts ? `<div class="m">2024–26 by quarter, from ${/tv/i.test(d.qpts.basis || '') ? 'TV ratings and YouTube views' : 'YouTube views'}</div>` : '') +
-      `<div>Oct 2026: ~${fmt(d.final)} a month${d.est ? ' (public data)' : ''}</div>` +
-      (d.est ? `<div>Estimate incl. podcasts: ~${fmt(d.est)} a month</div><div class="m">${esc(d.estSource)}</div>` : '') +
+      `<div>Oct 2026: ~${fmt(d.final)} a month${d.est ? ' on YouTube' : ''}</div>` +
+      (d.est ? `<div>Incl. podcasts &amp; other platforms: ~${fmt(d.est)} a month</div><div class="m">${esc(d.estSource)}</div>` : '') +
       (d.caveat ? (/too low/i.test(d.caveat) ? `<div class="warn">${esc(d.caveat.replace(/;\s*likely too low/i, '')).replace(/\.$/, '')}. Likely too low.</div>` : `<div class="m">${esc(d.caveat)}</div>`) : '') +
       '';
     tip.hidden = false;
