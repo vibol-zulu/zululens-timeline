@@ -102,8 +102,8 @@ button.play {
 button.play:hover { border-color: var(--muted); }
 .icon-btn { width: 28px; height: 28px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
 .icon-btn:hover { color: var(--fg); border-color: var(--muted); }
-.size-ctl { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); margin-right: 4px; }
-.size-ctl input { width: 90px; accent-color: var(--corporate); }
+.size-ctl { position: absolute; top: calc(100% + 14px); left: 0; pointer-events: auto; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }   /* vertical, under the link; outside the meta box so the circle keeps its size */
+.size-ctl input { writing-mode: vertical-lr; direction: rtl; width: 18px; height: 120px; margin: 0; accent-color: var(--corporate); cursor: pointer; }   /* top = bigger */
 @media (max-width: 600px) { .size-ctl { display: none; } }
 html.recording .size-ctl { display: none; }
 html.recording .top-icons, html.recording .controls, html.recording .tip { display: none !important; }   /* video export (?record): no icons or play button */
@@ -163,13 +163,11 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     <div class="headline"><span class="prefix">US news media landscape</span>
       <div class="year" id="yearLabel" aria-live="polite">2026</div></div>
     <span class="top-icons">
-      <label class="size-ctl" title="Size of the circle and bubbles"><span>Size</span><input type="range" id="sizeSlider" min="0.7" max="1.4" step="0.05" value="1" aria-label="Size of the circle and bubbles"></label>
       <button class="icon-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="iconMenu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 4.5h10M3 8h10M3 11.5h10"/></svg></button>
       <span class="icon-list" id="iconMenu">
       <button class="icon-btn" id="labelsBtn" type="button" aria-label="Show bubble labels" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 3.5h7.2l3.8 4.5-3.8 4.5H2.5z"/><path d="M5 8h3"/></svg><span class="ico-label">Bubble labels</span></button>
       <a class="icon-btn" id="homeBtn" href="https://www.zulu.group/" target="_blank" rel="noopener" aria-label="Zulu Group home page" title="Zulu Group home page"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 7.5 8 3l5.5 4.5"/><path d="M4 6.5V13h3V9.5h2V13h3V6.5"/></svg><span class="ico-label">Zulu Group</span></a>
       <a class="icon-btn" id="substackBtn" href="https://zulugroup.substack.com/" target="_blank" rel="noopener" aria-label="Zulu Group on Substack" title="Zulu Group on Substack"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3h9v1.5h-9zM3.5 5.9h9v1.5h-9zM3.5 8.8h9v5l-4.5-2.6-4.5 2.6z"/></svg><span class="ico-label">Substack</span></a>
-      <button class="icon-btn" id="infoBtn" type="button" aria-label="Methodology" aria-haspopup="dialog"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M8 7.2v4"/><circle cx="8" cy="4.9" r="0.5" fill="currentColor"/></svg><span class="ico-label">Methodology</span></button>
       <button class="icon-btn" id="theme" type="button" aria-label="Switch to dark mode"><svg viewBox="0 0 16 16" id="themeIcon" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/></svg><span class="ico-label" id="themeText">Dark mode</span></button>
     </span>
     </span>
@@ -189,6 +187,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
         <span id="estLegend" hidden><i class="dot e"></i>Incl. podcasts &amp; other platforms</span>
       </div>
       <button class="method-link" id="methodLink" type="button" aria-haspopup="dialog">How we measured this</button>
+      <label class="size-ctl" title="Size of the circle and bubbles"><span>Size</span><input type="range" id="sizeSlider" min="0.7" max="1.4" step="0.05" value="1" aria-label="Size of the circle and bubbles" aria-orientation="vertical"></label>
     </div>
     <div class="tip" id="tip" hidden></div>
     <div class="msg" id="msg" hidden></div>
@@ -695,11 +694,10 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
   $('menuBtn').addEventListener('click', e => { e.stopPropagation(); setMenu(!menu.classList.contains('open')); });
   document.addEventListener('click', e => { if (!menu.contains(e.target)) setMenu(false); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
-  for (const id of ['homeBtn', 'substackBtn', 'infoBtn', 'theme']) $(id).addEventListener('click', () => setMenu(false));
+  for (const id of ['homeBtn', 'substackBtn', 'theme']) $(id).addEventListener('click', () => setMenu(false));
 
   // ---------- methodology modal ----------
   const modal = $('methodology');
-  $('infoBtn').addEventListener('click', () => { if (playing) stop(); modal.showModal(); });
   $('methodLink').addEventListener('click', () => { if (playing) stop(); modal.showModal(); });
   $('mClose').addEventListener('click', () => modal.close());
   modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });
