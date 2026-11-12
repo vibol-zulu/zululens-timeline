@@ -190,7 +190,6 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       <div class="legend">
         <span><i class="dot c"></i>Corporate</span>
         <span><i class="dot i"></i>Independent</span>
-        <span id="estLegend" hidden><i class="dot e"></i>Incl. podcasts &amp; other platforms</span>
       </div>
       <button class="method-link" id="methodLink" type="button" aria-haspopup="dialog">How we measured this</button>
       <label class="size-ctl" title="Size of the circle and bubbles"><span>Size</span><input type="range" id="sizeSlider" min="0.7" max="1.4" step="0.05" value="1" aria-label="Size of the circle and bubbles" aria-orientation="vertical"></label>
@@ -342,7 +341,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     const total = d3.sum(nodes, d => Math.max(d.final, d.est || 0));   // outer circles count towards the space used
     sim.nodes(nodes);
     const anyEst = nodes.some(d => d.est && d.est > d.final);   // ring legend and note only when an estimate is filled in
-    $('estLegend').hidden = !anyEst; $('estNote').hidden = !anyEst;
+    $('estNote').hidden = !anyEst;
     resize();
     k = total ? FILL * R * R / total : 1;
     setYear(year, true);
@@ -648,8 +647,9 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
       `<div>Launched ${startYear}${d.approx ? ' (approx.)' : ''}</div>` +
       (year < END - 0.01 ? `<div>${periodLabel(year)}: ~${fmt(now)} a month</div>` : '') +
       (d.qpts ? `<div class="m">2024–26 by quarter, from ${/tv/i.test(d.qpts.basis || '') ? 'TV ratings and YouTube views' : 'YouTube views'}</div>` : '') +
-      `<div>Oct 2026: ~${fmt(d.final)} a month${d.est ? ' on YouTube' : ''}</div>` +
-      (d.est ? `<div>Incl. podcasts &amp; other platforms: ~${fmt(d.est)} a month</div><div class="m">${esc(d.estSource)}</div>` : '') +
+      (d.est
+        ? `<div>Solid circle: ~${fmt(d.final)} a month on YouTube (Oct 2026)</div><div>Faint circle: ~${fmt(d.est)} a month, including podcasts and other platforms</div><div class="m">${esc(d.estSource)}</div>`
+        : `<div>Oct 2026: ~${fmt(d.final)} a month</div>`) +
       (d.caveat ? (/too low/i.test(d.caveat) ? `<div class="warn">${esc(d.caveat.replace(/;\s*likely too low/i, '')).replace(/\.$/, '')}. Likely too low.</div>` : `<div class="m">${esc(d.caveat)}</div>`) : '') +
       '';
     tip.hidden = false;
