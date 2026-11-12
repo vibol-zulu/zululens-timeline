@@ -486,11 +486,11 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
     const FS = Math.max(5, Math.min(8.5, R / 30));        // same size everywhere, scaled a little with the circle
     const NUM_FS = FS - 1;
     for (const d of order) {
-      const rr = Math.max(d.r, (d.re || 0) * 0.8);   // a name may spill into its faint outer circle
+      const rr = Math.max(d.r, (d.re || 0) * 0.9);   // a name may spill into its faint outer circle
       if (rr < FS) continue;
       if (W <= 600 && !showLabels && d !== focus) continue;   // phones: the labels toggle can turn them off
       const corp = d.type === 'corporate';
-      const label = shortName(d.name);
+      const label = shortName(d.name).replace(/ Podcast$/, '');   // 'Jordan Peterson Podcast' -> 'Jordan Peterson' on the bubble
       ctx.font = `600 ${FS}px ${fam}`;
       const width = t => ctx.measureText(t).width;
       let lines = null;
@@ -505,6 +505,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
         }
         if (best && best.m <= rr * 1.8 && rr >= FS * 1.3) lines = best.pair;
       }
+      if (!lines && d.est) { const w = label.split(' '); lines = w.length > 1 ? [w.slice(0, Math.ceil(w.length / 2)).join(' '), w.slice(Math.ceil(w.length / 2)).join(' ')] : [label]; }   // channels with an outer circle are always labelled
       if (!lines) continue;
       const lh = FS * 1.12;
       const showNum = rr >= (lines.length + 1) * lh * 0.8 + FS && rr > 22;   // room for the audience under the name
