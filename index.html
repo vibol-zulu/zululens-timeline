@@ -661,7 +661,7 @@ button.play svg { width: 10px; height: 10px; fill: currentColor; }
         ? `<div>Solid circle: ~${fmt(d.final)} a month on YouTube (Oct 2026)</div><div>Faint circle: ~${fmt(d.est)} a month, including podcasts and other platforms</div><div class="m">${esc(d.estSource)}</div>`
         : `<div>Oct 2026: ~${fmt(d.final)} a month</div>`) +
       (d.type === 'independent' && d.ytBased && d.final >= 40 && !d.est && !/too low/i.test(d.caveat)
-        ? `<div class="warn">Large YouTube figure: channels that post many videos get heavy repeat viewing, and Shorts views count too, so this is likely too high.</div>` : '') +
+        ? `<div class="m">Large YouTube figure: channels that post many videos get heavy repeat viewing, and Shorts views count too, so this is likely too high.</div>` : '') +
       (d.caveat ? (/too low/i.test(d.caveat) ? `<div class="warn">${esc(d.caveat.replace(/;\s*likely too low/i, '')).replace(/\.$/, '')}. Likely too low.</div>` : `<div class="m">${esc(d.caveat)}</div>`) : '') +
       '';
     tip.hidden = false;
